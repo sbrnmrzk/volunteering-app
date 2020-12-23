@@ -32,23 +32,21 @@
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="75dp"
+        app:itemIconTint="@drawable/navbar_color"
+        app:itemTextColor="@drawable/navbar_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:itemTextColor="@drawable/navbar_color"
-        app:itemIconTint="@drawable/navbar_color"
-        app:menu="@menu/bottom_navigation_menu"/>
+        app:menu="@menu/bottom_navigation_menu" />
 
-    <Button
-        android:id="@+id/eventChild"
-        android:layout_width="407dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="28dp"
-        android:onClick="navigateToEventDetails"
-        android:text="Event Details"
+    <fragment
+        android:id="@+id/fragment"
+        android:name="com.example.volunteeringapp.HomeFragment"
+        android:layout_width="417dp"
+        android:layout_height="603dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
