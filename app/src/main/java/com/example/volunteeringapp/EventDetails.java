@@ -35,10 +35,6 @@ public class EventDetails extends AppCompatActivity {
             case R.id.search:
                 Toast.makeText(getApplicationContext(), "Bookmarked", Toast.LENGTH_LONG).show();
                 return true;
-            case R.id.account:
-                Intent account = new Intent (this, Account.class);
-                startActivityForResult(account, 1);
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
