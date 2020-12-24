@@ -43,18 +43,18 @@ public class Signup extends AppCompatActivity {
                         if(checkuser==false){
                             Boolean insert = DB.insertData(user, pass);
                             if(insert==true){
-                                Toast.makeText(Signup.this, "Registered successfully", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Signup.this, "Registered successfully.", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(getApplicationContext(),Homepage.class);
                                 startActivity(intent);
                             }else{
-                                Toast.makeText(Signup.this, "Registration failed", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Signup.this, "Registration failed.", Toast.LENGTH_SHORT).show();
                             }
                         }
                         else{
-                            Toast.makeText(Signup.this, "User already exists! please sign in", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Signup.this, "User already exists! please sign in.", Toast.LENGTH_SHORT).show();
                         }
                     }else{
-                        Toast.makeText(Signup.this, "Passwords not matching", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Signup.this, "Password does not match.", Toast.LENGTH_SHORT).show();
                     }
                 } }
 
