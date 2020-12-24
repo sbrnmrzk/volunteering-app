@@ -31,10 +31,10 @@ public class Homepage extends AppCompatActivity implements BottomNavigationView.
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         //loading the default fragment
-        fm.beginTransaction().add(R.id.fragment, accountF, "4").hide(accountF).commit();
-        fm.beginTransaction().add(R.id.fragment, notificationsF, "3").hide(notificationsF).commit();
-        fm.beginTransaction().add(R.id.fragment, bookmarkedF, "2").hide(bookmarkedF).commit();
-        fm.beginTransaction().add(R.id.fragment, homeF, "1").commit();
+        fm.beginTransaction().add(R.id.frameFragment, accountF, "4").hide(accountF).commit();
+        fm.beginTransaction().add(R.id.frameFragment, notificationsF, "3").hide(notificationsF).commit();
+        fm.beginTransaction().add(R.id.frameFragment, bookmarkedF, "2").hide(bookmarkedF).commit();
+        fm.beginTransaction().add(R.id.frameFragment, homeF, "1").commit();
 
         //getting bottom navigation view and attaching the listener
         BottomNavigationView navigation = findViewById(R.id.bottomNavigationView);
@@ -96,7 +96,7 @@ public class Homepage extends AppCompatActivity implements BottomNavigationView.
         if (fragment != null) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.fragment, fragment)
+                    .replace(R.id.frameFragment, fragment)
                     .commit();
             return true;
         }
