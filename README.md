@@ -24,3 +24,19 @@ From here, boleh download images if nak.
 - Account page and rewards - Ifa
 - Create, edit, manage events - Fariz
   
+### Tips:
+- Fariz point out yang Fragment tu kalau nak navigate to activity, letak method navigation using intent kat activity where the fragment is located.
+For example:
+
+1. I create new activity called NewActivity
+2. Add method NavigateToNewActivity to the activity where the fragment is, Homepage.java
+
+`
+    public boolean navigateToNewActivity(View view){
+        Intent activity = new Intent (this, NewActivity.class);
+        startActivityForResult(activity, 1);
+        return true;
+    }
+`
+
+3. I add a button in the AccountFragment fragment. Button onclick property should be written to navigateToNewActivity
