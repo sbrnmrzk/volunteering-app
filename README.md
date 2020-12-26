@@ -40,3 +40,6 @@ For example:
 `
 
 3. I add a button in the AccountFragment fragment. Button onclick property should be written to navigateToNewActivity
+
+
+I'm here to test.
