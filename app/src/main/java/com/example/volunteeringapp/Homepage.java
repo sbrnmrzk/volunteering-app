@@ -102,4 +102,9 @@ public class Homepage extends AppCompatActivity implements BottomNavigationView.
         }
         return false;
     }
+
+    public void viewEvent(View view) {
+        Intent manage_events = new Intent (this, ManageEventsActivity.class);
+        startActivity(manage_events);
+    }
 }

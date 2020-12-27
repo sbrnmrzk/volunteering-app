@@ -9,6 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity android:name=".CreateEventActivity" />
+        <activity android:name=".ManageEventsActivity" />
         <activity android:name=".Homepage" />
         <activity android:name=".Signup" />
         <activity android:name=".Login" />
