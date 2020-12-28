@@ -64,6 +64,7 @@ public class DBHelper extends SQLiteOpenHelper {
     {
         SQLiteDatabase DB = this.getWritableDatabase();
         Cursor cursor = DB.rawQuery("Select * from events", null);
+        // still retrieve all events, when session is finished, will update so will only get events that are organized by the user.
         return cursor;
     }
 
