@@ -144,7 +144,6 @@ public class CreateEventActivity extends AppCompatActivity {
 
                 // String location_lat
                 // String location_long
-                // String cover_photo?
                 // String rewards?
 
                 if(event_title.equals("")||description.equals(""))

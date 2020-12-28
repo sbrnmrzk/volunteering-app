@@ -60,6 +60,13 @@ public class DBHelper extends SQLiteOpenHelper {
         return outputStream.toByteArray();
     }
 
+    public Cursor manageEventsGet()
+    {
+        SQLiteDatabase DB = this.getWritableDatabase();
+        Cursor cursor = DB.rawQuery("Select * from events", null);
+        return cursor;
+    }
+
     public Boolean insertData(String emailAddress, String password){
         SQLiteDatabase MyDB = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
