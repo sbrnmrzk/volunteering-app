@@ -5,8 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
 
 import androidx.annotation.Nullable;
+
+import java.io.ByteArrayOutputStream;
 
 public class DBHelper extends SQLiteOpenHelper {
 
@@ -20,7 +23,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase MyDB) {
         MyDB.execSQL("create Table users(emailAddress TEXT primary key, password TEXT)");
         MyDB.execSQL("create Table events(event_title TEXT, description TEXT, capacity INTEGER, start_date TEXT, start_time TEXT, end_time TEXT, " +
-                "photo BLOB, rewards TEXT, location TEXT, location_lat TEXT, location_long TEXT, organizer ID, participants TEXT)");
+                "cover_photo BLOB, rewards TEXT, location TEXT, location_lat TEXT, location_long TEXT, organizer ID, participants TEXT)");
     }
 
     @Override
@@ -29,7 +32,7 @@ public class DBHelper extends SQLiteOpenHelper {
         MyDB.execSQL("drop Table if exists events");
     }
 
-    public Boolean createEvent(String event_title, String description, String capacity, String location, String start_date, String start_time, String end_time, String organizer_id){
+    public Boolean createEvent(String event_title, String description, String capacity, String location, String start_date, String start_time, String end_time, String organizer_id, Bitmap cover_photo){
         SQLiteDatabase MyDB = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("event_title", event_title);
@@ -41,11 +44,20 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put("end_time", end_time);
         contentValues.put("organizer", organizer_id);
 
+        byte[] data = getBitmapAsByteArray(cover_photo);
+        contentValues.put("cover_photo", data);
+
         long result = MyDB.insert("events", null, contentValues);
         if (result==-1)
             return false;
         else
             return true;
+    }
+
+    public static byte[] getBitmapAsByteArray(Bitmap bitmap) {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 0, outputStream);
+        return outputStream.toByteArray();
     }
 
     public Boolean insertData(String emailAddress, String password){
