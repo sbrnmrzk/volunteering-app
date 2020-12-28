@@ -6,3 +6,5 @@
         android:title="YOUR_MENU_ITEM"
         app:showAsAction="never"/>
 </menu>
+
+<!--dont remove this pls-->

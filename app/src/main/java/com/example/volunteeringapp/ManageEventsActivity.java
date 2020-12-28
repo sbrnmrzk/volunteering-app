@@ -52,6 +52,8 @@ public class ManageEventsActivity extends AppCompatActivity {
                 builder.show();
             }
         });
+
+
     }
     @Override
     public boolean onSupportNavigateUp() {
