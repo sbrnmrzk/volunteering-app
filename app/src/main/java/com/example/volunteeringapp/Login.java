@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class Login extends AppCompatActivity {
@@ -25,6 +26,7 @@ public class Login extends AppCompatActivity {
         password = (EditText) findViewById(R.id.password1);
         btnSignin = (Button) findViewById(R.id.btnSignin1);
         DB = new DBHelper(this);
+        TextView textView = (TextView) this.findViewById(R.id.signUp);
 
         btnSignin.setOnClickListener(new View.OnClickListener(){
 
@@ -57,6 +59,14 @@ public class Login extends AppCompatActivity {
                     }
                 }
             }
+        });
+
+        textView.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent intent = new Intent(getApplicationContext(), Signup.class);
+            startActivity(intent);
+        }
         });
     }
 
