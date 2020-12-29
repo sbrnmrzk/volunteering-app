@@ -31,6 +31,7 @@ public class Signup extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                String nama = name.getText().toString();
                 String user = emailAddress.getText().toString();
                 String pass = password.getText().toString();
                 String repass = repeatPassword.getText().toString();
@@ -41,7 +42,7 @@ public class Signup extends AppCompatActivity {
                     if(pass.equals(repass)){
                         Boolean checkuser = DB.checkEmailAddress(user);
                         if(checkuser==false){
-                            Boolean insert = DB.insertData(user, pass);
+                            Boolean insert = DB.insertData(nama, user, pass);
                             if(insert==true){
                                 Toast.makeText(Signup.this, "Registered successfully.", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(getApplicationContext(),Homepage.class);

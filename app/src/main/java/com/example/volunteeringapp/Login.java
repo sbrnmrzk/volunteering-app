@@ -3,6 +3,7 @@ package com.example.volunteeringapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -32,6 +33,16 @@ public class Login extends AppCompatActivity {
 
                 String user = emailAddress.getText().toString();
                 String pass = password.getText().toString();
+
+                Cursor res = DB.getData(user, pass);
+
+                while(res.moveToNext()){
+                    int id = res.getInt(0);
+                    String name = res.getString(1);
+                    User userSession = new User(id, name);
+                    SessionManagement sessionManagement = new SessionManagement(Login.this);
+                    sessionManagement.saveSession(userSession);
+                }
 
                 if(user.equals("")||pass.equals(""))
                     Toast.makeText(Login.this, "Please enter all the fields required.", Toast.LENGTH_SHORT).show();
