@@ -31,15 +31,19 @@
 
     <ScrollView
         android:layout_width="406dp"
-        android:layout_height="708dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.538"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/createEvent_toolbar">
+        app:layout_constraintTop_toBottomOf="@+id/createEvent_toolbar"
+        app:layout_constraintVertical_bias="0.083">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingBottom="90dp">
 
             <TextView
                 android:id="@+id/TV_NewEvent"
@@ -72,8 +76,9 @@
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ET_StartDate" />
+                app:layout_constraintTop_toBottomOf="@+id/ET_StartTime" />
 
             <TextView
                 android:id="@+id/tv_rewards"
@@ -117,7 +122,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="34dp"
                 android:layout_marginLeft="34dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginEnd="29dp"
                 android:layout_marginRight="29dp"
                 android:backgroundTint="#FFFFFF"
@@ -126,11 +131,12 @@
                 android:text="Upload Photo"
                 android:textColor="#000000"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.529"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_coverphoto" />
+                app:layout_constraintTop_toBottomOf="@+id/IV_CoverPhoto" />
 
             <Button
-                android:id="@+id/btn_uploadPhoto2"
+                android:id="@+id/btn_Rewards"
                 android:layout_width="360dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="34dp"
@@ -139,6 +145,7 @@
                 android:layout_marginEnd="29dp"
                 android:layout_marginRight="29dp"
                 android:backgroundTint="#FFFFFF"
+                android:onClick="rewards"
                 android:paddingLeft="120dp"
                 android:paddingRight="120dp"
                 android:text="Rewards"
@@ -148,26 +155,17 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_rewards" />
 
             <EditText
-                android:id="@+id/ET_EndDate"
-                android:layout_width="160dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginRight="20dp"
-                android:ems="10"
-                android:hint="End Date"
-                android:inputType="date"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_datetime" />
-
-            <EditText
                 android:id="@+id/ET_StartDate"
-                android:layout_width="160dp"
+                android:layout_width="350dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginLeft="20dp"
+                android:layout_marginStart="28dp"
+                android:layout_marginLeft="28dp"
                 android:layout_marginTop="5dp"
+                android:clickable="true"
+                android:cursorVisible="false"
                 android:ems="10"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 android:hint="Start Date"
                 android:inputType="date"
                 app:layout_constraintStart_toStartOf="parent"
@@ -287,13 +285,32 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="265dp"
                 android:layout_marginRight="265dp"
-                android:text="Date and Time"
+                android:text="Date"
                 android:textColor="#FC440F"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.012"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ET_Location" />
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="265dp"
+                android:layout_marginRight="265dp"
+                android:text="Time"
+                android:textColor="#FC440F"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.065"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ET_StartDate" />
 
             <Button
                 android:id="@+id/btn_createEvent"
@@ -305,12 +322,58 @@
                 android:layout_marginEnd="34dp"
                 android:layout_marginRight="34dp"
                 android:backgroundTint="#005280"
-                android:onClick="createEvent"
                 android:text="Create Event"
                 android:textColor="#FFFFFF"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_uploadPhoto2" />
+                app:layout_constraintTop_toBottomOf="@+id/btn_Rewards" />
+
+            <EditText
+                android:id="@+id/ET_StartTime"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="27dp"
+                android:layout_marginLeft="27dp"
+                android:layout_marginTop="5dp"
+                android:clickable="true"
+                android:cursorVisible="false"
+                android:ems="10"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:hint="Start Time"
+                android:inputType="time"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_time" />
+
+            <EditText
+                android:id="@+id/ET_EndTime"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="41dp"
+                android:layout_marginRight="41dp"
+                android:clickable="true"
+                android:cursorVisible="false"
+                android:ems="10"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:hint="End Time"
+                android:inputType="time"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/ET_StartTime"
+                app:layout_constraintTop_toBottomOf="@+id/tv_time" />
+
+            <ImageView
+                android:id="@+id/IV_CoverPhoto"
+                android:layout_width="334dp"
+                android:layout_height="285dp"
+                android:layout_marginTop="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_coverphoto"
+                app:srcCompat="@android:drawable/ic_menu_camera" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
