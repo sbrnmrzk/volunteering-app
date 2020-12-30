@@ -33,7 +33,10 @@ public class ManageEventsActivity extends AppCompatActivity {
         btn_test.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Cursor res = DB.manageEventsGet();
+                SessionManagement sessionManagement = new SessionManagement(ManageEventsActivity.this);
+                String organizer_id = Integer.toString(sessionManagement.getSession());
+
+                Cursor res = DB.manageEventsGet(organizer_id);
                 if(res.getCount()==0){
                     Toast.makeText(ManageEventsActivity.this, "No Entry Exists", Toast.LENGTH_SHORT).show();
                     return;
