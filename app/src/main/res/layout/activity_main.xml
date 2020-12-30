@@ -5,22 +5,50 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:theme="@style/Theme.VolunteeringApp"
+    android:background="@drawable/main_bg"
     tools:context=".MainActivity">
 
 
-    <!--    <item-->
-<!--        android:id="@+id/action_search"/>-->
+    <TextView
+        android:id="@+id/KomunityMain"
+        android:layout_width="252dp"
+        android:layout_height="112dp"
+        android:fontFamily="@font/yesteryear"
+        android:text="Komunity"
+        android:textColor="#F8F8F8"
+        android:textSize="80sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.147" />
+
+    <TextView
+        android:id="@+id/captionHome"
+        android:layout_width="262dp"
+        android:layout_height="79dp"
+        android:fontFamily="@font/roboto"
+        android:text="V o l u n t e e r i n g   m a d e   e a s y"
+        android:textColor="#F8F8F8"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.391" />
 
     <Button
         android:id="@+id/button"
         android:layout_width="324dp"
         android:layout_height="51dp"
         android:layout_marginBottom="12dp"
-        android:background="@color/indigo_primary"
+        android:background="@drawable/round_btn_login"
         android:onClick="navigateToLogin"
-        android:text="Login"
+        android:text="Log In"
+        android:textAllCaps="false"
         android:textColor="#FFFFFF"
         android:textColorHint="#FFFFFF"
+        android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/button2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
@@ -31,10 +59,12 @@
         android:layout_width="324dp"
         android:layout_height="51dp"
         android:layout_marginBottom="64dp"
-        android:background="@color/orange_primary"
+        android:background="@drawable/round_btn_signup"
         android:onClick="navigateToSignup"
-        android:text="SIGN UP"
-        android:textColor="#FFFFFF"
+        android:text="Sign Up"
+        android:textAllCaps="false"
+        android:textColor="#005280"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"

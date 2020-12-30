@@ -3,10 +3,12 @@ package com.example.volunteeringapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class Signup extends AppCompatActivity {
@@ -26,14 +28,18 @@ public class Signup extends AppCompatActivity {
         repeatPassword = (EditText) findViewById(R.id.repeatPassword);
         Signup = (Button) findViewById(R.id.btnSignup);
         DB = new DBHelper(this);
+        TextView textView = (TextView) this.findViewById(R.id.logInRedirect);
 
         Signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                String nama = name.getText().toString();
                 String user = emailAddress.getText().toString();
                 String pass = password.getText().toString();
                 String repass = repeatPassword.getText().toString();
+
+                Cursor res = DB.getData(user, pass);
 
                 if(user.equals("")||pass.equals("")||repass.equals(""))
                     Toast.makeText(Signup.this, "Please enter all the fields", Toast.LENGTH_SHORT).show();
@@ -41,9 +47,16 @@ public class Signup extends AppCompatActivity {
                     if(pass.equals(repass)){
                         Boolean checkuser = DB.checkEmailAddress(user);
                         if(checkuser==false){
-                            Boolean insert = DB.insertData(user, pass);
+                            Boolean insert = DB.insertData(nama, user, pass);
                             if(insert==true){
                                 Toast.makeText(Signup.this, "Registered successfully.", Toast.LENGTH_SHORT).show();
+                                while(res.moveToNext()) {
+                                    int id = res.getInt(0);
+                                    String name = res.getString(1);
+                                    User userSession = new User(id, name);
+                                    SessionManagement sessionManagement = new SessionManagement(Signup.this);
+                                    sessionManagement.saveSession(userSession);
+                                }
                                 Intent intent = new Intent(getApplicationContext(),Homepage.class);
                                 startActivity(intent);
                             }else{
@@ -59,6 +72,14 @@ public class Signup extends AppCompatActivity {
                 } }
 
 
+        });
+
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), Login.class);
+                startActivity(intent);
+            }
         });
     }
 

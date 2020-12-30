@@ -1,6 +1,7 @@
 package com.example.volunteeringapp;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -106,5 +107,36 @@ public class Homepage extends AppCompatActivity implements BottomNavigationView.
     public void viewEvent(View view) {
         Intent manage_events = new Intent (this, ManageEventsActivity.class);
         startActivity(manage_events);
+    }
+
+    public void logout(View view){
+        //This method will remove session and redirect user to login page
+        SessionManagement sessionManagement = new SessionManagement(Homepage.this);
+        sessionManagement.removeSession();
+
+        moveToMainActivity();
+    }
+
+    private void moveToMainActivity() {
+        Intent intent  = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
+    }
+
+    public void getSessionButton(View view){
+        //This method will remove session and redirect user to login page
+        SessionManagement sessionManagement = new SessionManagement(Homepage.this);
+
+        int userID = sessionManagement.getSession();
+
+        StringBuffer buffer = new StringBuffer();
+//                while(res.moveToNext()){
+                    buffer.append("ID: "+ userID +"\n");
+//                }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(Homepage.this);
+                builder.setCancelable(true);
+                builder.setTitle("Current Session:");
+                builder.setMessage(buffer.toString());
+                builder.show();
     }
 }
