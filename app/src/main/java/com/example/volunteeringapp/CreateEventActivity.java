@@ -139,7 +139,10 @@ public class CreateEventActivity extends AppCompatActivity {
                 String start_date = ET_StartDate.getText().toString();
                 String start_time = ET_StartTime.getText().toString();
                 String end_time = ET_EndTime.getText().toString();
-                String organizer_id = "1"; // session is not yet implemented, so will hardcode this first
+
+                SessionManagement sessionManagement = new SessionManagement(CreateEventActivity.this);
+                String organizer_id = Integer.toString(sessionManagement.getSession());
+
                 Bitmap b_cover_photo = ((BitmapDrawable)cover_photo.getDrawable()).getBitmap();
 
                 // String location_lat

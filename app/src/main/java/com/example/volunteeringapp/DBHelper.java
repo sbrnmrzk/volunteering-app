@@ -22,7 +22,7 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase MyDB) {
         MyDB.execSQL("create Table users(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name TEXT, emailAddress TEXT, password TEXT)");
-        MyDB.execSQL("create Table events(event_title TEXT, description TEXT, capacity INTEGER, start_date TEXT, start_time TEXT, end_time TEXT, " +
+        MyDB.execSQL("create Table events(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, event_title TEXT, description TEXT, capacity INTEGER, start_date TEXT, start_time TEXT, end_time TEXT, " +
                 "cover_photo BLOB, rewards TEXT, location TEXT, location_lat TEXT, location_long TEXT, organizer ID, participants TEXT)");
     }
 
@@ -60,10 +60,10 @@ public class DBHelper extends SQLiteOpenHelper {
         return outputStream.toByteArray();
     }
 
-    public Cursor manageEventsGet()
+    public Cursor manageEventsGet(String organizer_id)
     {
         SQLiteDatabase DB = this.getWritableDatabase();
-        Cursor cursor = DB.rawQuery("Select * from events", null);
+        Cursor cursor = DB.rawQuery("Select * from events where organizer = ?", new String[] {organizer_id});
         // still retrieve all events, when session is finished, will update so will only get events that are organized by the user.
         return cursor;
     }
