@@ -1,13 +1,21 @@
 package com.example.volunteeringapp;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.database.AbstractWindowedCursor;
+import android.database.Cursor;
+import android.database.CursorWindow;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,13 +24,23 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
 public class Homepage extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener  {
     final Fragment homeF = new HomeFragment();
     final Fragment bookmarkedF = new BookmarkedFragment();
     final Fragment notificationsF = new NotificationsFragment();
     final Fragment accountF = new AccountFragment();
     final FragmentManager fm = getSupportFragmentManager();
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter eventAdapter;
+    private RecyclerView.LayoutManager layoutManager;
     Fragment active = homeF;
+    List<Event> eventList;
+    DBHelper DB;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +58,7 @@ public class Homepage extends AppCompatActivity implements BottomNavigationView.
         //getting bottom navigation view and attaching the listener
         BottomNavigationView navigation = findViewById(R.id.bottomNavigationView);
         navigation.setOnNavigationItemSelectedListener(this);
+
     }
 
     @Override
@@ -59,10 +78,9 @@ public class Homepage extends AppCompatActivity implements BottomNavigationView.
         }
     }
 
-    public boolean navigateToEventDetails(View view){
+    public void navigateToEventDetails(View view){
         Intent eventDetails = new Intent (this, EventDetails.class);
-        startActivityForResult(eventDetails, 1);
-        return true;
+        startActivity(eventDetails);
     }
 
     @Override
