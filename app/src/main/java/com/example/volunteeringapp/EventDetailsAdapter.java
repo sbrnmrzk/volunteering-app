@@ -1,6 +1,7 @@
 package com.example.volunteeringapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
@@ -55,6 +56,14 @@ public class EventDetailsAdapter extends RecyclerView.Adapter<EventDetailsAdapte
             eventTitle = (TextView) itemView.findViewById(R.id.eventTitle);
             eventDate = (TextView) itemView.findViewById(R.id.eventDate);
             eventLocation = (TextView) itemView.findViewById(R.id.eventLocation);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(itemView.getContext(), EventDetails.class);
+                    itemView.getContext().startActivity(intent);
+                }
+            });
         }
+
     }
 }

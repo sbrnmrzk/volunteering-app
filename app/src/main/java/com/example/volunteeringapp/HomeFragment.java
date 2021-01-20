@@ -101,6 +101,7 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
+
     public void navigateToEventDetails(View view){
         Intent eventDetails = new Intent (getContext(), EventDetails.class);
         startActivity(eventDetails);
