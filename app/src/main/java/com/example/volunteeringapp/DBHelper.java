@@ -75,7 +75,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public Cursor getEventById(Integer id){
-        Cursor cursor = MyDB.rawQuery("Select * from events where id = ?", new String[] {id.toString()});
+        Cursor cursor = MyDB.rawQuery("Select ID, event_title,description, capacity, start_date, start_time, end_time, location, organizer from events where id = ?", new String[] {id.toString()});
         return cursor;
     }
 

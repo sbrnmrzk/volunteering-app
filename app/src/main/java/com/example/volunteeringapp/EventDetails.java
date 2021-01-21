@@ -6,12 +6,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class EventDetails extends AppCompatActivity {
+    Event event;
+    DBHelper DB;
+    TextView eventTitle, eventDate, eventDescription, eventLocation, startTime, endTime;
+
+    List<Event> eventList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +31,48 @@ public class EventDetails extends AppCompatActivity {
         setSupportActionBar(myChildToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        eventTitle = (TextView) findViewById(R.id.tv_eventTitle);
+        eventDescription = (TextView) findViewById(R.id.tv_eventDesc);
+        eventDate = (TextView) findViewById(R.id.tv_eventDate);
+        eventLocation = (TextView) findViewById(R.id.tv_eventLocation);
+        startTime = (TextView) findViewById(R.id.tv_startTime);
+        endTime = (TextView) findViewById(R.id.tv_endTime);
+
+        //get Event by ID
+        int eventId = getIntent().getIntExtra("eventId", 0);
+        System.out.println("Event id = " + eventId);
+        eventList = new ArrayList<Event>();
+        eventList.clear();
+        try{
+            DB = new DBHelper(this);
+            Cursor res = DB.getEventById(eventId);
+            if(res != null && res.getCount()>0){
+                eventList.clear();
+                while (res.moveToNext()){
+                    Event eventItem = new Event();
+                    eventItem.setId(res.getInt(res.getColumnIndex("ID")));
+                    eventItem.setEventTitle(res.getString(res.getColumnIndex("event_title")));
+                    eventItem.setDescription(res.getString(res.getColumnIndex("description")));
+                    eventItem.setCapacity(res.getInt(res.getColumnIndex("capacity")));
+                    eventItem.setDate(res.getString(res.getColumnIndex("start_date")));
+                    eventItem.setStartTime(res.getString(res.getColumnIndex("start_time")));
+                    eventItem.setEndTime(res.getString(res.getColumnIndex("end_time")));
+                    eventItem.setLocation(res.getString(res.getColumnIndex("location")));
+                    eventItem.setOrganizerId(res.getString(res.getColumnIndex("organizer")));
+                    eventList.add(eventItem);
+                }
+            }
+            res.close();
+            event = eventList.get(0);
+        } catch (Exception e){
+            System.out.println("ERROR: " + e);
+        }
+        eventTitle.setText(event.getEventTitle());
+        eventDescription.setText(event.getDescription());
+        eventDate.setText(event.getDate());
+        startTime.setText(event.getStartTime());
+        endTime.setText(event.getEndTime());
+        eventLocation.setText(event.getLocation());
     }
 
     @Override
