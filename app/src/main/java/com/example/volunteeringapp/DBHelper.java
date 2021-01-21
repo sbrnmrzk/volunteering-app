@@ -22,8 +22,11 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase MyDB) {
         MyDB.execSQL("create Table users(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name TEXT, emailAddress TEXT, password TEXT)");
+        MyDB.execSQL("create Table profiles(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name TEXT, emailAddress TEXT, password TEXT, profilePicture BLOB, avgRating REAL)");
         MyDB.execSQL("create Table events(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, event_title TEXT, description TEXT, capacity INTEGER, start_date TEXT, start_time TEXT, end_time TEXT, " +
                 "cover_photo BLOB, rewards TEXT, location TEXT, location_lat TEXT, location_long TEXT, organizer ID, participants TEXT)");
+        MyDB.execSQL("create Table follow(ID INTEGER NOT NULL, user_id INTEGER, follower_id INTEGER,  PRIMARY KEY (ID, user_id, follower_id))");
+        MyDB.execSQL("create Table rating(ID INTEGER NOT NULL, user_id INTEGER , rating FLOAT, PRIMARY KEY (ID, rating))");
     }
 
     @Override
@@ -81,6 +84,21 @@ public class DBHelper extends SQLiteOpenHelper {
             return true;
     }
 
+    public Boolean insertDataProfile(String name, String emailAddress, String password){
+        SQLiteDatabase MyDB = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("name", name);
+        contentValues.put("emailAddress", emailAddress);
+        contentValues.put("password", password);
+        long result = MyDB.insert("profiles", null, contentValues);
+        if (result==-1)
+            return false;
+        else
+            return true;
+    }
+
+
+
     public Boolean checkEmailAddress(String emailAddress){
         SQLiteDatabase MyDB = this.getWritableDatabase();
         Cursor cursor = MyDB.rawQuery("Select * from users where emailAddress = ?", new String[] {emailAddress});
@@ -102,6 +120,13 @@ public class DBHelper extends SQLiteOpenHelper {
     public Cursor getData(String emailAddress, String password){
         SQLiteDatabase MyDB = this.getWritableDatabase();
         Cursor cursor = MyDB.rawQuery("Select * from users where emailAddress = ? and password = ?", new String[] {emailAddress, password});
+        return cursor;
+    }
+
+    public Cursor getRating(){
+        SQLiteDatabase MyDB = this.getReadableDatabase();
+
+        Cursor cursor = MyDB.rawQuery("Select * from users where id = ?", null);
         return cursor;
     }
 }

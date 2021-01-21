@@ -109,6 +109,11 @@ public class Homepage extends AppCompatActivity implements BottomNavigationView.
         startActivity(manage_events);
     }
 
+    public void viewProfile(View view) {
+        Intent view_profile = new Intent (this, ViewProfile.class);
+        startActivity(view_profile);
+    }
+
     public void logout(View view){
         //This method will remove session and redirect user to login page
         SessionManagement sessionManagement = new SessionManagement(Homepage.this);
