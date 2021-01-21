@@ -20,6 +20,8 @@
         <activity android:name=".Signup" />
         <activity android:name=".Login" />
         <activity android:name=".EventDetails" />
+        <activity android:name=".ViewProfile" />
+        <activity android:name=".SubmitRating" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

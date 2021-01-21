@@ -46,9 +46,10 @@ public class Signup extends AppCompatActivity {
                 else{
                     if(pass.equals(repass)){
                         Boolean checkuser = DB.checkEmailAddress(user);
-                        if(checkuser==false){
+                        if(!checkuser){
                             Boolean insert = DB.insertData(nama, user, pass);
-                            if(insert==true){
+                            Boolean insert1 = DB.insertDataProfile(nama, user, pass);
+                            if(insert && insert1){
                                 Toast.makeText(Signup.this, "Registered successfully.", Toast.LENGTH_SHORT).show();
                                 while(res.moveToNext()) {
                                     int id = res.getInt(0);
