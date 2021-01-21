@@ -96,12 +96,14 @@ public class CreateEventActivity extends AppCompatActivity {
                 final Calendar cldr = Calendar.getInstance();
                 int hour = cldr.get(Calendar.HOUR_OF_DAY);
                 int minutes = cldr.get(Calendar.MINUTE);
+                int pm = hour % 12;
                 // time picker dialog
                 picker_start = new TimePickerDialog(CreateEventActivity.this,
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
-                                ET_StartTime.setText(sHour + ":" + sMinute);
+                                ET_StartTime.setText(String.format("%02d:%02d %s", pm == 0 ? 12 : pm,
+                                        sMinute, sHour < 12 ? "AM" : "PM"));
                             }
                         }, hour, minutes, false);
                 picker_start.show();
@@ -115,12 +117,14 @@ public class CreateEventActivity extends AppCompatActivity {
                 final Calendar cldr = Calendar.getInstance();
                 int hour = cldr.get(Calendar.HOUR_OF_DAY);
                 int minutes = cldr.get(Calendar.MINUTE);
+                int pm = hour % 12;
                 // time picker dialog
                 picker_end = new TimePickerDialog(CreateEventActivity.this,
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
-                                ET_EndTime.setText(sHour + ":" + sMinute);
+                                ET_EndTime.setText(String.format("%02d:%02d %s", pm == 0 ? 12 : pm,
+                                        sMinute, sHour < 12 ? "AM" : "PM"));
                             }
                         }, hour, minutes, false);
                 picker_end.show();
