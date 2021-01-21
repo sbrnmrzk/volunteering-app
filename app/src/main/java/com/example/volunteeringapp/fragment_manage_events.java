@@ -26,7 +26,7 @@ public class fragment_manage_events extends Fragment {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter eventAdapter;
     private RecyclerView.LayoutManager layoutManager;
-    List<Event> eventList;
+    ArrayList<Event> eventList;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

@@ -20,6 +20,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -35,7 +37,7 @@ public class Homepage extends AppCompatActivity implements BottomNavigationView.
     final Fragment accountF = new AccountFragment();
     final FragmentManager fm = getSupportFragmentManager();
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter eventAdapter;
+    private EventDetailsAdapter eventAdapter;
     private RecyclerView.LayoutManager layoutManager;
     Fragment active = homeF;
     List<Event> eventList;
@@ -66,13 +68,10 @@ public class Homepage extends AppCompatActivity implements BottomNavigationView.
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
-//
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.search:
-                Toast.makeText(getApplicationContext(), "Search", Toast.LENGTH_LONG).show();
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
