@@ -40,7 +40,7 @@
         android:id="@+id/btnSignin1"
         android:layout_width="319dp"
         android:layout_height="57dp"
-        android:background="@drawable/round_btn_login_page"
+        android:background="@drawable/round_btn_blue"
         android:onClick="navigateToHome"
         android:text="Sign In"
         android:textAllCaps="false"
