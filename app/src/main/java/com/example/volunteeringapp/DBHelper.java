@@ -10,10 +10,13 @@ import android.graphics.Bitmap;
 import androidx.annotation.Nullable;
 
 import java.io.ByteArrayOutputStream;
+import java.sql.Date;
+import java.util.Calendar;
 
 public class DBHelper extends SQLiteOpenHelper {
 
     public static final String DBNAME = "Login.db";
+    SQLiteDatabase MyDB = this.getWritableDatabase();
 
     public DBHelper(@Nullable Context context) {
         super(context, "Login.db", null, 1);
@@ -22,11 +25,8 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase MyDB) {
         MyDB.execSQL("create Table users(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name TEXT, emailAddress TEXT, password TEXT)");
-        MyDB.execSQL("create Table profiles(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name TEXT, emailAddress TEXT, password TEXT, profilePicture BLOB, avgRating REAL)");
         MyDB.execSQL("create Table events(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, event_title TEXT, description TEXT, capacity INTEGER, start_date TEXT, start_time TEXT, end_time TEXT, " +
-                "cover_photo BLOB, rewards TEXT, location TEXT, location_lat TEXT, location_long TEXT, organizer ID, participants TEXT)");
-        MyDB.execSQL("create Table follow(ID INTEGER NOT NULL, user_id INTEGER, follower_id INTEGER,  PRIMARY KEY (ID, user_id, follower_id))");
-        MyDB.execSQL("create Table rating(ID INTEGER NOT NULL, user_id INTEGER , rating FLOAT, PRIMARY KEY (ID, rating))");
+                "cover_photo BLOB, rewards TEXT, location TEXT, location_lat TEXT, location_long TEXT, organizer TEXT, participants TEXT)");
     }
 
     @Override
@@ -36,7 +36,6 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public Boolean createEvent(String event_title, String description, String capacity, String location, String start_date, String start_time, String end_time, String organizer_id, Bitmap cover_photo){
-        SQLiteDatabase MyDB = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("event_title", event_title);
         contentValues.put("description", description);
@@ -65,14 +64,22 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public Cursor manageEventsGet(String organizer_id)
     {
-        SQLiteDatabase DB = this.getWritableDatabase();
-        Cursor cursor = DB.rawQuery("Select * from events where organizer = ?", new String[] {organizer_id});
+        Cursor cursor = MyDB.rawQuery("Select * from events where organizer = ?", new String[] {organizer_id});
         // still retrieve all events, when session is finished, will update so will only get events that are organized by the user.
         return cursor;
     }
 
+    public Cursor getAllEvents(){
+        Cursor cursor = MyDB.rawQuery("Select ID, event_title,description, capacity, start_date, start_time, end_time, location, organizer from events", null);
+        return cursor;
+    }
+
+    public Cursor getEventById(Integer id){
+        Cursor cursor = MyDB.rawQuery("Select * from events where id = ?", new String[] {id.toString()});
+        return cursor;
+    }
+
     public Boolean insertData(String name, String emailAddress, String password){
-        SQLiteDatabase MyDB = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("name", name);
         contentValues.put("emailAddress", emailAddress);
@@ -83,21 +90,6 @@ public class DBHelper extends SQLiteOpenHelper {
         else
             return true;
     }
-
-    public Boolean insertDataProfile(String name, String emailAddress, String password){
-        SQLiteDatabase MyDB = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("name", name);
-        contentValues.put("emailAddress", emailAddress);
-        contentValues.put("password", password);
-        long result = MyDB.insert("profiles", null, contentValues);
-        if (result==-1)
-            return false;
-        else
-            return true;
-    }
-
-
 
     public Boolean checkEmailAddress(String emailAddress){
         SQLiteDatabase MyDB = this.getWritableDatabase();
@@ -120,13 +112,6 @@ public class DBHelper extends SQLiteOpenHelper {
     public Cursor getData(String emailAddress, String password){
         SQLiteDatabase MyDB = this.getWritableDatabase();
         Cursor cursor = MyDB.rawQuery("Select * from users where emailAddress = ? and password = ?", new String[] {emailAddress, password});
-        return cursor;
-    }
-
-    public Cursor getRating(){
-        SQLiteDatabase MyDB = this.getReadableDatabase();
-
-        Cursor cursor = MyDB.rawQuery("Select * from users where id = ?", null);
         return cursor;
     }
 }
