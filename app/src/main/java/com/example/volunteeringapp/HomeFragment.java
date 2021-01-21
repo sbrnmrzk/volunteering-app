@@ -1,12 +1,19 @@
 package com.example.volunteeringapp;
 
+import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +30,11 @@ public class HomeFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter eventAdapter;
+    private RecyclerView.LayoutManager layoutManager;
+    List<Event> eventList;
+    DBHelper DB;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -59,6 +71,39 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        recyclerView =  view.findViewById(R.id.rv_events);
+        eventList = new ArrayList<Event>();
+        eventList.clear();
+        DB = new DBHelper(getContext());
+        Cursor res = DB.getAllEvents();
+        if(res != null && res.getCount()>0){
+            eventList.clear();
+            while (res.moveToNext()){
+                Event eventItem = new Event();
+                eventItem.setId(res.getInt(res.getColumnIndex("ID")));
+                eventItem.setEventTitle(res.getString(res.getColumnIndex("event_title")));
+                eventItem.setDescription(res.getString(res.getColumnIndex("description")));
+                eventItem.setCapacity(res.getInt(res.getColumnIndex("capacity")));
+                eventItem.setDate(res.getString(res.getColumnIndex("start_date")));
+                eventItem.setStartTime(res.getString(res.getColumnIndex("start_time")));
+                eventItem.setEndTime(res.getString(res.getColumnIndex("end_time")));
+                eventItem.setLocation(res.getString(res.getColumnIndex("location")));
+                eventItem.setOrganizerId(res.getString(res.getColumnIndex("organizer")));
+                eventList.add(eventItem);
+            }
+        }
+        res.close();
+        layoutManager = new LinearLayoutManager(getContext());
+        eventAdapter = new EventDetailsAdapter(eventList);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(eventAdapter);
+        return view;
+    }
+
+
+    public void navigateToEventDetails(View view){
+        Intent eventDetails = new Intent (getContext(), EventDetails.class);
+        startActivity(eventDetails);
     }
 }
