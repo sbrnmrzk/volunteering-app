@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.Calendar;
 import java.util.List;
 
 public class EventDetailsAdapter extends RecyclerView.Adapter<EventDetailsAdapter.EventViewHolder> {
@@ -20,6 +21,7 @@ public class EventDetailsAdapter extends RecyclerView.Adapter<EventDetailsAdapte
     Context context;
     DBHelper dbHelper;
     SQLiteDatabase db;
+    Calendar c;
 
     public EventDetailsAdapter(List<Event> eventList) {
         this.eventList = eventList;
@@ -39,8 +41,9 @@ public class EventDetailsAdapter extends RecyclerView.Adapter<EventDetailsAdapte
     public void onBindViewHolder(@NonNull EventViewHolder holder, int position) {
         Event event = eventList.get(position);
         holder.eventTitle.setText(event.getEventTitle());
-        holder.eventDate.setText(event.getDate());
+        holder.eventDate.setText(event.getDate() + ", " +  event.getStartTime());
         holder.eventLocation.setText(event.getLocation());
+        holder.setEventData(event);
     }
 
     @Override
@@ -51,6 +54,7 @@ public class EventDetailsAdapter extends RecyclerView.Adapter<EventDetailsAdapte
     public class EventViewHolder extends RecyclerView.ViewHolder {
         TextView eventTitle, eventDate, eventLocation;
         ImageView eventImg;
+        Event eventData;
         public EventViewHolder(View itemView) {
             super(itemView);
             eventTitle = (TextView) itemView.findViewById(R.id.eventTitle);
@@ -60,9 +64,19 @@ public class EventDetailsAdapter extends RecyclerView.Adapter<EventDetailsAdapte
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(itemView.getContext(), EventDetails.class);
+                    System.out.println(eventData.getId());
+                    intent.putExtra("eventId", eventData.getId());
                     itemView.getContext().startActivity(intent);
                 }
             });
+        }
+
+        public void setEventData(Event event){
+            eventData = event;
+        }
+
+        public Event getEventData(){
+            return eventData;
         }
 
     }

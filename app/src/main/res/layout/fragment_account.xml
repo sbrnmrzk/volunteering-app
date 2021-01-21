@@ -106,7 +106,7 @@
             android:id="@+id/btn_logout"
             android:layout_width="375dp"
             android:layout_height="41dp"
-            android:background="@drawable/round_btn_login_page"
+            android:background="@drawable/round_btn_blue"
             android:onClick="logout"
             android:text="L o g  o u t"
             android:textColor="#FFFFFF"
