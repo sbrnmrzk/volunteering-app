@@ -28,8 +28,10 @@ public class DBHelper extends SQLiteOpenHelper {
         MyDB.execSQL("create Table profiles(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name TEXT, emailAddress TEXT, password TEXT, profilePicture BLOB, avgRating REAL, joined_date TEXT)");
         MyDB.execSQL("create Table events(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, event_title TEXT, description TEXT, capacity INTEGER, start_date TEXT, start_time TEXT, end_time TEXT, " +
                 "cover_photo BLOB, rewards TEXT, location TEXT, location_lat TEXT, location_long TEXT, organizer TEXT, participants TEXT)");
-        MyDB.execSQL("create Table follow(ID INTEGER NOT NULL, user_id INTEGER, follower_id INTEGER,  PRIMARY KEY (ID, user_id, follower_id))");
-        MyDB.execSQL("create Table rating(ID INTEGER NOT NULL, user_id INTEGER , rating FLOAT, PRIMARY KEY (ID, rating))");
+        MyDB.execSQL("create Table follow(user_id INTEGER, follower_id INTEGER, PRIMARY KEY(user_id, follower_id), FOREIGN KEY (user_id) REFERENCES users (ID)" +
+                ", FOREIGN KEY (follower_id) REFERENCES users (ID))");
+        MyDB.execSQL("create Table rating(rating_user INTEGER NOT NULL, rater_user INTEGER NOT NULL, rating_value REAL NOT NULL, PRIMARY KEY (rating_user, rater_user) " +
+                ", FOREIGN KEY (rating_user) REFERENCES users (ID), FOREIGN KEY (rater_user) REFERENCES users (ID))");
     }
 
     @Override
@@ -137,6 +139,71 @@ public class DBHelper extends SQLiteOpenHelper {
     public Cursor getData(String emailAddress, String password){
         SQLiteDatabase MyDB = this.getWritableDatabase();
         Cursor cursor = MyDB.rawQuery("Select * from users where emailAddress = ? and password = ?", new String[] {emailAddress, password});
+        return cursor;
+    }
+
+    public Boolean followUser(Integer user_id, Integer follower_id){
+        SQLiteDatabase MyDB = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("user_id", user_id);
+        contentValues.put("follower_id", follower_id);
+        long result = MyDB.insert("follow", null, contentValues);
+        if (result==-1)
+            return true;
+        else
+            return false;
+    }
+
+    public Cursor getFollowing(Integer user_id){
+        SQLiteDatabase MyDB = this.getReadableDatabase();
+
+        Cursor cursor = MyDB.rawQuery("Select * from follow where user_id = ?", new String[] {String.valueOf(user_id)});
+        return cursor;
+    }
+
+    public Cursor getFollowers(Integer follower_id){
+        SQLiteDatabase MyDB = this.getReadableDatabase();
+
+        Cursor cursor = MyDB.rawQuery("Select * from follow where follower_id = ?", new String[] {String.valueOf(follower_id)});
+        return cursor;
+    }
+
+    public Boolean giveRating(Integer rating_user, Integer rater_user, Float rating_value){
+        SQLiteDatabase MyDB = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        ContentValues contentValuesProfile = new ContentValues();
+        contentValues.put("rating_user", rating_user);
+        contentValues.put("rater_user", rater_user);
+        contentValues.put("rating_value", rating_value);
+        long result = MyDB.insert("rating", null, contentValues);
+        if (result==-1)
+            return true;
+        else
+            return false;
+    }
+
+    public Boolean updateAvgRating(Float avgRating, Integer ID){
+        SQLiteDatabase MyDB = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("avgRating", avgRating);
+        long result = MyDB.update("profiles", contentValues, "ID = ?", new String[] {String.valueOf(ID)});
+        if (result==-1)
+            return true;
+        else
+            return false;
+    }
+
+    public Cursor getAvgRating(Integer ID){
+        SQLiteDatabase MyDB = this.getReadableDatabase();
+
+        Cursor cursor = MyDB.rawQuery("Select * from profiles where ID = ?", new String[] {String.valueOf(ID)});
+        return cursor;
+    }
+
+    public Cursor getRaters(Integer rater_user){
+        SQLiteDatabase MyDB = this.getReadableDatabase();
+
+        Cursor cursor = MyDB.rawQuery("Select * from rating where rater_user = ?", new String[] {String.valueOf(rater_user)});
         return cursor;
     }
 

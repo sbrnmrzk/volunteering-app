@@ -119,7 +119,7 @@
             app:layout_constraintVertical_bias="0.976" />
 
         <TextView
-            android:id="@+id/ET_name"
+            android:id="@+id/ET_name_homepage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Siti Saleha"
@@ -133,7 +133,7 @@
             app:layout_constraintVertical_bias="0.234" />
 
         <TextView
-            android:id="@+id/ET_joined"
+            android:id="@+id/ET_joined_homepage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Joined November 2020"

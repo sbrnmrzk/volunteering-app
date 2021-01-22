@@ -1,19 +1,17 @@
 package com.example.volunteeringapp;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import org.w3c.dom.Text;
-
-public class ViewProfile extends AppCompatActivity {
+public class ViewOrganizerProfile extends AppCompatActivity {
 
     RatingBar ratingBar;
     Button btn_follow;
@@ -21,7 +19,6 @@ public class ViewProfile extends AppCompatActivity {
     Button btn_give_rating;
     DBHelper DB;
 
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_profile);
@@ -31,21 +28,22 @@ public class ViewProfile extends AppCompatActivity {
         btn_contact = (Button) findViewById(R.id.btn_contact);
         btn_give_rating = (Button) findViewById(R.id.btn_give_rating);
 
-        SessionManagement sessionManagement = new SessionManagement(ViewProfile.this);
+        SessionManagement sessionManagement = new SessionManagement(ViewOrganizerProfile.this);
         String current_user = Integer.toString(sessionManagement.getSession());
-        int userID = sessionManagement.getSession();
+        int userID = sessionManagement.getSession(); // Retrieve the current user id
+        String organizer = getIntent().getStringExtra("organizer_id"); // Retrieve the organizer_id
 
-        Integer user_id = Integer.valueOf(current_user); // Retrieve the current user id
-        Integer follower_id = 2; // Retrieve the selected user's id
+        Integer user_id = Integer.valueOf(current_user);
+        Integer organizer_id = Integer.valueOf(organizer);
 
         DB = new DBHelper(this);
 
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Cursor GetUserByID = DB.getUserById(current_user);
-                Cursor GetFollowing = DB.getFollowing(userID);
-                Cursor GetFollowers = DB.getFollowers(userID);
+                Cursor GetUserByID = DB.getUserById(organizer);
+                Cursor GetFollowing = DB.getFollowing(organizer_id);
+                Cursor GetFollowers = DB.getFollowers(organizer_id);
 
                 TextView name = (TextView) findViewById(R.id.ET_name);
                 TextView date = (TextView) findViewById(R.id.ET_joined);
@@ -65,22 +63,23 @@ public class ViewProfile extends AppCompatActivity {
                     String followingCount = String.valueOf(GetFollowing.getCount());
                     following.setText(followingCount);
                 } else {
-                    Toast.makeText(ViewProfile.this, "No data available for following!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ViewOrganizerProfile.this, "No data available for following!", Toast.LENGTH_SHORT).show();
                 }
 
-                if (GetFollowers !=null && GetFollowers.getCount() > 0) {
+                 if (GetFollowers !=null && GetFollowers.getCount() > 0) {
                     GetFollowers.moveToFirst();
 //                    Toast.makeText(ViewOrganizerProfile.this, "Data available for followers!", Toast.LENGTH_SHORT).show();
                     System.out.println("Number of followers: " + GetFollowers.getCount());
                     String followersCount = String.valueOf(GetFollowers.getCount());
                     followers.setText(followersCount);
                 } else {
-                    Toast.makeText(ViewProfile.this, "No data available for followers!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ViewOrganizerProfile.this, "No data available for followers!", Toast.LENGTH_SHORT).show();
                 }
-//
+
+
 //                while(GetFollowers.moveToNext() && GetFollowing.moveToNext()){
-//                    following.setText(GetFollowing.getString(0));
-//                    followers.setText(GetFollowers.getString(1));
+//                    following.setText(GetFollowing.getInt(0));
+//                    followers.setText(GetFollowers.getInt(1));
 //                }
             }
         });
@@ -112,17 +111,17 @@ public class ViewProfile extends AppCompatActivity {
                 float calculatedAvgRating = (currentAvgRating + currentRating)/numberOfRater;
 //                float calculatedAvgRating = 2;
 
-                if (user_id.equals(follower_id)){
-                    Toast.makeText(ViewProfile.this, "Cannot rate yourself!", Toast.LENGTH_SHORT).show();
+                if (user_id.equals(organizer_id)){
+                    Toast.makeText(ViewOrganizerProfile.this, "Cannot rate yourself!", Toast.LENGTH_SHORT).show();
                 } else {
-                    boolean GiveRating = DB.giveRating(user_id, follower_id, currentRating);
+                    boolean GiveRating = DB.giveRating(user_id, organizer_id, currentRating);
                     if(!GiveRating){
-                        Toast.makeText(ViewProfile.this, "Rating added successfully!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ViewOrganizerProfile.this, "Rating added successfully!", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(ViewProfile.this, "Only allow to rate once only!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ViewOrganizerProfile.this, "Only allow to rate once only!", Toast.LENGTH_SHORT).show();
                     }
                     DB.updateAvgRating(calculatedAvgRating, user_id);
-                    Toast.makeText(ViewProfile.this, "Rating: " + String.valueOf(calculatedAvgRating), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ViewOrganizerProfile.this, "Rating: " + String.valueOf(calculatedAvgRating), Toast.LENGTH_SHORT).show();
 
                 }
 
@@ -136,40 +135,23 @@ public class ViewProfile extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if(user_id.equals(follower_id)){
-                    Toast.makeText(ViewProfile.this, "Cannot follow yourself!", Toast.LENGTH_SHORT).show();
+                if(user_id.equals(organizer_id)){
+                    Toast.makeText(ViewOrganizerProfile.this, "Cannot follow yourself!", Toast.LENGTH_SHORT).show();
                 } else {
-                    Boolean FollowUser = DB.followUser(user_id, follower_id);
+                    Boolean FollowUser = DB.followUser(organizer_id, user_id);
                     if (!FollowUser){
-                        Toast.makeText(ViewProfile.this, "Followed!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ViewOrganizerProfile.this, "Followed!", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(ViewProfile.this, "Followed already!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ViewOrganizerProfile.this, "Followed already!", Toast.LENGTH_SHORT).show();
                     }
                     Cursor res = DB.getFollowers(userID);
                     TextView tv = (TextView) findViewById(R.id.ET_followers_numbers);
                     while(res.moveToNext()){
-                        tv.setText(res.getString(1));
+                        String followersCount = String.valueOf(res.getCount());
+                        tv.setText(followersCount);
                     }
                 }
             }
         });
-
-        btn_contact.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(ViewProfile.this, "Contacted!", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
-
-    public void SubmitRating(View view) {
-        Intent submitRating = new Intent(this, SubmitRating.class);
-        startActivity(submitRating);
     }
 }

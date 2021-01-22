@@ -4,10 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,7 +26,7 @@ public class EventDetails extends AppCompatActivity {
     DBHelper DB;
     TextView eventTitle, eventDateStart, eventDateEnd, eventDescription, eventLocation, startTime, endTime, organizerName,
         organizerDate;
-
+    Button btn_followOrganizer;
     List<Event> eventList;
     List<User> userList;
     @Override
@@ -43,6 +46,7 @@ public class EventDetails extends AppCompatActivity {
         endTime = (TextView) findViewById(R.id.tv_endTime);
         organizerName = (TextView) findViewById(R.id.tv_eventOrganizer);
         organizerDate = (TextView) findViewById(R.id.tv_eventOrganizerJoined);
+        btn_followOrganizer = findViewById(R.id.btn_followOrganizer);
 
         //get Event by ID
         int eventId = getIntent().getIntExtra("eventId", 0);
@@ -73,6 +77,15 @@ public class EventDetails extends AppCompatActivity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean navigateToProfile(View view){
+
+        Intent profileDetails = new Intent (this, ViewOrganizerProfile.class);
+        profileDetails.putExtra("organizer_id", event.getOrganizerId());
+        startActivityForResult(profileDetails, 1);
+        return true;
+
     }
 
     public User getOrganizerDetailsById(String organizerId) {

@@ -275,6 +275,7 @@
                         android:layout_marginLeft="280dp"
                         android:layout_marginTop="5dp"
                         android:background="@drawable/round_btn_blue"
+                        android:onClick="navigateToProfile"
                         android:text="FOLLOW"
                         android:textColor="#FFFFFF"
                         android:textSize="10sp" />
