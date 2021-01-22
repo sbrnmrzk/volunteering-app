@@ -1,6 +1,185 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/TV_RewardsPage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rewards"
+        android:textColor="#000000"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.059"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.079" />
+
+    <View
+        android:id="@+id/view5"
+        android:layout_width="130dp"
+        android:layout_height="0.5dp"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/TV_Badges"
+        android:background="#c0c0c0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/TV_Badges"
+        app:layout_constraintHorizontal_bias="0.658"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.187" />
+
+    <TextView
+        android:id="@+id/TV_Badges"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="BADGES"
+        android:textColor="#5C5C5C"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.175" />
+
+    <View
+        android:layout_width="130dp"
+        android:layout_height="0.5dp"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/TV_Badges"
+        android:background="#c0c0c0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.889"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.187" />
+
+
+    <View
+        android:layout_width="120dp"
+        android:layout_height="0.5dp"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/TV_Rewards"
+        android:background="#c0c0c0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.295"
+        app:layout_constraintStart_toEndOf="@+id/TV_Rewards"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.383" />
+
+    <TextView
+        android:id="@+id/TV_Rewards"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="REWARDS"
+        android:textColor="#5C5C5C"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.379" />
+
+    <View
+        android:layout_width="120dp"
+        android:layout_height="0.5dp"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/TV_Rewards"
+        android:background="#c0c0c0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/TV_Rewards"
+        app:layout_constraintHorizontal_bias="0.613"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.383" />
+
+    <RelativeLayout
+        android:id="@+id/RL_Rewards1"
+        android:layout_width="358dp"
+        android:layout_height="122dp"
+
+
+        android:layout_marginEnd="28dp"
+        android:layout_marginRight="28dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.522" >
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="148dp"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/shopee" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/RL_Rewards2"
+        android:layout_width="358dp"
+        android:layout_height="122dp"
+
+
+        android:layout_marginEnd="28dp"
+        android:layout_marginRight="28dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.722" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="78dp"
+        android:layout_height="76dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.05"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TV_Badges"
+        app:srcCompat="@drawable/verifiedbadge" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="81dp"
+        android:layout_height="77dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/imageView2"
+        app:layout_constraintTop_toBottomOf="@+id/TV_Badges"
+        app:srcCompat="@drawable/thegiverbadge" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="80dp"
+        android:layout_height="77dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/imageView3"
+        app:layout_constraintTop_toBottomOf="@+id/TV_Badges"
+        app:srcCompat="@drawable/gogreen" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        app:itemIconTint="@drawable/navbar_color"
+        app:itemTextColor="@drawable/navbar_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/bottom_navigation_menu" />
 </androidx.constraintlayout.widget.ConstraintLayout>
