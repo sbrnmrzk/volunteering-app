@@ -3,7 +3,6 @@ package com.example.volunteeringapp;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 public class EventDetailsAdapter extends RecyclerView.Adapter<EventDetailsAdapter.EventViewHolder> {
     ArrayList<Event> eventList;
@@ -95,8 +93,8 @@ public class EventDetailsAdapter extends RecyclerView.Adapter<EventDetailsAdapte
         Event eventData;
         public EventViewHolder(View itemView) {
             super(itemView);
-            eventTitle = (TextView) itemView.findViewById(R.id.eventTitle);
-            eventDate = (TextView) itemView.findViewById(R.id.eventDate);
+            eventTitle = (TextView) itemView.findViewById(R.id.tv_eventOrganizerJoined);
+            eventDate = (TextView) itemView.findViewById(R.id.tv_eventOrganizer);
             eventLocation = (TextView) itemView.findViewById(R.id.eventLocation);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

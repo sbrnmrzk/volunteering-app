@@ -25,7 +25,7 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase MyDB) {
         MyDB.execSQL("create Table users(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name TEXT, emailAddress TEXT, password TEXT)");
-        MyDB.execSQL("create Table profiles(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name TEXT, emailAddress TEXT, password TEXT, profilePicture BLOB, avgRating REAL)");
+        MyDB.execSQL("create Table profiles(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name TEXT, emailAddress TEXT, password TEXT, profilePicture BLOB, avgRating REAL, joined_date TEXT)");
         MyDB.execSQL("create Table events(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, event_title TEXT, description TEXT, capacity INTEGER, start_date TEXT, start_time TEXT, end_time TEXT, " +
                 "cover_photo BLOB, rewards TEXT, location TEXT, location_lat TEXT, location_long TEXT, organizer TEXT, participants TEXT)");
         MyDB.execSQL("create Table follow(ID INTEGER NOT NULL, user_id INTEGER, follower_id INTEGER,  PRIMARY KEY (ID, user_id, follower_id))");
@@ -38,7 +38,7 @@ public class DBHelper extends SQLiteOpenHelper {
         MyDB.execSQL("drop Table if exists events");
     }
 
-    public Boolean createEvent(String event_title, String description, String capacity, String location, String start_date, String start_time, String end_time, String organizer_id, Bitmap cover_photo, String lat, String lat2){
+    public Boolean createEvent(String event_title, String description, String capacity, String location, String start_date, String start_time, String end_time, int organizer_id, Bitmap cover_photo, String lat, String lat2){
         ContentValues contentValues = new ContentValues();
         contentValues.put("event_title", event_title);
         contentValues.put("description", description);
@@ -65,6 +65,7 @@ public class DBHelper extends SQLiteOpenHelper {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 0, outputStream);
         return outputStream.toByteArray();
+
     }
 
     public Cursor manageEventsGet(String organizer_id)
@@ -96,12 +97,18 @@ public class DBHelper extends SQLiteOpenHelper {
             return true;
     }
 
+    public Cursor getUserById(String id){
+        Cursor cursor = MyDB.rawQuery("Select * from profiles where id = ?", new String[] {id});
+        return cursor;
+    }
+
     public Boolean insertDataProfile(String name, String emailAddress, String password){
         SQLiteDatabase MyDB = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("name", name);
         contentValues.put("emailAddress", emailAddress);
         contentValues.put("password", password);
+        contentValues.put("joined_date", (new Date(System.currentTimeMillis())).toString());
         long result = MyDB.insert("profiles", null, contentValues);
         if (result==-1)
             return false;
