@@ -8,11 +8,11 @@
     tools:context=".HomeFragment">
 
     <ScrollView
-        android:layout_width="378dp"
-        android:layout_height="699dp"
+        android:layout_width="380dp"
+        android:layout_height="709dp"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.551"
+        app:layout_constraintHorizontal_bias="0.484"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 

@@ -4,13 +4,19 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.SearchView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,9 +37,9 @@ public class HomeFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter eventAdapter;
+    private EventDetailsAdapter eventAdapter;
     private RecyclerView.LayoutManager layoutManager;
-    List<Event> eventList;
+    ArrayList<Event> eventList;
     DBHelper DB;
 
     public HomeFragment() {
@@ -72,7 +78,41 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        setHasOptionsMenu(true);
         recyclerView =  view.findViewById(R.id.rv_events);
+        this.getAllEvents();
+
+        return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.homepage_menu, menu);
+        MenuItem searchItem = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                getAllEvents();
+                eventAdapter.getFilter().filter(query);
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                getAllEvents();
+                eventAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+    }
+
+    public void navigateToEventDetails(View view){
+        Intent eventDetails = new Intent (getContext(), EventDetails.class);
+        startActivity(eventDetails);
+    }
+
+    public void getAllEvents(){
         eventList = new ArrayList<Event>();
         eventList.clear();
         DB = new DBHelper(getContext());
@@ -98,12 +138,7 @@ public class HomeFragment extends Fragment {
         eventAdapter = new EventDetailsAdapter(eventList);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(eventAdapter);
-        return view;
     }
 
 
-    public void navigateToEventDetails(View view){
-        Intent eventDetails = new Intent (getContext(), EventDetails.class);
-        startActivity(eventDetails);
-    }
 }
