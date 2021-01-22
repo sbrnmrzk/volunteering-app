@@ -36,7 +36,7 @@ public class ViewProfile extends AppCompatActivity {
         int userID = sessionManagement.getSession();
 
         Integer user_id = Integer.valueOf(current_user); // Retrieve the current user id
-        Integer follower_id = 2; // Retrieve the selected user's id
+        Integer follower_id = 1; // Retrieve the selected user's id
 
         DB = new DBHelper(this);
 
