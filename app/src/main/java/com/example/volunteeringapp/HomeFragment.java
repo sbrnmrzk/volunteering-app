@@ -80,6 +80,39 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         setHasOptionsMenu(true);
         recyclerView =  view.findViewById(R.id.rv_events);
+        this.getAllEvents();
+
+        return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.homepage_menu, menu);
+        MenuItem searchItem = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                getAllEvents();
+                eventAdapter.getFilter().filter(query);
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                getAllEvents();
+                eventAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+    }
+
+    public void navigateToEventDetails(View view){
+        Intent eventDetails = new Intent (getContext(), EventDetails.class);
+        startActivity(eventDetails);
+    }
+
+    public void getAllEvents(){
         eventList = new ArrayList<Event>();
         eventList.clear();
         DB = new DBHelper(getContext());
@@ -105,34 +138,7 @@ public class HomeFragment extends Fragment {
         eventAdapter = new EventDetailsAdapter(eventList);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(eventAdapter);
-
-        return view;
     }
 
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.homepage_menu, menu);
-        MenuItem searchItem = menu.findItem(R.id.search);
-        SearchView searchView = (SearchView) searchItem.getActionView();
-        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                eventAdapter.getFilter().filter(query);
-                return false;
-            }
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                if(newText.length()>0){
-                    eventAdapter.getFilter().filter(newText);
-                }
-                return false;
-            }
-        });
-    }
 
-    public void navigateToEventDetails(View view){
-        Intent eventDetails = new Intent (getContext(), EventDetails.class);
-        startActivity(eventDetails);
-    }
 }
