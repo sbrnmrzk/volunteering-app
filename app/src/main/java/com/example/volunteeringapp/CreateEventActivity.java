@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -19,12 +21,15 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
@@ -37,6 +42,10 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -45,6 +54,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 public class CreateEventActivity extends AppCompatActivity {
@@ -54,11 +64,18 @@ public class CreateEventActivity extends AppCompatActivity {
     DBHelper DB;
     TimePickerDialog picker_start, picker_end;
     ImageView cover_photo;
+    final Fragment mapF = new MapsFragment();
+    Fragment active = mapF;
+    final FragmentManager fm = getSupportFragmentManager();
+    String lat;
+    String lat2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
+
+        fm.beginTransaction().add(R.id.frameFragment, mapF, "1").commit();
 
         ET_EventTitle = (EditText) findViewById(R.id.ET_EventTitle);
         ET_Description = (EditText) findViewById(R.id.ET_Description);
@@ -81,11 +98,25 @@ public class CreateEventActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-
         btn_uploadPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectImage();
+            }
+        });
+
+        ET_Location.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+
+                if (!hasFocus) {
+                    String address = ET_Location.getText().toString();
+                    MapsFragment fragment = (MapsFragment) getSupportFragmentManager().findFragmentById(R.id.frameFragment);
+                    fragment.locationSearch(address);
+
+                    lat = fragment.latGet();
+                    lat2 = fragment.longGet();
+                }
             }
         });
 
@@ -96,12 +127,12 @@ public class CreateEventActivity extends AppCompatActivity {
                 final Calendar cldr = Calendar.getInstance();
                 int hour = cldr.get(Calendar.HOUR_OF_DAY);
                 int minutes = cldr.get(Calendar.MINUTE);
-                int pm = hour % 12;
                 // time picker dialog
                 picker_start = new TimePickerDialog(CreateEventActivity.this,
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
+                                int pm = sHour % 12;
                                 ET_StartTime.setText(String.format("%02d:%02d %s", pm == 0 ? 12 : pm,
                                         sMinute, sHour < 12 ? "AM" : "PM"));
                             }
@@ -117,12 +148,13 @@ public class CreateEventActivity extends AppCompatActivity {
                 final Calendar cldr = Calendar.getInstance();
                 int hour = cldr.get(Calendar.HOUR_OF_DAY);
                 int minutes = cldr.get(Calendar.MINUTE);
-                int pm = hour % 12;
+
                 // time picker dialog
                 picker_end = new TimePickerDialog(CreateEventActivity.this,
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
+                                int pm = sHour % 12;
                                 ET_EndTime.setText(String.format("%02d:%02d %s", pm == 0 ? 12 : pm,
                                         sMinute, sHour < 12 ? "AM" : "PM"));
                             }
@@ -148,15 +180,12 @@ public class CreateEventActivity extends AppCompatActivity {
                 String organizer_id = Integer.toString(sessionManagement.getSession());
 
                 Bitmap b_cover_photo = ((BitmapDrawable)cover_photo.getDrawable()).getBitmap();
-
-                // String location_lat
-                // String location_long
                 // String rewards?
 
                 if(event_title.equals("")||description.equals(""))
                     Toast.makeText(CreateEventActivity.this, "Please enter all the fields", Toast.LENGTH_SHORT).show();
                 else {
-                    Boolean createEvent = DB.createEvent(event_title, description, capacity, location, start_date, start_time, end_time, organizer_id, b_cover_photo);
+                    Boolean createEvent = DB.createEvent(event_title, description, capacity, location, start_date, start_time, end_time, organizer_id, b_cover_photo, lat, lat2);
                     if (createEvent == true) {
                         Toast.makeText(CreateEventActivity.this, "Registered successfully.", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getApplicationContext(), ManageEventsActivity.class);

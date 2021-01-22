@@ -43,7 +43,7 @@ public class DBHelper extends SQLiteOpenHelper {
         MyDB.execSQL("drop Table if exists rating");
     }
 
-    public Boolean createEvent(String event_title, String description, String capacity, String location, String start_date, String start_time, String end_time, String organizer_id, Bitmap cover_photo){
+    public Boolean createEvent(String event_title, String description, String capacity, String location, String start_date, String start_time, String end_time, String organizer_id, Bitmap cover_photo, String lat, String lat2){
         ContentValues contentValues = new ContentValues();
         contentValues.put("event_title", event_title);
         contentValues.put("description", description);
@@ -53,6 +53,8 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put("start_time", start_time);
         contentValues.put("end_time", end_time);
         contentValues.put("organizer", organizer_id);
+        contentValues.put("location_lat", lat);
+        contentValues.put("location_long", lat2);
 
         byte[] data = getBitmapAsByteArray(cover_photo);
         contentValues.put("cover_photo", data);

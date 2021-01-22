@@ -7,25 +7,30 @@ import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 public class EventDetailsAdapter extends RecyclerView.Adapter<EventDetailsAdapter.EventViewHolder> {
-    List<Event> eventList;
+    ArrayList<Event> eventList;
+    ArrayList<Event> eventListFiltered;
     Context context;
     DBHelper dbHelper;
     SQLiteDatabase db;
     Calendar c;
 
-    public EventDetailsAdapter(List<Event> eventList) {
+    public EventDetailsAdapter(ArrayList<Event> eventList) {
         this.eventList = eventList;
+        eventListFiltered = new ArrayList<>(eventList);
     }
+
 
     @NonNull
     @Override
@@ -50,6 +55,39 @@ public class EventDetailsAdapter extends RecyclerView.Adapter<EventDetailsAdapte
     public int getItemCount() {
         return eventList.size();
     }
+
+    public Filter getFilter() {
+        return searchFilter;
+    }
+
+    private Filter searchFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            eventListFiltered = new ArrayList<>();
+            if (constraint == null || constraint.length() == 0) {
+                eventListFiltered.addAll(eventList);
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+                for (Event event : eventList) {
+                    if (event.getEventTitle().toLowerCase().contains(filterPattern)) {
+                        eventListFiltered.add(event);
+                    }
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = eventListFiltered;
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            eventList.clear();
+            eventList.addAll((ArrayList<Event>) results.values);
+            notifyDataSetChanged();
+        }
+
+    };
+
 
     public class EventViewHolder extends RecyclerView.ViewHolder {
         TextView eventTitle, eventDate, eventLocation;

@@ -4,18 +4,4 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.volunteeringapp.MainActivity">
 
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="Refresh"
-        app:showAsAction="never"
-        android:visible="true"/>
-
-    <item
-        android:id="@+id/search"
-        android:icon="@drawable/searchicon"
-        android:orderInCategory="1"
-        android:title="Search"
-        app:showAsAction="ifRoom"/>
-
 </menu>

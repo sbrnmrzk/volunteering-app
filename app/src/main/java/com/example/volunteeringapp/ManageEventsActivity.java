@@ -22,6 +22,7 @@ import java.util.List;
 
 public class ManageEventsActivity extends AppCompatActivity {
     final Fragment eventsF = new fragment_manage_events();
+
     DBHelper DB;
     Button btn_test, btn_test2;
     private String mParam1;
