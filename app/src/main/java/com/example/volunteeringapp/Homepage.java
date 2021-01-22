@@ -72,6 +72,8 @@ public class Homepage extends AppCompatActivity implements BottomNavigationView.
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.refresh:
+                fm.beginTransaction().detach(homeF).attach(homeF).commit();
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -89,19 +91,23 @@ public class Homepage extends AppCompatActivity implements BottomNavigationView.
         switch (item.getItemId()) {
             case R.id.home:
                 fm.beginTransaction().hide(active).show(homeF).commit();
+                fm.beginTransaction().detach(homeF).attach(homeF).commit();
                 active = homeF;
                 return true;
             case R.id.bookmarkedEvents:
                 fm.beginTransaction().hide(active).show(bookmarkedF).commit();
+                fm.beginTransaction().detach(bookmarkedF).attach(bookmarkedF).commit();
                 active = bookmarkedF;
                 return true;
             case R.id.notifications:
                 fm.beginTransaction().hide(active).show(notificationsF).commit();
+                fm.beginTransaction().detach(notificationsF).attach(notificationsF).commit();
                 active = notificationsF;
                 return true;
 
             case R.id.account:
                 fm.beginTransaction().hide(active).show(accountF).commit();
+                fm.beginTransaction().detach(accountF).attach(accountF).commit();
                 active = accountF;
                 return true;
         }

@@ -112,7 +112,7 @@ public class EventDetails extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.search:
+            case R.id.btn_bookmark:
                 Toast.makeText(getApplicationContext(), "Bookmarked", Toast.LENGTH_LONG).show();
                 return true;
             default:
