@@ -71,9 +71,9 @@ public class ViewProfile extends AppCompatActivity {
 //                    Toast.makeText(ViewOrganizerProfile.this, "Data available for following!", Toast.LENGTH_SHORT).show();
                     System.out.println("Number of following: " + GetFollowing.getCount());
                     String followingCount = String.valueOf(GetFollowing.getCount());
-                    following.setText(followingCount);
+                    followers.setText(followingCount);
                 } else {
-                    Toast.makeText(ViewProfile.this, "No data available for following!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ViewProfile.this, "No data available for followers!", Toast.LENGTH_SHORT).show();
                 }
 
                 if (GetFollowers !=null && GetFollowers.getCount() > 0) {
@@ -81,9 +81,9 @@ public class ViewProfile extends AppCompatActivity {
 //                    Toast.makeText(ViewOrganizerProfile.this, "Data available for followers!", Toast.LENGTH_SHORT).show();
                     System.out.println("Number of followers: " + GetFollowers.getCount());
                     String followersCount = String.valueOf(GetFollowers.getCount());
-                    followers.setText(followersCount);
+                    following.setText(followersCount);
                 } else {
-                    Toast.makeText(ViewProfile.this, "No data available for followers!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ViewProfile.this, "No data available for following!", Toast.LENGTH_SHORT).show();
                 }
 //
 //                while(GetFollowers.moveToNext() && GetFollowing.moveToNext()){
