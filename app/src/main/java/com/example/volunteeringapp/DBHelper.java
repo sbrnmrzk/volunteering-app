@@ -104,7 +104,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public Cursor manageEventsGet(String organizer_id)
     {
-        Cursor cursor = MyDB.rawQuery("Select * from events where organizer = ?", new String[] {organizer_id});
+        Cursor cursor = MyDB.rawQuery("Select ID, event_title,description, capacity, start_date, start_time, end_time, location, organizer, participants, cover_photo from events where organizer = ?", new String[] {organizer_id});
         // still retrieve all events, when session is finished, will update so will only get events that are organized by the user.
         return cursor;
     }

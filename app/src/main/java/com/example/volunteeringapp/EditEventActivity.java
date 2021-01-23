@@ -212,7 +212,7 @@ public class EditEventActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(EditEventActivity.this);
-                alertDialogBuilder.setTitle("Confirm Event Creation");
+                alertDialogBuilder.setTitle("Confirm Event Update");
                 alertDialogBuilder.setMessage("Are you sure you want to update this event?");
                 alertDialogBuilder.setPositiveButton("yes",
                         new DialogInterface.OnClickListener() {
@@ -423,6 +423,7 @@ public class EditEventActivity extends AppCompatActivity {
                             if (deleteEvent == true) {
                                 Toast.makeText(EditEventActivity.this, "Event deleted.", Toast.LENGTH_SHORT).show();
                                 finish();
+                                startActivity(getIntent());
                             } else {
                                 Toast.makeText(EditEventActivity.this, "Event failed to be deleted.", Toast.LENGTH_SHORT).show();
                             }

@@ -35,6 +35,15 @@ public class ManageEventsActivity extends AppCompatActivity {
     final FragmentManager fm = getSupportFragmentManager();
 
     @Override
+    protected void onRestart() {
+        super.onRestart();
+        finish();
+        overridePendingTransition(0, 0);
+        startActivity(getIntent());
+        overridePendingTransition(0, 0);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_events);
