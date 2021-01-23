@@ -208,6 +208,7 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put("name", name);
         contentValues.put("emailAddress", emailAddress);
         contentValues.put("password", password);
+        contentValues.put("avgRating", 0);
         contentValues.put("joined_date", (new Date(System.currentTimeMillis())).toString());
         long result = MyDB.insert("profiles", null, contentValues);
         if (result==-1)
@@ -303,6 +304,20 @@ public class DBHelper extends SQLiteOpenHelper {
             return false;
     }
 
+    public void deleteRating(Integer user_id, Integer follower_id){
+        SQLiteDatabase MyDB = this.getWritableDatabase();
+//        MyDB.execSQL("DELETE FROM rating WHERE rating_user='"+ user_id +"'");
+        MyDB.execSQL("DELETE FROM rating");
+    }
+
+    public void nullifyAvgRating(Integer user_id, Integer follower_id){
+        SQLiteDatabase MyDB = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.putNull("avgRating");
+        MyDB.update("profiles", cv,  null, null);
+    }
+
+
     public Cursor getAvgRating(Integer ID){
         SQLiteDatabase MyDB = this.getReadableDatabase();
 
@@ -313,7 +328,14 @@ public class DBHelper extends SQLiteOpenHelper {
     public Cursor getRaters(Integer rater_user){
         SQLiteDatabase MyDB = this.getReadableDatabase();
 
-        Cursor cursor = MyDB.rawQuery("Select * from rating where rater_user = ?", new String[] {String.valueOf(rater_user)});
+        Cursor cursor = MyDB.rawQuery("Select * from rating where rating_user = ?", new String[] {String.valueOf(rater_user)});
+        return cursor;
+    }
+
+    public Cursor checkRaters(Integer rating_user, Integer rater_user){
+        SQLiteDatabase MyDB = this.getReadableDatabase();
+
+        Cursor cursor = MyDB.rawQuery("Select * from rating where rating_user = ? and rater_user = ?", new String[] {String.valueOf(rating_user), String.valueOf(rater_user)});
         return cursor;
     }
 

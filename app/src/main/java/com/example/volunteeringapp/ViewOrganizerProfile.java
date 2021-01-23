@@ -51,15 +51,39 @@ public class ViewOrganizerProfile extends AppCompatActivity {
                 Cursor GetUserByID = DB.getUserById(organizer);
                 Cursor GetFollowing = DB.getFollowing(organizer_id);
                 Cursor GetFollowers = DB.getFollowers(organizer_id);
+                Cursor GetRating = DB.getAvgRating(organizer_id);
+                Cursor GetRaters = DB.getRaters(organizer_id);
 
                 TextView name = (TextView) findViewById(R.id.ET_name);
                 TextView date = (TextView) findViewById(R.id.ET_joined);
                 TextView follow = (TextView) findViewById(R.id.btn_follow);
                 TextView following = (TextView) findViewById(R.id.ET_following_numbers);
                 TextView followers = (TextView) findViewById(R.id.ET_followers_numbers);
+                TextView ratingCount = (TextView) findViewById(R.id.ratingCount);
+                RatingBar ratingBar = (RatingBar) findViewById(R.id.ratingBar);
 
                 if (user_id.equals(organizer_id)){
                     follow.setVisibility(View.GONE);
+                }
+
+                if (GetRating !=null && GetRating.getCount() > 0) {
+                    GetRating.moveToFirst();
+                    Float RatingStar = GetRating.getFloat(5);
+                    System.out.println("Number of rating count: " + RatingStar);
+                    ratingBar.setRating(RatingStar);
+                } else {
+//                    ratingCount.setText("(0)");
+                    Float RatingStar = 0.0f;
+                    ratingBar.setRating(RatingStar);
+                }
+
+                if (GetRaters !=null && GetRaters.getCount() > 0) {
+                    GetRaters.moveToFirst();
+                    String RatingCount = String.valueOf(GetRaters.getCount());
+                    System.out.println("Number of rating count: " + GetRaters.getCount());
+                    ratingCount.setText("(" + RatingCount + ")");
+                } else {
+                    ratingCount.setText("(0)");
                 }
 
                 if (GetUserByID != null && GetUserByID.getCount() > 0) {
@@ -75,12 +99,8 @@ public class ViewOrganizerProfile extends AppCompatActivity {
                     String followingCount = String.valueOf(GetFollowing.getCount());
                     followers.setText(followingCount);
                     String check = String.valueOf(GetFollowing.getInt(1));
-//                    if (current_user.equals(check)){
-//                        follow.setText("F O L L O W E D");
-//                        follow.setBackgroundResource(R.drawable.round_btn_orange);
-//                    }
                 } else {
-                    Toast.makeText(ViewOrganizerProfile.this, "No data available for followers!", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(ViewOrganizerProfile.this, "No data available for followers!", Toast.LENGTH_SHORT).show();
                 }
 
                  if (GetFollowers !=null && GetFollowers.getCount() > 0) {
@@ -90,14 +110,8 @@ public class ViewOrganizerProfile extends AppCompatActivity {
                     String followersCount = String.valueOf(GetFollowers.getCount());
                     following.setText(followersCount);
                  } else {
-                    Toast.makeText(ViewOrganizerProfile.this, "No data available for following!", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(ViewOrganizerProfile.this, "No data available for following!", Toast.LENGTH_SHORT).show();
                 }
-
-
-//                while(GetFollowers.moveToNext() && GetFollowing.moveToNext()){
-//                    following.setText(GetFollowing.getInt(0));
-//                    followers.setText(GetFollowers.getInt(1));
-//                }
             }
         });
 
@@ -105,46 +119,34 @@ public class ViewOrganizerProfile extends AppCompatActivity {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
 
-                Cursor GetRating = DB.getAvgRating(userID);
-                Cursor GetRaters = DB.getRaters(userID);
-
-                //DISPLAY CURRENT RATING
-
-//                float currentAvgRating = GetRating.getFloat(5);
-                float currentAvgRating = 1;
-//                if (GetRating.getFloat(5) == 0.0f){
-//                    Toast.makeText(ViewProfile.this, "No rating received before.", Toast.LENGTH_SHORT).show();
-//                }
-//                Toast.makeText(ViewProfile.this, "Rating: " + String.valueOf(currentAvgRating), Toast.LENGTH_SHORT).show();
-
-                while(GetRating.moveToNext()){
-                    ratingBar.setRating(GetRating.getFloat(5));
-                }
-
-                //UPDATE CURRENT RATING
+                Cursor GetRating = DB.getAvgRating(organizer_id);
+                Cursor GetRaters = DB.getRaters(organizer_id);
+                Cursor CheckRaters = DB.checkRaters(organizer_id, user_id);
+//
                 float numberOfRater = GetRaters.getCount();
                 float currentRating = ratingBar.getRating();
-//                float currentRating = 1;
-                float calculatedAvgRating = (currentAvgRating + currentRating)/numberOfRater;
-//                float calculatedAvgRating = 2;
 
-                if (user_id.equals(organizer_id)){
-                    Toast.makeText(ViewOrganizerProfile.this, "Cannot rate yourself!", Toast.LENGTH_SHORT).show();
-                } else {
-                    boolean GiveRating = DB.giveRating(user_id, organizer_id, currentRating);
-                    if(!GiveRating){
-                        Toast.makeText(ViewOrganizerProfile.this, "Rating added successfully!", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(ViewOrganizerProfile.this, "Only allow to rate once only!", Toast.LENGTH_SHORT).show();
+                if (GetRating !=null && GetRating.getCount() > 0) {
+                    if (CheckRaters !=null && CheckRaters.getCount() > 0) {
+                        CheckRaters.moveToFirst();
+                        Integer checkRaters = CheckRaters.getInt(1);
+                        } else {
+                            GetRating.moveToFirst();
+                            float currentAvgRating = GetRating.getFloat(5);
+                            if (numberOfRater == 0){
+                                Toast.makeText(ViewOrganizerProfile.this, "No one ever rate this user!", Toast.LENGTH_SHORT).show();
+                                float numberOfRaterPass = 1.0f;
+                                float calculatedAvgRating = (currentAvgRating + currentRating) / numberOfRaterPass;
+                                DB.giveRating(organizer_id, user_id, currentRating);
+                                DB.updateAvgRating(calculatedAvgRating, organizer_id);
+                            } else {
+                                Toast.makeText(ViewOrganizerProfile.this, "This user has been rated!", Toast.LENGTH_SHORT).show();
+                                float calculatedAvgRating = (currentAvgRating + currentRating) / (numberOfRater+1);
+                                DB.giveRating(organizer_id, user_id, currentRating);
+                                DB.updateAvgRating(calculatedAvgRating, organizer_id);
+                            }
+                        }
                     }
-                    DB.updateAvgRating(calculatedAvgRating, user_id);
-                    Toast.makeText(ViewOrganizerProfile.this, "Rating: " + String.valueOf(calculatedAvgRating), Toast.LENGTH_SHORT).show();
-
-                }
-
-                while(GetRating.moveToNext()){
-                    ratingBar.setRating(GetRating.getFloat(2));
-                }
             }
         });
     }
