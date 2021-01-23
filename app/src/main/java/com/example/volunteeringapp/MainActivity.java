@@ -31,4 +31,27 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    protected void onStart(){
+        super.onStart();
+
+        checkSession();
+    }
+
+    private void checkSession() {
+        //Check if user is logged in
+        //If user is logged in --> Return to Homepage
+
+        SessionManagement sessionManagement = new SessionManagement(MainActivity.this);
+        int userID = sessionManagement.getSession();
+
+        if(userID != -1){
+            //User ID logged in and return to homepage
+            Intent intent  = new Intent(getApplicationContext(), Homepage.class);
+            startActivity(intent);
+        } else {
+            //Do nothing
+        }
+    }
+
 }
