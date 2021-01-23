@@ -1,0 +1,487 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8F8F8"
+    tools:context=".activity_rewards_page">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/rewardsToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F8F8F8"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/logo" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <TextView
+        android:id="@+id/TV_RewardsPage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginBottom="10dp"
+        android:text="Rewards"
+        android:textColor="#000000"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RelativeLayout
+        android:id="@+id/RL_BadgeTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/rewardsToolbar"
+        app:layout_constraintVertical_bias="0.182">
+
+        <View
+            android:layout_width="120dp"
+            android:layout_height="1dp"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/TV_Badges"
+            android:background="#8F8F8F" />
+
+        <TextView
+            android:id="@+id/TV_Badges"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:text="BADGES"
+            android:textColor="#8F8F8F"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="120dp"
+            android:layout_height="1dp"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/TV_Badges"
+            android:background="#8F8F8F" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/RL_BadgesBox"
+        android:layout_width="408dp"
+        android:layout_height="108dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.333"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/RL_BadgeTitle"
+        app:layout_constraintVertical_bias="0.0">
+
+        <ImageView
+            android:id="@+id/IV_VerifiedBadge"
+            android:layout_width="62dp"
+            android:layout_height="64dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="48dp"
+            android:layout_marginLeft="48dp"
+            android:layout_marginTop="-2dp"
+            android:layout_marginEnd="298dp"
+            android:layout_marginRight="298dp"
+            android:layout_marginBottom="46dp"
+            app:srcCompat="@drawable/verified" />
+
+        <ImageView
+            android:id="@+id/IV_GiverBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="61dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="111dp"
+            android:layout_marginLeft="111dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="238dp"
+            android:layout_marginRight="238dp"
+            android:layout_marginBottom="46dp"
+            app:srcCompat="@drawable/thegiverbadge" />
+
+        <ImageView
+            android:id="@+id/IV_BloodDBadge"
+            android:layout_width="61dp"
+            android:layout_height="60dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="169dp"
+            android:layout_marginLeft="169dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginEnd="178dp"
+            android:layout_marginRight="178dp"
+            android:layout_marginBottom="46dp"
+            app:srcCompat="@drawable/blooddonatorbadge" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/RL_RewardTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/rewardsToolbar"
+        app:layout_constraintVertical_bias="0.369">
+
+        <View
+            android:layout_width="115dp"
+            android:layout_height="0.95dp"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/TV_Rewards"
+            android:background="#8F8F8F" />
+
+        <TextView
+            android:id="@+id/TV_Rewards"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:text="REWARDS"
+            android:textColor="#8F8F8F"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="115dp"
+            android:layout_height="0.95dp"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/TV_Rewards"
+            android:background="#8F8F8F" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/RL_Rewards1"
+        android:layout_width="330dp"
+        android:layout_height="117dp"
+        android:layout_marginTop="20dp"
+        android:background="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/RL_RewardTitle"
+        app:layout_constraintVertical_bias="0.006">
+
+
+        <ImageView
+            android:id="@+id/IV_Rewards1"
+            android:layout_width="129dp"
+            android:layout_height="93dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="13dp"
+            android:layout_marginLeft="13dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="188dp"
+            android:layout_marginRight="188dp"
+            android:layout_marginBottom="10dp"
+            app:srcCompat="@drawable/dahmakanreward" />
+
+        <TextView
+            android:id="@+id/TV_R1Info1"
+            android:layout_width="99dp"
+            android:layout_height="29dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="154dp"
+            android:layout_marginLeft="154dp"
+            android:layout_marginTop="11dp"
+            android:layout_marginEnd="77dp"
+            android:layout_marginRight="77dp"
+            android:layout_marginBottom="77dp"
+            android:text="RM10 OFF"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/TV_R1Min1"
+            android:layout_width="97dp"
+            android:layout_height="11dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="155dp"
+            android:layout_marginLeft="155dp"
+            android:layout_marginTop="34dp"
+            android:layout_marginEnd="78dp"
+            android:layout_marginRight="78dp"
+            android:layout_marginBottom="72dp"
+            android:fontFamily="sans-serif-light"
+            android:text="Min. spend RM30"
+            android:textSize="8sp" />
+
+        <TextView
+            android:id="@+id/TV_R1Name1"
+            android:layout_width="58dp"
+            android:layout_height="14dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="155dp"
+            android:layout_marginLeft="155dp"
+            android:layout_marginTop="56dp"
+            android:layout_marginEnd="117dp"
+            android:layout_marginRight="117dp"
+            android:layout_marginBottom="47dp"
+            android:fontFamily="sans-serif-light"
+            android:text="DAH MAKAN"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/TV_R1ClaimBtn"
+            android:layout_width="56dp"
+            android:layout_height="13dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="269dp"
+            android:layout_marginLeft="269dp"
+            android:layout_marginTop="92dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="12dp"
+            android:text="Claim now >"
+            android:clickable="true"
+            android:onClick="perform_action"
+            android:textColor="#005280"
+            android:textSize="9sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/TV_R1TnC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="93dp"
+            android:layout_marginEnd="93dp"
+            android:layout_marginRight="93dp"
+            android:layout_marginBottom="15dp"
+            android:text="Terms and Conditions Apply."
+            android:textSize="7sp" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/RL_Rewards2"
+        android:layout_width="330dp"
+        android:layout_height="117dp"
+        android:layout_marginTop="20dp"
+        android:background="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/RL_RewardTitle"
+        app:layout_constraintVertical_bias="0.427">
+
+
+        <ImageView
+            android:id="@+id/IV_Rewards2"
+            android:layout_width="129dp"
+            android:layout_height="93dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="13dp"
+            android:layout_marginLeft="13dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="188dp"
+            android:layout_marginRight="188dp"
+            android:layout_marginBottom="10dp"
+            app:srcCompat="@drawable/dahmakanreward" />
+
+        <TextView
+            android:id="@+id/TV_R2Info2"
+            android:layout_width="99dp"
+            android:layout_height="29dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="154dp"
+            android:layout_marginLeft="154dp"
+            android:layout_marginTop="11dp"
+            android:layout_marginEnd="77dp"
+            android:layout_marginRight="77dp"
+            android:layout_marginBottom="77dp"
+            android:text="RM5 OFF"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/TV_R2Min2"
+            android:layout_width="97dp"
+            android:layout_height="11dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="155dp"
+            android:layout_marginLeft="155dp"
+            android:layout_marginTop="34dp"
+            android:layout_marginEnd="78dp"
+            android:layout_marginRight="78dp"
+            android:layout_marginBottom="72dp"
+            android:fontFamily="sans-serif-light"
+            android:text="Min. spend RM20"
+            android:textSize="8sp" />
+
+        <TextView
+            android:id="@+id/TV_R2Name2"
+            android:layout_width="58dp"
+            android:layout_height="14dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="155dp"
+            android:layout_marginLeft="155dp"
+            android:layout_marginTop="56dp"
+            android:layout_marginEnd="117dp"
+            android:layout_marginRight="117dp"
+            android:layout_marginBottom="47dp"
+            android:fontFamily="sans-serif-light"
+            android:text="DAH MAKAN"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/TV_R2ClaimBtn"
+            android:layout_width="56dp"
+            android:layout_height="13dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="267dp"
+            android:layout_marginLeft="267dp"
+            android:layout_marginTop="93dp"
+            android:layout_marginEnd="7dp"
+            android:layout_marginRight="7dp"
+            android:layout_marginBottom="11dp"
+            android:text="Claim now >"
+            android:clickable="true"
+            android:onClick="perform_action"
+            android:textColor="#005280"
+            android:textSize="9sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/TV_R2TnC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="89dp"
+            android:layout_marginRight="89dp"
+            android:layout_marginBottom="13dp"
+            android:text="Terms and Conditions Apply."
+            android:textSize="7sp" />
+
+
+    </RelativeLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:background="#FFFFFF"
+        app:itemIconTint="@drawable/navbar_color"
+        app:itemTextColor="@drawable/navbar_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/bottom_navigation_menu" />
+
+    <FrameLayout
+        android:id="@+id/frameFragment"
+        android:layout_width="395dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="3dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintVertical_bias="1.0">
+
+    </FrameLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
