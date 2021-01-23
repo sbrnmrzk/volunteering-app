@@ -47,6 +47,7 @@ public class ViewOrganizerProfile extends AppCompatActivity {
 
                 TextView name = (TextView) findViewById(R.id.ET_name);
                 TextView date = (TextView) findViewById(R.id.ET_joined);
+                TextView follow = (TextView) findViewById(R.id.btn_follow);
                 TextView following = (TextView) findViewById(R.id.ET_following_numbers);
                 TextView followers = (TextView) findViewById(R.id.ET_followers_numbers);
 
@@ -62,6 +63,10 @@ public class ViewOrganizerProfile extends AppCompatActivity {
                     System.out.println("Number of following: " + GetFollowing.getCount());
                     String followingCount = String.valueOf(GetFollowing.getCount());
                     following.setText(followingCount);
+                    String check = String.valueOf(GetFollowing.getInt(1));
+                    if (current_user.equals(check)){
+                        follow.setText("F O L L O W E D");
+                    }
                 } else {
                     Toast.makeText(ViewOrganizerProfile.this, "No data available for following!", Toast.LENGTH_SHORT).show();
                 }
@@ -72,7 +77,7 @@ public class ViewOrganizerProfile extends AppCompatActivity {
                     System.out.println("Number of followers: " + GetFollowers.getCount());
                     String followersCount = String.valueOf(GetFollowers.getCount());
                     followers.setText(followersCount);
-                } else {
+                 } else {
                     Toast.makeText(ViewOrganizerProfile.this, "No data available for followers!", Toast.LENGTH_SHORT).show();
                 }
 
