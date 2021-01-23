@@ -30,6 +30,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 "cover_photo BLOB, rewards TEXT, location TEXT, location_lat TEXT, location_long TEXT, organizer TEXT, participants TEXT)");
         MyDB.execSQL("create Table follow(ID INTEGER NOT NULL, user_id INTEGER, follower_id INTEGER,  PRIMARY KEY (ID, user_id, follower_id))");
         MyDB.execSQL("create Table rating(ID INTEGER NOT NULL, user_id INTEGER , rating FLOAT, PRIMARY KEY (ID, rating))");
+        MyDB.execSQL("create Table event_history(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, user_id INTEGER , event_id INTEGER, history_type TEXT)");
     }
 
     @Override
@@ -59,6 +60,31 @@ public class DBHelper extends SQLiteOpenHelper {
             return false;
         else
             return true;
+    }
+
+    public Boolean createHistoryItem(Integer userId, Integer eventId, String type){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("user_id", userId);
+        contentValues.put("event_id", eventId);
+
+        //get type == bookmark or type == joined
+        contentValues.put("history_type", type);
+
+        long result = MyDB.insert("event_history", null, contentValues);
+        if (result==-1)
+            return false;
+        else
+            return true;
+    }
+
+    public Cursor getEventHistory(Integer userId, String type){
+        try{
+            Cursor cursor = MyDB.rawQuery("Select * from events where user_id = ? and history_type = ?", new String[] {userId.toString(), type});
+            return cursor;
+        }catch (Exception e){
+            System.out.println("ERROR -> " + e);
+            return null;
+        }
     }
 
     public static byte[] getBitmapAsByteArray(Bitmap bitmap) {
