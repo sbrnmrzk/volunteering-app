@@ -49,8 +49,13 @@ public class ViewProfile extends AppCompatActivity {
 
                 TextView name = (TextView) findViewById(R.id.ET_name);
                 TextView date = (TextView) findViewById(R.id.ET_joined);
+                TextView follow = (TextView) findViewById(R.id.btn_follow);
                 TextView following = (TextView) findViewById(R.id.ET_following_numbers);
                 TextView followers = (TextView) findViewById(R.id.ET_followers_numbers);
+
+                if (user_id.equals(follower_id)){
+                    follow.setVisibility(View.GONE);
+                }
 
                 if (GetUserByID != null && GetUserByID.getCount() > 0) {
                     GetUserByID.moveToFirst();
