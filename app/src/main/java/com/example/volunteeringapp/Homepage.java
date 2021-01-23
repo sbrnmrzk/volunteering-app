@@ -80,10 +80,7 @@ public class Homepage extends AppCompatActivity implements BottomNavigationView.
     @Override
     protected void onRestart() {
         super.onRestart();
-        finish();
-        overridePendingTransition(0, 0);
-        startActivity(getIntent());
-        overridePendingTransition(0, 0);
+        fm.beginTransaction().detach(active).attach(active).commitAllowingStateLoss();
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

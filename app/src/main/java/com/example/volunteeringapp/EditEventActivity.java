@@ -56,13 +56,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
 public class EditEventActivity extends AppCompatActivity {
 
     EditText ET_EventTitle, ET_Description, ET_Location, ET_Capacity, ET_StartDate, ET_StartTime, ET_EndTime;
+    TextView TV_Participants;
     Button btn_createEvent, btn_uploadPhoto;
     DBHelper DB;
     TimePickerDialog picker_start, picker_end;
@@ -72,6 +75,7 @@ public class EditEventActivity extends AppCompatActivity {
     final FragmentManager fm = getSupportFragmentManager();
     String lat;
     String lat2;
+    List<String> participantList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +98,8 @@ public class EditEventActivity extends AppCompatActivity {
         btn_uploadPhoto = (Button) findViewById(R.id.btn_uploadPhoto);
         btn_createEvent = (Button) findViewById(R.id.btn_createEvent);
         cover_photo = (ImageView) findViewById(R.id.IV_CoverPhoto);
+        TV_Participants = (TextView) findViewById(R.id.TV_Participants);
+
         DB = new DBHelper(this);
 //        cover_photo.setVisibility(View.GONE);
 
@@ -148,6 +154,40 @@ public class EditEventActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 selectImage();
+            }
+        });
+
+        TV_Participants.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Cursor res = DB.getParticipantList(event_id);
+                res.moveToFirst();
+                if(res.getString(res.getColumnIndex("participants")) == null || res.getString(res.getColumnIndex("participants")) == ""){
+                    Toast.makeText(EditEventActivity.this, "No Participants!", Toast.LENGTH_SHORT).show();
+                    return;
+                } else {
+                    participantList = Arrays.asList(res.getString(res.getColumnIndex("participants")).split(","));
+
+                    Iterator i = participantList.iterator();
+                    String participant_id;
+                    StringBuffer buffer = new StringBuffer();
+                    Cursor res1;
+                    buffer.append("\n");
+                    while (i.hasNext()) {
+                        participant_id = (i.next()).toString();
+                        res1 = DB.getUserById(participant_id);
+
+                        res1.moveToFirst();
+                        buffer.append(res1.getString(res1.getColumnIndex("name"))+"\n");
+                    }
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(EditEventActivity.this);
+                    builder.setCancelable(true);
+                    builder.setTitle("Participant List");
+                    builder.setMessage(buffer.toString());
+                    builder.show();
+                }
+
             }
         });
 
@@ -241,7 +281,6 @@ public class EditEventActivity extends AppCompatActivity {
 //                                        Intent intent = new Intent(getApplicationContext(), ManageEventsActivity.class);
 //                                        startActivity(intent);
                                         finish();
-
                                     } else {
                                         Toast.makeText(EditEventActivity.this, "Event update failed.", Toast.LENGTH_SHORT).show();
                                     }
