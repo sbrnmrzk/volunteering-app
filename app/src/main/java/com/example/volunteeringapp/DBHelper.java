@@ -93,7 +93,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public Cursor getEventHistory(Integer userId, String type){
         try{
-            Cursor cursor = MyDB.rawQuery("Select * from events where user_id = ? and history_type = ?", new String[] {userId.toString(), type});
+            Cursor cursor = MyDB.rawQuery("Select * from event_history where user_id = ? and history_type = ?", new String[] {userId.toString(), type});
             return cursor;
         }catch (Exception e){
             System.out.println("ERROR -> " + e);
