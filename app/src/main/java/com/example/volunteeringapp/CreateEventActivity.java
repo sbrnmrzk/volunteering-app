@@ -5,14 +5,12 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
-import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,16 +19,11 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.location.Address;
-import android.location.Geocoder;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.InputType;
-import android.text.TextUtils;
-import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -38,23 +31,17 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Locale;
 
 public class CreateEventActivity extends AppCompatActivity {
@@ -166,34 +153,55 @@ public class CreateEventActivity extends AppCompatActivity {
         btn_createEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(CreateEventActivity.this);
+                alertDialogBuilder.setTitle("Confirm Event Creation");
+                alertDialogBuilder.setMessage("Are you sure you want to create this event?");
+                alertDialogBuilder.setPositiveButton("yes",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface arg0, int arg1) {
+                                String event_title = ET_EventTitle.getText().toString();
+                                String description = ET_Description.getText().toString();
+                                String capacity = ET_Capacity.getText().toString();
+                                String location = ET_Location.getText().toString();
+                                String start_date = ET_StartDate.getText().toString();
+                                String start_time = ET_StartTime.getText().toString();
+                                String end_time = ET_EndTime.getText().toString();
+
+                                SessionManagement sessionManagement = new SessionManagement(CreateEventActivity.this);
+                                int organizer_id = sessionManagement.getSession();
+
+                                Bitmap b_cover_photo = ((BitmapDrawable)cover_photo.getDrawable()).getBitmap();
+                                // String rewards?
+
+                                if( event_title.equals("")||description.equals("")||capacity.equals("")||location.equals("")||start_date.equals("")||start_time.equals("")||end_time.equals("") )
+                                    Toast.makeText(CreateEventActivity.this, "Please enter all the fields", Toast.LENGTH_SHORT).show();
+                                else {
+                                    Boolean createEvent = DB.createEvent(event_title, description, capacity, location, start_date, start_time, end_time, organizer_id, b_cover_photo, lat, lat2);
+                                    if (createEvent == true) {
+                                        Toast.makeText(CreateEventActivity.this, "Registered successfully.", Toast.LENGTH_SHORT).show();
+//                                        Intent intent = new Intent(getApplicationContext(), ManageEventsActivity.class);
+//                                        startActivity(intent);
+                                        finish();
+                                    } else {
+                                        Toast.makeText(CreateEventActivity.this, "Event creation failed.", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            }
+                        });
+
+                alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+//                        finish();
+                    }
+                });
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
+
 //                Toast.makeText(CreateEventActivity.this, ET_StartTime.getText().toString() + " + " + ET_EndTime.getText().toString(), Toast.LENGTH_SHORT).show();
 
-                String event_title = ET_EventTitle.getText().toString();
-                String description = ET_Description.getText().toString();
-                String capacity = ET_Capacity.getText().toString();
-                String location = ET_Location.getText().toString();
-                String start_date = ET_StartDate.getText().toString();
-                String start_time = ET_StartTime.getText().toString();
-                String end_time = ET_EndTime.getText().toString();
 
-                SessionManagement sessionManagement = new SessionManagement(CreateEventActivity.this);
-                String organizer_id = Integer.toString(sessionManagement.getSession());
-
-                Bitmap b_cover_photo = ((BitmapDrawable)cover_photo.getDrawable()).getBitmap();
-                // String rewards?
-
-                if(event_title.equals("")||description.equals(""))
-                    Toast.makeText(CreateEventActivity.this, "Please enter all the fields", Toast.LENGTH_SHORT).show();
-                else {
-                    Boolean createEvent = DB.createEvent(event_title, description, capacity, location, start_date, start_time, end_time, organizer_id, b_cover_photo, lat, lat2);
-                    if (createEvent == true) {
-                        Toast.makeText(CreateEventActivity.this, "Registered successfully.", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getApplicationContext(), ManageEventsActivity.class);
-                        startActivity(intent);
-                    } else {
-                        Toast.makeText(CreateEventActivity.this, "Event creation failed.", Toast.LENGTH_SHORT).show();
-                    }
-                }
             }
         });
 
@@ -233,7 +241,7 @@ public class CreateEventActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds options to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu, menu);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
     private void selectImage() {

@@ -51,6 +51,20 @@
             app:layout_constraintVertical_bias="0.234" />
 
         <TextView
+            android:id="@+id/ratingCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="(0)"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.849"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.336" />
+
+        <TextView
             android:id="@+id/ET_joined"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -66,6 +80,8 @@
             android:id="@+id/ratingBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:numStars="5"
+            android:stepSize="0.5"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
@@ -77,7 +93,7 @@
             android:id="@+id/ET_following_numbers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="12"
+            android:text="0"
             android:textColor="#000000"
             android:textColorHint="#000000"
             android:textSize="20sp"
@@ -107,7 +123,7 @@
             android:id="@+id/ET_followers_numbers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="12"
+            android:text="0"
             android:textColor="#000000"
             android:textColorHint="#000000"
             android:textSize="20sp"
@@ -171,6 +187,24 @@
             android:textColor="#FFFFFF"
             android:textColorHint="#FFFFFF"
             android:textSize="13sp"
+            android:onClick="onClickFollow"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.444"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.582" />
+
+        <Button
+            android:id="@+id/btn_unfollow"
+            android:layout_width="375dp"
+            android:layout_height="41dp"
+            android:background="@drawable/round_btn_orange"
+            android:text="U N F O L L O W"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#FFFFFF"
+            android:textSize="13sp"
+            android:onClick="onClickUnfollow"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.444"
@@ -193,22 +227,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.652" />
 
-        <Button
-            android:id="@+id/btn_give_rating"
-            android:layout_width="375dp"
-            android:layout_height="41dp"
-            android:background="@drawable/round_btn_blue"
-            android:onClick="SubmitRating"
-            android:text="G I V E  R A T I N G"
-            android:textColor="#FFFFFF"
-            android:textColorHint="#FFFFFF"
-            android:textSize="13sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.723" />
-
         <TextView
             android:id="@+id/ET_badges_title2"
             android:layout_width="wrap_content"
@@ -222,7 +240,7 @@
             app:layout_constraintHorizontal_bias="0.488"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.802" />
+            app:layout_constraintVertical_bias="0.757" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

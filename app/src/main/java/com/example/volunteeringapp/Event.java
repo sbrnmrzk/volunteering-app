@@ -16,16 +16,15 @@ public class Event {
     String endTime;
     String organizerId;
     byte[] coverPhoto;
+    private String participants;
 
-    public ArrayList<String> getParticipants() {
+    public String getParticipants() {
         return participants;
     }
 
-    public void setParticipants(ArrayList<String> participants) {
+    public void setParticipants(String participants) {
         this.participants = participants;
     }
-
-    ArrayList<String> participants;
 
     public int getId() {
         return id;

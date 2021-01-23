@@ -5,24 +5,16 @@
     tools:context="com.example.volunteeringapp.MainActivity">
 
     <item
-        android:id="@+id/report"
-        android:orderInCategory="100"
-        android:title="Report"
-        app:showAsAction="never"
-        android:visible="true"/>
-
-    <item
-        android:id="@+id/contact"
-        android:orderInCategory="100"
-        android:title="Contact"
-        app:showAsAction="never"
-        android:visible="true"/>
-
-    <item
-        android:id="@+id/search"
-        android:icon="@drawable/bookmark"
+        android:id="@+id/btn_bookmark"
+        android:icon="@drawable/bookmark_outline"
         android:orderInCategory="1"
         android:title="Bookmark"
         app:showAsAction="ifRoom"/>
 
+    <item
+        android:id="@+id/btn_unbookmark"
+        android:icon="@drawable/bookmark"
+        android:orderInCategory="1"
+        android:title="Unbookmark"
+        app:showAsAction="ifRoom"/>
 </menu>

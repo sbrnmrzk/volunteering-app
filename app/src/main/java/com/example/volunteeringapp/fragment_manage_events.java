@@ -77,7 +77,10 @@ public class fragment_manage_events extends Fragment {
         eventList = new ArrayList<Event>();
         eventList.clear();
         DB = new DBHelper(getContext());
-        Cursor res = DB.getAllEvents();
+
+        SessionManagement sessionManagement = new SessionManagement(getContext());
+        String organizer_id = Integer.toString(sessionManagement.getSession());
+        Cursor res = DB.manageEventsGet(organizer_id);
         if(res != null && res.getCount()>0){
             eventList.clear();
             while (res.moveToNext()){
@@ -91,6 +94,7 @@ public class fragment_manage_events extends Fragment {
                 eventItem.setEndTime(res.getString(res.getColumnIndex("end_time")));
                 eventItem.setLocation(res.getString(res.getColumnIndex("location")));
                 eventItem.setOrganizerId(res.getString(res.getColumnIndex("organizer")));
+                eventItem.setCoverPhoto(res.getBlob(res.getColumnIndex("cover_photo")));
                 eventList.add(eventItem);
             }
         }

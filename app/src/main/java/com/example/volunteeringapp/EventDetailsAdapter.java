@@ -3,6 +3,7 @@ package com.example.volunteeringapp;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,9 +15,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 public class EventDetailsAdapter extends RecyclerView.Adapter<EventDetailsAdapter.EventViewHolder> {
     ArrayList<Event> eventList;
@@ -48,6 +49,14 @@ public class EventDetailsAdapter extends RecyclerView.Adapter<EventDetailsAdapte
         holder.eventTitle.setText(event.getEventTitle());
         holder.eventDate.setText(event.getDate() + ", " +  event.getStartTime());
         holder.eventLocation.setText(event.getLocation());
+
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(event.getCoverPhoto());
+        Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+        holder.eventImg.setImageBitmap(bitmap);
+
+        // ^ this code will work on homepage, but not on manage events, i think it has something to do with the way i call the fragment from manage events, will fix it soon then enable this code.
+        // ^ ok fixed dah
+
         holder.setEventData(event);
     }
 
@@ -95,9 +104,11 @@ public class EventDetailsAdapter extends RecyclerView.Adapter<EventDetailsAdapte
         Event eventData;
         public EventViewHolder(View itemView) {
             super(itemView);
-            eventTitle = (TextView) itemView.findViewById(R.id.eventTitle);
-            eventDate = (TextView) itemView.findViewById(R.id.eventDate);
+            eventTitle = (TextView) itemView.findViewById(R.id.tv_eventOrganizerJoined);
+            eventDate = (TextView) itemView.findViewById(R.id.tv_eventOrganizer);
             eventLocation = (TextView) itemView.findViewById(R.id.eventLocation);
+            eventImg = (ImageView) itemView.findViewById(R.id.eventImg);
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
