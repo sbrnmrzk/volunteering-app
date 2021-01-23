@@ -76,12 +76,12 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public Cursor getAllEvents(){
-        Cursor cursor = MyDB.rawQuery("Select ID, event_title,description, capacity, start_date, start_time, end_time, location, organizer, participants from events", null);
+        Cursor cursor = MyDB.rawQuery("Select ID, event_title,description, capacity, start_date, start_time, end_time, location, organizer, participants, cover_photo from events", null);
         return cursor;
     }
 
     public Cursor getEventById(Integer id){
-        Cursor cursor = MyDB.rawQuery("Select ID, event_title,description, capacity, start_date, start_time, end_time, location, organizer, participants from events where id = ?", new String[] {id.toString()});
+        Cursor cursor = MyDB.rawQuery("Select ID, event_title,description, capacity, start_date, start_time, end_time, location, organizer, participants, location_lat, location_long, cover_photo from events where id = ?", new String[] {id.toString()});
         return cursor;
     }
 

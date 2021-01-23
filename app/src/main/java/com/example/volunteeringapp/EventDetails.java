@@ -7,14 +7,18 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.DialogInterface;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.ByteArrayInputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -34,6 +38,7 @@ public class EventDetails extends AppCompatActivity {
     List<User> userList;
     String participants, userId;
     List<String> participantList;
+    ImageView eventCover;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +59,7 @@ public class EventDetails extends AppCompatActivity {
         organizerDate = (TextView) findViewById(R.id.tv_eventOrganizerJoined);
         btnVolunteer = (Button) findViewById(R.id.btn_volunteer);
         btnCancelVolunteer = (Button) findViewById(R.id.btn_unvolunteer);
+        eventCover = (ImageView) findViewById(R.id.iv_EventCover);
 
         //get Event by ID
         eventId = getIntent().getIntExtra("eventId", 0);
@@ -87,6 +93,11 @@ public class EventDetails extends AppCompatActivity {
         endTime.setText(event.getEndTime());
         eventLocation.setText(event.getLocation());
         organizerName.setText(organizer.getName());
+
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(event.getCoverPhoto());
+        Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+        eventCover.setImageBitmap(bitmap);
+
         try {
             Date joinedDate = new SimpleDateFormat("yyyy-MM-dd").parse(organizer.getJoinedDate());
             SimpleDateFormat formatter = new SimpleDateFormat("MMM yyyy");
@@ -257,6 +268,7 @@ public class EventDetails extends AppCompatActivity {
                     eventItem.setLocation(res.getString(res.getColumnIndex("location")));
                     eventItem.setOrganizerId(res.getString(res.getColumnIndex("organizer")));
                     eventItem.setParticipants(res.getString(res.getColumnIndex("participants")));
+                    eventItem.setCoverPhoto(res.getBlob(res.getColumnIndex("cover_photo")));
                     eventList.add(eventItem);
                 }
             }

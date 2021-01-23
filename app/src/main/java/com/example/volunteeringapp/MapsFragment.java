@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.app.Activity;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -56,6 +57,24 @@ public class MapsFragment extends Fragment {
         return lat;
     }
 
+//    public void mapSet(String lat, String lat2, String address) {
+//        LatLng coordinate = new LatLng(Double.valueOf(lat), Double.valueOf(lat2));
+//        MarkerOptions userMarkerOptions = new MarkerOptions();
+//        float zoomLevel = 16.0f; //This goes up to 21
+//
+//        map.clear();
+//
+//        userMarkerOptions.position(coordinate);
+//        userMarkerOptions.title(address);
+//        userMarkerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+//
+////        map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+//        map.clear();
+//        map.addMarker(userMarkerOptions);
+////        map.addMarker(new MarkerOptions().position(coordinate).title("Marker in " + address));
+//        map.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinate, zoomLevel));
+//    }
+
     public String longGet() {
         return lat2;
     }
@@ -91,11 +110,6 @@ public class MapsFragment extends Fragment {
         } else {
             Toast.makeText(getContext(), "Please write location name...", Toast.LENGTH_SHORT).show();
         }
-
-//        Toast.makeText(getContext(), address, Toast.LENGTH_SHORT).show();
-//        LatLng indo = new LatLng(0.7893, 113.9213);
-//        float zoomLevel = 8.0f; //This goes up to 21
-
 
     };
 

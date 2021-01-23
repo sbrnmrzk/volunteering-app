@@ -130,6 +130,7 @@ public class HomeFragment extends Fragment {
                 eventItem.setEndTime(res.getString(res.getColumnIndex("end_time")));
                 eventItem.setLocation(res.getString(res.getColumnIndex("location")));
                 eventItem.setOrganizerId(res.getString(res.getColumnIndex("organizer")));
+                eventItem.setCoverPhoto(res.getBlob(res.getColumnIndex("cover_photo")));
                 eventList.add(eventItem);
             }
         }

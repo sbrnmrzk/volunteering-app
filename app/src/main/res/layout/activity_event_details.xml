@@ -45,8 +45,8 @@
 
             <ImageView
                 android:id="@+id/iv_EventCover"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="390dp"
+                android:layout_height="220dp"
                 app:srcCompat="@drawable/volunteering" />
 
             <LinearLayout
