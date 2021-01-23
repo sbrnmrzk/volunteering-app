@@ -162,6 +162,10 @@ public class DBHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
+    public Cursor getParticipantList(String event_id){
+        Cursor cursor = MyDB.rawQuery("Select participants from events where ID = ?", new String[] {event_id});
+        return cursor;
+    }
     public Cursor getAllEvents(){
         Cursor cursor = MyDB.rawQuery("Select ID, event_title,description, capacity, start_date, start_time, end_time, location, organizer, participants, cover_photo from events", null);
         return cursor;
@@ -182,7 +186,6 @@ public class DBHelper extends SQLiteOpenHelper {
             System.out.println("ERROR!" + e);
             return false;
         }
-
     }
 
     public Boolean insertData(String name, String emailAddress, String password){

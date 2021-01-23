@@ -258,6 +258,19 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ET_Description" />
 
+            <TextView
+                android:id="@+id/TV_Participants"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="View current list of participants"
+                android:textColor="#005280"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.769"
+                app:layout_constraintStart_toEndOf="@+id/tv_capacity"
+                app:layout_constraintTop_toBottomOf="@+id/ET_Description" />
+
             <EditText
                 android:id="@+id/ET_Location"
                 android:layout_width="350dp"
