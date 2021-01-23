@@ -33,7 +33,7 @@
         android:layout_width="389dp"
         android:layout_height="0dp"
         android:scrollbars="none"
-        app:layout_constraintBottom_toTopOf="@+id/button6"
+        app:layout_constraintBottom_toTopOf="@+id/btn_volunteer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/eventChild">
@@ -293,12 +293,26 @@
     </ScrollView>
 
     <Button
-        android:id="@+id/button6"
+        android:id="@+id/btn_volunteer"
         android:layout_width="385dp"
         android:layout_height="40dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/round_btn_orange"
+        android:onClick="onClickVolunteer"
         android:text="Volunteer"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btn_unvolunteer"
+        android:layout_width="385dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/round_btn_blue"
+        android:onClick="onCancelVolunteer"
+        android:text="Cancel volunteer"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

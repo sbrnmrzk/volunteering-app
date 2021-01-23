@@ -78,13 +78,26 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public Cursor getAllEvents(){
-        Cursor cursor = MyDB.rawQuery("Select ID, event_title,description, capacity, start_date, start_time, end_time, location, organizer from events", null);
+        Cursor cursor = MyDB.rawQuery("Select ID, event_title,description, capacity, start_date, start_time, end_time, location, organizer, participants from events", null);
         return cursor;
     }
 
     public Cursor getEventById(Integer id){
-        Cursor cursor = MyDB.rawQuery("Select ID, event_title,description, capacity, start_date, start_time, end_time, location, organizer from events where id = ?", new String[] {id.toString()});
+        Cursor cursor = MyDB.rawQuery("Select ID, event_title,description, capacity, start_date, start_time, end_time, location, organizer, participants from events where id = ?", new String[] {id.toString()});
         return cursor;
+    }
+
+    public boolean updateParticipantsList(String participants, Integer eventId){
+        try {
+            String strSQL = "UPDATE events set participants = '"+ participants + "' where id = " +eventId.toString();
+            MyDB.execSQL(strSQL);
+            return true;
+        }
+        catch (Exception e){
+            System.out.println("ERROR!" + e);
+            return false;
+        }
+
     }
 
     public Boolean insertData(String name, String emailAddress, String password){
