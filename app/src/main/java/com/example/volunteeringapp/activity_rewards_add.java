@@ -10,5 +10,7 @@ public class activity_rewards_add extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rewards_add);
+
+        Bundle bundle = getIntent().getExtras();
     }
 }
