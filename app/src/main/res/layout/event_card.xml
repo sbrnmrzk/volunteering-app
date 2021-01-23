@@ -4,10 +4,11 @@
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_margin="8dp">
+
     <ImageView
         android:id="@+id/eventImg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:layout_margin="5dp"
         android:layout_marginTop="5dp"
         android:contentDescription="Event Picture 01"
