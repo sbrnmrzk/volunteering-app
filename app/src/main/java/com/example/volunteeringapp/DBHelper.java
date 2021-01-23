@@ -32,6 +32,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 ", FOREIGN KEY (follower_id) REFERENCES users (ID))");
         MyDB.execSQL("create Table rating(rating_user INTEGER NOT NULL, rater_user INTEGER NOT NULL, rating_value REAL NOT NULL, PRIMARY KEY (rating_user, rater_user) " +
                 ", FOREIGN KEY (rating_user) REFERENCES users (ID), FOREIGN KEY (rater_user) REFERENCES users (ID))");
+        MyDB.execSQL("create Table event_history(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, user_id INTEGER , event_id INTEGER, history_type TEXT)");
     }
 
     @Override
@@ -61,6 +62,58 @@ public class DBHelper extends SQLiteOpenHelper {
             return false;
         else
             return true;
+    }
+
+    public Boolean createEventHistory(String userId, Integer eventId, String type){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("user_id", userId);
+        contentValues.put("event_id", eventId);
+
+        //get type == bookmark or type == joined
+        contentValues.put("history_type", type);
+
+        long result = MyDB.insert("event_history", null, contentValues);
+        if (result==-1)
+            return false;
+        else
+            return true;
+    }
+
+    public boolean removeEventFromHistory(String userId, Integer eventId, String type){
+        try {
+            String strSQL = "DELETE FROM event_history WHERE user_id = '"+ userId + "' AND event_id = " +eventId.toString() + " AND history_type = '" + type + "'";
+            MyDB.execSQL(strSQL);
+            return true;
+        }
+        catch (Exception e){
+            System.out.println("ERROR!" + e);
+            return false;
+        }
+    }
+
+    public Cursor getEventHistory(Integer userId, String type){
+        try{
+            Cursor cursor = MyDB.rawQuery("Select * from events where user_id = ? and history_type = ?", new String[] {userId.toString(), type});
+            return cursor;
+        }catch (Exception e){
+            System.out.println("ERROR -> " + e);
+            return null;
+        }
+    }
+
+    public boolean checkIfBookmarked(Integer userId, String eventId){
+        try{
+            Cursor cursor = MyDB.rawQuery("Select * from event_history where user_id = ?  AND event_id = ?  AND history_type ='BOOKMARK'", new String[] {userId.toString(), eventId});
+            if(cursor.getCount()>0){
+                return true;
+            }
+            else {
+                return false;
+            }
+        }catch (Exception e){
+            System.out.println("ERROR -> " + e);
+            return false;
+        }
     }
 
     public Boolean editEvent(String event_title, String description, String capacity, String location, String start_date, String start_time, String end_time, int organizer_id, Bitmap cover_photo, String lat, String lat2, int event_id){
