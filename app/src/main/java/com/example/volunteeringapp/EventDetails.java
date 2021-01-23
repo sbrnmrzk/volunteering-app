@@ -34,7 +34,7 @@ public class EventDetails extends AppCompatActivity {
     DBHelper DB;
     TextView eventTitle, eventDateStart, eventDateEnd, eventDescription, eventLocation, startTime, endTime, organizerName,
         organizerDate;
-    Button btnVolunteer, btnCancelVolunteer, btnEditEvent;
+    Button btnVolunteer, btnCancelVolunteer, btn_follow, btn_unfollow, btnEditEvent;
     List<Event> eventList;
     List<User> userList;
     String participants, userId;
@@ -62,6 +62,8 @@ public class EventDetails extends AppCompatActivity {
         btnCancelVolunteer = (Button) findViewById(R.id.btn_unvolunteer);
         btnEditEvent = (Button) findViewById(R.id.btn_editEvent);
         eventCover = (ImageView) findViewById(R.id.iv_EventCover);
+        btn_follow = (Button) findViewById(R.id.btn_followOrganizer);
+        btn_unfollow = (Button) findViewById(R.id.btn_unfollowOrganizer);
 
         //get Event by ID
         eventId = getIntent().getIntExtra("eventId", 0);
@@ -110,6 +112,16 @@ public class EventDetails extends AppCompatActivity {
     }
 
     private void setButtonVisibility(String userId) {
+        Cursor GetFollowers = DB.checkFollowing(Integer.valueOf(userId), Integer.valueOf(event.getOrganizerId()));
+
+        if (GetFollowers !=null && GetFollowers.getCount() > 0) {
+            btn_follow.setVisibility(View.INVISIBLE);
+            btn_unfollow.setVisibility(View.VISIBLE);
+        }
+        else {
+            btn_follow.setVisibility(View.VISIBLE);
+            btn_unfollow.setVisibility(View.INVISIBLE);
+        }
 
         if ((event.getOrganizerId()).equals(userId)) {
             btnVolunteer.setVisibility(View.INVISIBLE);
@@ -218,6 +230,15 @@ public class EventDetails extends AppCompatActivity {
         });
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
+    }
+
+    public boolean navigateToProfile(View view){
+
+        Intent profileDetails = new Intent(this, ViewOrganizerProfile.class);
+        profileDetails.putExtra("organizer_id", event.getOrganizerId());
+        startActivityForResult(profileDetails, 1);
+        return true;
+
     }
 
     public User getOrganizerDetailsById(String organizerId) {
