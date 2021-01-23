@@ -62,7 +62,7 @@ public class DBHelper extends SQLiteOpenHelper {
             return true;
     }
 
-    public Boolean createHistoryItem(Integer userId, Integer eventId, String type){
+    public Boolean createEventHistory(String userId, Integer eventId, String type){
         ContentValues contentValues = new ContentValues();
         contentValues.put("user_id", userId);
         contentValues.put("event_id", eventId);
@@ -75,6 +75,18 @@ public class DBHelper extends SQLiteOpenHelper {
             return false;
         else
             return true;
+    }
+
+    public boolean removeEventFromHistory(String userId, Integer eventId, String type){
+        try {
+            String strSQL = "DELETE FROM event_history WHERE user_id = '"+ userId + "' AND event_id = " +eventId.toString() + " AND history_type = '" + type + "'";
+            MyDB.execSQL(strSQL);
+            return true;
+        }
+        catch (Exception e){
+            System.out.println("ERROR!" + e);
+            return false;
+        }
     }
 
     public Cursor getEventHistory(Integer userId, String type){

@@ -125,6 +125,7 @@ public class EventDetails extends AppCompatActivity {
                                     event.setParticipants(participants);
                                     boolean result = DB.updateParticipantsList(participants, event.getId());
                                     if(result){
+                                        DB.createEventHistory(userId, eventId, "JOINED");
                                         participantList = Arrays.asList(participants.split(","));
                                         Toast.makeText(EventDetails.this,"Successfully added." + participants,Toast.LENGTH_LONG).show();
                                     }
@@ -159,24 +160,28 @@ public class EventDetails extends AppCompatActivity {
                         if(participants.length()>1){
                             strNew = participants.replaceFirst("," + userId, "");
                             participants = strNew;
+
                         }
                         else if(participants.length()==1){
                             strNew = participants.replaceFirst(userId, "");
                             participants = strNew;
                         }
-
                         else{
                             Toast.makeText(EventDetails.this, "NO USERS IN LIST", Toast.LENGTH_LONG).show();
                         }
                         DB = new DBHelper(getApplicationContext());
                         event.setParticipants(participants);
                         boolean result = DB.updateParticipantsList(participants, event.getId());
-                        if(result){
+                        boolean eventHistory = DB.removeEventFromHistory(userId, eventId, "JOINED");
+                        if(result && eventHistory){
                             participantList = Arrays.asList(participants.split(","));
                             Toast.makeText(EventDetails.this,"Successfully removed." + participants,Toast.LENGTH_LONG).show();
                         }
-                        else{
+                        else if (!result){
                             Toast.makeText(EventDetails.this,"Removing participant failed " + participants,Toast.LENGTH_LONG).show();
+                        }
+                        else{
+                            Toast.makeText(EventDetails.this,"Removing event failed " + participants,Toast.LENGTH_LONG).show();
                         }
 
                         //rechecks button visibility
@@ -232,6 +237,8 @@ public class EventDetails extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.btn_bookmark:
+                DB = new DBHelper(this);
+                DB.createEventHistory(userId, eventId, "BOOKMARK");
                 Toast.makeText(getApplicationContext(), "Bookmarked", Toast.LENGTH_LONG).show();
                 return true;
             default:
