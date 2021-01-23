@@ -16,7 +16,7 @@ import org.w3c.dom.Text;
 public class ViewProfile extends AppCompatActivity {
 
     RatingBar ratingBar;
-    Button btn_follow;
+    Button btn_follow, btn_unfollow;
     Button btn_contact;
     Button btn_give_rating;
     DBHelper DB;
@@ -28,6 +28,7 @@ public class ViewProfile extends AppCompatActivity {
 
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
         btn_follow = (Button) findViewById(R.id.btn_follow);
+        btn_unfollow = (Button) findViewById(R.id.btn_unfollow);
         btn_contact = (Button) findViewById(R.id.btn_contact);
         btn_give_rating = (Button) findViewById(R.id.btn_give_rating);
 
@@ -50,11 +51,13 @@ public class ViewProfile extends AppCompatActivity {
                 TextView name = (TextView) findViewById(R.id.ET_name);
                 TextView date = (TextView) findViewById(R.id.ET_joined);
                 TextView follow = (TextView) findViewById(R.id.btn_follow);
+                TextView unfollow = (TextView) findViewById(R.id.btn_unfollow);
                 TextView following = (TextView) findViewById(R.id.ET_following_numbers);
                 TextView followers = (TextView) findViewById(R.id.ET_followers_numbers);
 
                 if (user_id.equals(follower_id)){
                     follow.setVisibility(View.GONE);
+                    unfollow.setVisibility(View.GONE);
                 }
 
                 if (GetUserByID != null && GetUserByID.getCount() > 0) {

@@ -30,7 +30,7 @@ public class EventDetails extends AppCompatActivity {
     DBHelper DB;
     TextView eventTitle, eventDateStart, eventDateEnd, eventDescription, eventLocation, startTime, endTime, organizerName,
         organizerDate;
-    Button btnVolunteer, btnCancelVolunteer;
+    Button btnVolunteer, btnCancelVolunteer, btn_follow, btn_unfollow;
     List<Event> eventList;
     List<User> userList;
     String participants, userId;
@@ -55,6 +55,8 @@ public class EventDetails extends AppCompatActivity {
         organizerDate = (TextView) findViewById(R.id.tv_eventOrganizerJoined);
         btnVolunteer = (Button) findViewById(R.id.btn_volunteer);
         btnCancelVolunteer = (Button) findViewById(R.id.btn_unvolunteer);
+        btn_follow = (Button) findViewById(R.id.btn_followOrganizer);
+        btn_unfollow = (Button) findViewById(R.id.btn_unfollowOrganizer);
 
         //get Event by ID
         eventId = getIntent().getIntExtra("eventId", 0);
@@ -98,6 +100,17 @@ public class EventDetails extends AppCompatActivity {
     }
 
     private void setButtonVisibility(String userId) {
+        Cursor GetFollowers = DB.checkFollowing(Integer.valueOf(userId), Integer.valueOf(event.getOrganizerId()));
+
+        if (GetFollowers !=null && GetFollowers.getCount() > 0) {
+            btn_follow.setVisibility(View.INVISIBLE);
+            btn_unfollow.setVisibility(View.VISIBLE);
+        }
+        else {
+            btn_follow.setVisibility(View.VISIBLE);
+            btn_unfollow.setVisibility(View.INVISIBLE);
+        }
+
         if(participantList.contains(userId)){
             btnCancelVolunteer.setVisibility(View.VISIBLE);
             btnVolunteer.setVisibility(View.INVISIBLE);

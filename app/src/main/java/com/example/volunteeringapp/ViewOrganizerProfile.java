@@ -1,5 +1,6 @@
 package com.example.volunteeringapp;
 
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
@@ -9,12 +10,15 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.Arrays;
 
 public class ViewOrganizerProfile extends AppCompatActivity {
 
     RatingBar ratingBar;
-    Button btn_follow;
+    Button btn_follow, btn_unfollow;
     Button btn_contact;
     Button btn_give_rating;
     DBHelper DB;
@@ -25,6 +29,7 @@ public class ViewOrganizerProfile extends AppCompatActivity {
 
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
         btn_follow = (Button) findViewById(R.id.btn_follow);
+        btn_unfollow = (Button) findViewById(R.id.btn_unfollow);
         btn_contact = (Button) findViewById(R.id.btn_contact);
         btn_give_rating = (Button) findViewById(R.id.btn_give_rating);
 
@@ -41,6 +46,8 @@ public class ViewOrganizerProfile extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                setButtonVisibility(organizer_id);
+
                 Cursor GetUserByID = DB.getUserById(organizer);
                 Cursor GetFollowing = DB.getFollowing(organizer_id);
                 Cursor GetFollowers = DB.getFollowers(organizer_id);
@@ -66,14 +73,14 @@ public class ViewOrganizerProfile extends AppCompatActivity {
 //                    Toast.makeText(ViewOrganizerProfile.this, "Data available for following!", Toast.LENGTH_SHORT).show();
                     System.out.println("Number of following: " + GetFollowing.getCount());
                     String followingCount = String.valueOf(GetFollowing.getCount());
-                    following.setText(followingCount);
+                    followers.setText(followingCount);
                     String check = String.valueOf(GetFollowing.getInt(1));
-                    if (current_user.equals(check)){
-                        follow.setText("F O L L O W E D");
-                        follow.setBackgroundResource(R.drawable.round_btn_orange);
-                    }
+//                    if (current_user.equals(check)){
+//                        follow.setText("F O L L O W E D");
+//                        follow.setBackgroundResource(R.drawable.round_btn_orange);
+//                    }
                 } else {
-                    Toast.makeText(ViewOrganizerProfile.this, "No data available for following!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ViewOrganizerProfile.this, "No data available for followers!", Toast.LENGTH_SHORT).show();
                 }
 
                  if (GetFollowers !=null && GetFollowers.getCount() > 0) {
@@ -81,9 +88,9 @@ public class ViewOrganizerProfile extends AppCompatActivity {
 //                    Toast.makeText(ViewOrganizerProfile.this, "Data available for followers!", Toast.LENGTH_SHORT).show();
                     System.out.println("Number of followers: " + GetFollowers.getCount());
                     String followersCount = String.valueOf(GetFollowers.getCount());
-                    followers.setText(followersCount);
+                    following.setText(followersCount);
                  } else {
-                    Toast.makeText(ViewOrganizerProfile.this, "No data available for followers!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ViewOrganizerProfile.this, "No data available for following!", Toast.LENGTH_SHORT).show();
                 }
 
 
@@ -140,28 +147,89 @@ public class ViewOrganizerProfile extends AppCompatActivity {
                 }
             }
         });
+    }
 
-        btn_follow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+    private void setButtonVisibility(Integer organizerId) {
+        SessionManagement sessionManagement = new SessionManagement(ViewOrganizerProfile.this);
+        String current_user = Integer.toString(sessionManagement.getSession());
+        String organizer = getIntent().getStringExtra("organizer_id");
+        int userID = sessionManagement.getSession(); // Retrieve the current user id
 
-                if(user_id.equals(organizer_id)){
-                    Toast.makeText(ViewOrganizerProfile.this, "Cannot follow yourself!", Toast.LENGTH_SHORT).show();
-                } else {
-                    Boolean FollowUser = DB.followUser(organizer_id, user_id);
-                    if (!FollowUser){
+        Cursor GetFollowers = DB.checkFollowing(userID, organizerId);
+
+        if (GetFollowers !=null && GetFollowers.getCount() > 0) {
+            btn_follow.setVisibility(View.INVISIBLE);
+            btn_unfollow.setVisibility(View.VISIBLE);
+        }
+        else {
+            btn_follow.setVisibility(View.VISIBLE);
+            btn_unfollow.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    public void onClickFollow(View view){
+        SessionManagement sessionManagement = new SessionManagement(ViewOrganizerProfile.this);
+        String current_user = Integer.toString(sessionManagement.getSession());
+        String organizer = getIntent().getStringExtra("organizer_id");
+
+        Integer user_id = Integer.valueOf(current_user);
+        Integer organizer_id = Integer.valueOf(organizer);
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle("Confirm following?");
+//        alertDialogBuilder.setMessage("Are you sure you want to volunteer for " +event.getEventTitle() + "?");
+        alertDialogBuilder.setPositiveButton("yes",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        DB.followUser(organizer_id, user_id);
                         Toast.makeText(ViewOrganizerProfile.this, "Followed!", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(ViewOrganizerProfile.this, "Followed already!", Toast.LENGTH_SHORT).show();
+                        finish();
+                        startActivity(getIntent());
+//                        setButtonVisibility(organizer_id);
                     }
-                    Cursor res = DB.getFollowers(userID);
-                    TextView tv = (TextView) findViewById(R.id.ET_followers_numbers);
-                    while(res.moveToNext()){
-                        String followersCount = String.valueOf(res.getCount());
-                        tv.setText(followersCount);
-                    }
-                }
+                });
+
+        alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
             }
         });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+    public void onClickUnfollow(View view){
+        SessionManagement sessionManagement = new SessionManagement(ViewOrganizerProfile.this);
+        String current_user = Integer.toString(sessionManagement.getSession());
+        String organizer = getIntent().getStringExtra("organizer_id");
+
+        Integer user_id = Integer.valueOf(current_user);
+        Integer organizer_id = Integer.valueOf(organizer);
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle("Confirm unfollow?");
+//        alertDialogBuilder.setMessage("Are you sure you want to cancel volunteering for " +  event.getEventTitle() + "?");
+        alertDialogBuilder.setPositiveButton("yes",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        DB.unfollowUser(organizer_id, user_id);
+                        Toast.makeText(ViewOrganizerProfile.this, "Unfollowed!", Toast.LENGTH_SHORT).show();
+                        finish();
+                        startActivity(getIntent());
+//                        setButtonVisibility(organizer_id);
+                    }
+                });
+
+        alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+//                finish();
+            }
+        });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 }

@@ -167,6 +167,11 @@ public class DBHelper extends SQLiteOpenHelper {
             return false;
     }
 
+    public void unfollowUser(Integer user_id, Integer follower_id){
+        SQLiteDatabase MyDB = this.getWritableDatabase();
+        MyDB.execSQL("DELETE FROM follow WHERE follower_id='"+ follower_id +"'");
+    }
+
     public Cursor getFollowing(Integer user_id){
         SQLiteDatabase MyDB = this.getReadableDatabase();
 
@@ -178,6 +183,13 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase MyDB = this.getReadableDatabase();
 
         Cursor cursor = MyDB.rawQuery("Select * from follow where follower_id = ?", new String[] {String.valueOf(follower_id)});
+        return cursor;
+    }
+
+    public Cursor checkFollowing(Integer follower_id, Integer organizer_id){
+        SQLiteDatabase MyDB = this.getReadableDatabase();
+
+        Cursor cursor = MyDB.rawQuery("Select * from follow where follower_id = ? and user_id = ?", new String[] {String.valueOf(follower_id), String.valueOf(organizer_id)});
         return cursor;
     }
 
