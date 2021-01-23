@@ -35,11 +35,13 @@ public class EventDetails extends AppCompatActivity {
     TextView eventTitle, eventDateStart, eventDateEnd, eventDescription, eventLocation, startTime, endTime, organizerName,
         organizerDate;
     Button btnVolunteer, btnCancelVolunteer, btn_follow, btn_unfollow, btnEditEvent;
+    MenuItem btn_bookmark, btn_unbookmark;
     List<Event> eventList;
     List<User> userList;
     String participants, userId;
     List<String> participantList;
     ImageView eventCover;
+    Menu menu;
 
     @Override
     protected void onRestart() {
@@ -122,6 +124,7 @@ public class EventDetails extends AppCompatActivity {
 
     private void setButtonVisibility(String userId) {
         Cursor GetFollowers = DB.checkFollowing(Integer.valueOf(userId), Integer.valueOf(event.getOrganizerId()));
+
 
         if (GetFollowers !=null && GetFollowers.getCount() > 0) {
             btn_follow.setVisibility(View.INVISIBLE);
@@ -283,19 +286,46 @@ public class EventDetails extends AppCompatActivity {
         return true;
     }
 
+    private boolean checkIfBookmarked() {
+        return DB.checkIfBookmarked(Integer.valueOf(userId), String.valueOf(eventId));
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.event_details_menu, menu);
+        this.menu = menu;
+        MenuItem bookmark = menu.findItem(R.id.btn_bookmark);
+        MenuItem unbookmark = menu.findItem(R.id.btn_unbookmark);
+
+        if(checkIfBookmarked()){
+            bookmark.setVisible(false);
+            unbookmark.setVisible(true);
+        }
+        else{
+            bookmark.setVisible(true);
+            unbookmark.setVisible(false);
+        }
+
         return true;
     }
 
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        MenuItem bookmarkItem = menu.findItem(R.id.btn_bookmark);
+        MenuItem unbookmarkItem = menu.findItem(R.id.btn_unbookmark);
+        DB = new DBHelper(this);
         switch (item.getItemId()) {
             case R.id.btn_bookmark:
-                DB = new DBHelper(this);
                 DB.createEventHistory(userId, eventId, "BOOKMARK");
+                bookmarkItem.setVisible(false);
+                unbookmarkItem.setVisible(true);
                 Toast.makeText(getApplicationContext(), "Bookmarked", Toast.LENGTH_LONG).show();
+                return true;
+            case R.id.btn_unbookmark:
+                DB.removeEventFromHistory(userId, eventId, "BOOKMARK");
+                bookmarkItem.setVisible(true);
+                unbookmarkItem.setVisible(false);
+                Toast.makeText(getApplicationContext(), "Removed from bookmarks", Toast.LENGTH_LONG).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

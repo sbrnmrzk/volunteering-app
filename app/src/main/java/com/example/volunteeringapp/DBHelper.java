@@ -101,6 +101,21 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
+    public boolean checkIfBookmarked(Integer userId, String eventId){
+        try{
+            Cursor cursor = MyDB.rawQuery("Select * from event_history where user_id = ?  AND event_id = ?  AND history_type ='BOOKMARK'", new String[] {userId.toString(), eventId});
+            if(cursor.getCount()>0){
+                return true;
+            }
+            else {
+                return false;
+            }
+        }catch (Exception e){
+            System.out.println("ERROR -> " + e);
+            return false;
+        }
+    }
+
     public Boolean editEvent(String event_title, String description, String capacity, String location, String start_date, String start_time, String end_time, int organizer_id, Bitmap cover_photo, String lat, String lat2, int event_id){
 
         ContentValues contentValues = new ContentValues();
