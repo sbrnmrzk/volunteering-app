@@ -114,8 +114,9 @@ public class EventDetails extends AppCompatActivity {
         if ((event.getOrganizerId()).equals(userId)) {
             btnVolunteer.setVisibility(View.INVISIBLE);
             btnCancelVolunteer.setVisibility(View.INVISIBLE);
-
+            btnEditEvent.setVisibility(View.VISIBLE);
         } else {
+            btnEditEvent.setVisibility(View.INVISIBLE);
             if(participantList.contains(userId)){
                 btnCancelVolunteer.setVisibility(View.VISIBLE);
                 btnVolunteer.setVisibility(View.INVISIBLE);
