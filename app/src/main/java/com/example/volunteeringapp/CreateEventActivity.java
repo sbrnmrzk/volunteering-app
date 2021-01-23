@@ -40,6 +40,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -152,34 +153,55 @@ public class CreateEventActivity extends AppCompatActivity {
         btn_createEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(CreateEventActivity.this);
+                alertDialogBuilder.setTitle("Confirm Event Creation");
+                alertDialogBuilder.setMessage("Are you sure you want to create this event?");
+                alertDialogBuilder.setPositiveButton("yes",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface arg0, int arg1) {
+                                String event_title = ET_EventTitle.getText().toString();
+                                String description = ET_Description.getText().toString();
+                                String capacity = ET_Capacity.getText().toString();
+                                String location = ET_Location.getText().toString();
+                                String start_date = ET_StartDate.getText().toString();
+                                String start_time = ET_StartTime.getText().toString();
+                                String end_time = ET_EndTime.getText().toString();
+
+                                SessionManagement sessionManagement = new SessionManagement(CreateEventActivity.this);
+                                int organizer_id = sessionManagement.getSession();
+
+                                Bitmap b_cover_photo = ((BitmapDrawable)cover_photo.getDrawable()).getBitmap();
+                                // String rewards?
+
+                                if( event_title.equals("")||description.equals("")||capacity.equals("")||location.equals("")||start_date.equals("")||start_time.equals("")||end_time.equals("") )
+                                    Toast.makeText(CreateEventActivity.this, "Please enter all the fields", Toast.LENGTH_SHORT).show();
+                                else {
+                                    Boolean createEvent = DB.createEvent(event_title, description, capacity, location, start_date, start_time, end_time, organizer_id, b_cover_photo, lat, lat2);
+                                    if (createEvent == true) {
+                                        Toast.makeText(CreateEventActivity.this, "Registered successfully.", Toast.LENGTH_SHORT).show();
+//                                        Intent intent = new Intent(getApplicationContext(), ManageEventsActivity.class);
+//                                        startActivity(intent);
+                                        finish();
+                                    } else {
+                                        Toast.makeText(CreateEventActivity.this, "Event creation failed.", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            }
+                        });
+
+                alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+//                        finish();
+                    }
+                });
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
+
 //                Toast.makeText(CreateEventActivity.this, ET_StartTime.getText().toString() + " + " + ET_EndTime.getText().toString(), Toast.LENGTH_SHORT).show();
 
-                String event_title = ET_EventTitle.getText().toString();
-                String description = ET_Description.getText().toString();
-                String capacity = ET_Capacity.getText().toString();
-                String location = ET_Location.getText().toString();
-                String start_date = ET_StartDate.getText().toString();
-                String start_time = ET_StartTime.getText().toString();
-                String end_time = ET_EndTime.getText().toString();
 
-                SessionManagement sessionManagement = new SessionManagement(CreateEventActivity.this);
-                int organizer_id = sessionManagement.getSession();
-
-                Bitmap b_cover_photo = ((BitmapDrawable)cover_photo.getDrawable()).getBitmap();
-                // String rewards?
-
-                if(event_title.equals("")||description.equals(""))
-                    Toast.makeText(CreateEventActivity.this, "Please enter all the fields", Toast.LENGTH_SHORT).show();
-                else {
-                    Boolean createEvent = DB.createEvent(event_title, description, capacity, location, start_date, start_time, end_time, organizer_id, b_cover_photo, lat, lat2);
-                    if (createEvent == true) {
-                        Toast.makeText(CreateEventActivity.this, "Registered successfully.", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getApplicationContext(), ManageEventsActivity.class);
-                        startActivity(intent);
-                    } else {
-                        Toast.makeText(CreateEventActivity.this, "Event creation failed.", Toast.LENGTH_SHORT).show();
-                    }
-                }
             }
         });
 

@@ -27,145 +27,81 @@
             android:src="@drawable/logo" />
     </androidx.appcompat.widget.Toolbar>
 
-    <ScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="55dp"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <TextView
+            android:id="@+id/TV_NewEvent"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_marginLeft="14dp"
+            android:text="Your events"
+            android:textColor="#000000"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/TV_NewEvent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="14dp"
-                android:layout_marginLeft="14dp"
-                android:layout_marginTop="20dp"
-                android:text="Your events"
-                android:textColor="#000000"
-                android:textSize="36sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/cardView"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <FrameLayout
+            android:id="@+id/frameFragment"
+            android:layout_width="398dp"
+            android:layout_height="551dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
+            app:layout_constraintBottom_toTopOf="@+id/btn_createEvent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TV_NewEvent">
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardView"
-                android:layout_width="355dp"
-                android:layout_height="141dp"
-                android:layout_marginTop="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/TV_NewEvent">
+        </FrameLayout>
 
-                <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:layout_marginTop="5dp"
-                    android:contentDescription="Event Picture 01"
-                    tools:srcCompat="@tools:sample/avatars" />
+        <!--            <Button-->
+        <!--                android:id="@+id/btn_test"-->
+        <!--                android:layout_width="297dp"-->
+        <!--                android:layout_height="71dp"-->
+        <!--                android:layout_marginTop="20dp"-->
+        <!--                android:text="get all event details [temp button]"-->
+        <!--                app:layout_constraintEnd_toEndOf="parent"-->
+        <!--                app:layout_constraintStart_toStartOf="parent"-->
+        <!--                app:layout_constraintTop_toBottomOf="@+id/frameFragment" />-->
 
-                <TextView
-                    android:id="@+id/textView3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="140dp"
-                    android:layout_marginLeft="140dp"
-                    android:layout_marginTop="4dp"
-                    android:text="Friday, 20 November 2020, 2pm"
-                    android:textColor="#FC440F"
-                    android:textSize="8sp"
-                    android:textStyle="bold" />
+        <!--            <Button-->
+        <!--                android:id="@+id/btn_test2"-->
+        <!--                android:layout_width="297dp"-->
+        <!--                android:layout_height="71dp"-->
+        <!--                android:layout_marginTop="8dp"-->
+        <!--                android:text="edit event id =1"-->
+        <!--                app:layout_constraintEnd_toEndOf="parent"-->
+        <!--                app:layout_constraintStart_toStartOf="parent"-->
+        <!--                app:layout_constraintTop_toBottomOf="@+id/btn_test" />-->
 
-                <TextView
-                    android:id="@+id/textView4"
-                    android:layout_width="207dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="140dp"
-                    android:layout_marginLeft="140dp"
-                    android:layout_marginTop="20dp"
-                    android:text="Improving rural school infrastructure"
-                    android:textColor="#000000"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+        <Button
+            android:id="@+id/btn_navigateCreateEvent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="20dp"
+            android:backgroundTint="#FC440F"
+            android:onClick="navigateToCreateEvents"
+            android:paddingLeft="120dp"
+            android:paddingRight="120dp"
+            android:text="Create Event"
+            android:textColor="#FFFFFF"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.493"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/frameFragment" />
 
-                <TextView
-                    android:id="@+id/textView5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="140dp"
-                    android:layout_marginLeft="140dp"
-                    android:layout_marginTop="120dp"
-                    android:text="Kampung Pisang, Banting"
-                    android:textColor="#989898"
-                    android:textSize="10sp" />
-
-            </androidx.cardview.widget.CardView>
-
-            <FrameLayout
-                android:id="@+id/frameFragment"
-                android:layout_width="355dp"
-                android:layout_height="236dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginRight="20dp"
-                app:layout_constraintBottom_toTopOf="@+id/btn_test"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView">
-
-            </FrameLayout>
-
-            <Button
-                android:id="@+id/btn_test"
-                android:layout_width="297dp"
-                android:layout_height="71dp"
-                android:layout_marginTop="20dp"
-                android:text="get all event details [temp button]"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/frameFragment" />
-
-            <Button
-                android:id="@+id/btn_test2"
-                android:layout_width="297dp"
-                android:layout_height="71dp"
-                android:layout_marginTop="8dp"
-                android:text="edit event id =1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_test" />
-
-            <Button
-                android:id="@+id/btn_navigateCreateEvent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="20dp"
-                android:backgroundTint="#FC440F"
-                android:onClick="navigateToCreateEvents"
-                android:paddingLeft="120dp"
-                android:paddingRight="120dp"
-                android:text="Create Event"
-                android:textColor="#FFFFFF"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.493"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_test2" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

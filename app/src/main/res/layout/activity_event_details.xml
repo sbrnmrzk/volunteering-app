@@ -45,8 +45,8 @@
 
             <ImageView
                 android:id="@+id/iv_EventCover"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="390dp"
+                android:layout_height="220dp"
                 app:srcCompat="@drawable/volunteering" />
 
             <LinearLayout
@@ -326,6 +326,19 @@
         android:background="@drawable/round_btn_blue"
         android:onClick="onCancelVolunteer"
         android:text="Cancel volunteer"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btn_editEvent"
+        android:layout_width="385dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/round_btn_orange"
+        android:onClick="onClickEditEvent"
+        android:text="EDIT EVENT"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

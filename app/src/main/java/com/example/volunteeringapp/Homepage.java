@@ -90,7 +90,14 @@ public class Homepage extends AppCompatActivity implements BottomNavigationView.
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
-
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        finish();
+        overridePendingTransition(0, 0);
+        startActivity(getIntent());
+        overridePendingTransition(0, 0);
+    }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {

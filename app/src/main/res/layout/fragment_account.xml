@@ -7,10 +7,6 @@
     tools:context=".AccountFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="ACCOUNT FRAGMENT" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -37,12 +33,12 @@
             android:id="@+id/btn_Events"
             android:layout_width="410dp"
             android:layout_height="58dp"
+            android:fontFamily="@font/open_sans"
             android:gravity="center|left"
             android:onClick="viewEvent"
-            android:text="Manage Events [temp]"
+            android:text="Manage Events"
             android:textAllCaps="false"
             android:textColor="#FC440F"
-            android:fontFamily="@font/open_sans"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

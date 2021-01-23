@@ -63,6 +63,38 @@ public class DBHelper extends SQLiteOpenHelper {
             return true;
     }
 
+    public Boolean editEvent(String event_title, String description, String capacity, String location, String start_date, String start_time, String end_time, int organizer_id, Bitmap cover_photo, String lat, String lat2, int event_id){
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("event_title", event_title);
+        contentValues.put("description", description);
+        contentValues.put("capacity", capacity);
+        contentValues.put("location", location);
+        contentValues.put("start_date", start_date);
+        contentValues.put("start_time", start_time);
+        contentValues.put("end_time", end_time);
+        contentValues.put("organizer", organizer_id);
+        contentValues.put("location_lat", lat);
+        contentValues.put("location_long", lat2);
+
+        byte[] data = getBitmapAsByteArray(cover_photo);
+        contentValues.put("cover_photo", data);
+
+        long result = MyDB.update("events", contentValues, "ID = ?", new String[]{Integer.toString(event_id)});
+        if (result==-1)
+            return false;
+        else
+            return true;
+    }
+
+    public Boolean deleteEvent(String event_id) {
+        long result = MyDB.delete("events", "ID = ?", new String[]{event_id});
+        if (result==-1)
+            return false;
+        else
+            return true;
+    }
+
     public static byte[] getBitmapAsByteArray(Bitmap bitmap) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 0, outputStream);
@@ -72,18 +104,18 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public Cursor manageEventsGet(String organizer_id)
     {
-        Cursor cursor = MyDB.rawQuery("Select * from events where organizer = ?", new String[] {organizer_id});
+        Cursor cursor = MyDB.rawQuery("Select ID, event_title,description, capacity, start_date, start_time, end_time, location, organizer, participants, cover_photo from events where organizer = ?", new String[] {organizer_id});
         // still retrieve all events, when session is finished, will update so will only get events that are organized by the user.
         return cursor;
     }
 
     public Cursor getAllEvents(){
-        Cursor cursor = MyDB.rawQuery("Select ID, event_title,description, capacity, start_date, start_time, end_time, location, organizer, participants from events", null);
+        Cursor cursor = MyDB.rawQuery("Select ID, event_title,description, capacity, start_date, start_time, end_time, location, organizer, participants, cover_photo from events", null);
         return cursor;
     }
 
     public Cursor getEventById(Integer id){
-        Cursor cursor = MyDB.rawQuery("Select ID, event_title,description, capacity, start_date, start_time, end_time, location, organizer, participants from events where id = ?", new String[] {id.toString()});
+        Cursor cursor = MyDB.rawQuery("Select ID, event_title,description, capacity, start_date, start_time, end_time, location, organizer, participants, location_lat, location_long, cover_photo from events where id = ?", new String[] {id.toString()});
         return cursor;
     }
 
