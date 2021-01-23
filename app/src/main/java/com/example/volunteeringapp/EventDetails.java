@@ -6,15 +6,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.ByteArrayInputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,11 +34,21 @@ public class EventDetails extends AppCompatActivity {
     DBHelper DB;
     TextView eventTitle, eventDateStart, eventDateEnd, eventDescription, eventLocation, startTime, endTime, organizerName,
         organizerDate;
-    Button btnVolunteer, btnCancelVolunteer;
+    Button btnVolunteer, btnCancelVolunteer, btn_follow, btn_unfollow, btnEditEvent;
     List<Event> eventList;
     List<User> userList;
     String participants, userId;
     List<String> participantList;
+    ImageView eventCover;
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        finish();
+        overridePendingTransition(0, 0);
+        startActivity(getIntent());
+        overridePendingTransition(0, 0);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +69,10 @@ public class EventDetails extends AppCompatActivity {
         organizerDate = (TextView) findViewById(R.id.tv_eventOrganizerJoined);
         btnVolunteer = (Button) findViewById(R.id.btn_volunteer);
         btnCancelVolunteer = (Button) findViewById(R.id.btn_unvolunteer);
+        btnEditEvent = (Button) findViewById(R.id.btn_editEvent);
+        eventCover = (ImageView) findViewById(R.id.iv_EventCover);
+        btn_follow = (Button) findViewById(R.id.btn_followOrganizer);
+        btn_unfollow = (Button) findViewById(R.id.btn_unfollowOrganizer);
 
         //get Event by ID
         eventId = getIntent().getIntExtra("eventId", 0);
@@ -87,6 +106,11 @@ public class EventDetails extends AppCompatActivity {
         endTime.setText(event.getEndTime());
         eventLocation.setText(event.getLocation());
         organizerName.setText(organizer.getName());
+
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(event.getCoverPhoto());
+        Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+        eventCover.setImageBitmap(bitmap);
+
         try {
             Date joinedDate = new SimpleDateFormat("yyyy-MM-dd").parse(organizer.getJoinedDate());
             SimpleDateFormat formatter = new SimpleDateFormat("MMM yyyy");
@@ -97,14 +121,37 @@ public class EventDetails extends AppCompatActivity {
     }
 
     private void setButtonVisibility(String userId) {
-        if(participantList.contains(userId)){
-            btnCancelVolunteer.setVisibility(View.VISIBLE);
-            btnVolunteer.setVisibility(View.INVISIBLE);
+        Cursor GetFollowers = DB.checkFollowing(Integer.valueOf(userId), Integer.valueOf(event.getOrganizerId()));
+
+        if (GetFollowers !=null && GetFollowers.getCount() > 0) {
+            btn_follow.setVisibility(View.INVISIBLE);
+            btn_unfollow.setVisibility(View.VISIBLE);
         }
         else {
-            btnVolunteer.setVisibility(View.VISIBLE);
-            btnCancelVolunteer.setVisibility(View.INVISIBLE);
+            btn_follow.setVisibility(View.VISIBLE);
+            btn_unfollow.setVisibility(View.INVISIBLE);
         }
+
+        if ((event.getOrganizerId()).equals(userId)) {
+            btnVolunteer.setVisibility(View.INVISIBLE);
+            btnCancelVolunteer.setVisibility(View.INVISIBLE);
+            btnEditEvent.setVisibility(View.VISIBLE);
+        } else {
+            btnEditEvent.setVisibility(View.INVISIBLE);
+            if(participantList.contains(userId)){
+                btnCancelVolunteer.setVisibility(View.VISIBLE);
+                btnVolunteer.setVisibility(View.INVISIBLE);
+            }
+            else {
+                btnVolunteer.setVisibility(View.VISIBLE);
+                btnCancelVolunteer.setVisibility(View.INVISIBLE);
+            }
+        }
+    }
+    public void onClickEditEvent (View view) {
+        Intent editEvent = new Intent (EventDetails.this, EditEventActivity.class);
+        editEvent.putExtra("event_id", Integer.toString(event.getId()));
+        startActivityForResult(editEvent, 1);
     }
 
     public void onClickVolunteer(View view){
@@ -199,6 +246,15 @@ public class EventDetails extends AppCompatActivity {
         alertDialog.show();
     }
 
+    public boolean navigateToProfile(View view){
+
+        Intent profileDetails = new Intent(this, ViewOrganizerProfile.class);
+        profileDetails.putExtra("organizer_id", event.getOrganizerId());
+        startActivityForResult(profileDetails, 1);
+        return true;
+
+    }
+
     public User getOrganizerDetailsById(String organizerId) {
         try{
             DB = new DBHelper(this);
@@ -264,6 +320,7 @@ public class EventDetails extends AppCompatActivity {
                     eventItem.setLocation(res.getString(res.getColumnIndex("location")));
                     eventItem.setOrganizerId(res.getString(res.getColumnIndex("organizer")));
                     eventItem.setParticipants(res.getString(res.getColumnIndex("participants")));
+                    eventItem.setCoverPhoto(res.getBlob(res.getColumnIndex("cover_photo")));
                     eventList.add(eventItem);
                 }
             }

@@ -22,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -50,6 +51,8 @@ public class Homepage extends AppCompatActivity implements BottomNavigationView.
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        SessionManagement sessionManagement = new SessionManagement(Homepage.this);
+        String current_user = Integer.toString(sessionManagement.getSession());
 
         //loading the default fragment
         fm.beginTransaction().add(R.id.frameFragment, accountF, "4").hide(accountF).commit();
@@ -61,6 +64,25 @@ public class Homepage extends AppCompatActivity implements BottomNavigationView.
         BottomNavigationView navigation = findViewById(R.id.bottomNavigationView);
         navigation.setOnNavigationItemSelectedListener(this);
 
+        DB = new DBHelper(this);
+
+        runOnUiThread(new Runnable() {
+
+            // NEED TO SET TEXT NAME AND JOINED DATE VIA FRAGMENT MANAGER
+            @Override
+            public void run() {
+//                Cursor GetUserByID = DB.getUserById(current_user);
+//                TextView name = (TextView) findViewById(R.id.ET_name_homepage);
+//                TextView date = (TextView) findViewById(R.id.ET_joined_homepage);
+
+//                if (GetUserByID != null && GetUserByID.getCount() > 0) {
+//                    GetUserByID.moveToFirst();
+//                    Toast.makeText(Homepage.this, GetUserByID.getString(1), Toast.LENGTH_SHORT).show();
+//                    name.setText(GetUserByID.getString(1));
+//                    date.setText("Joined " + GetUserByID.getString(6));
+//                }
+            }
+        });
     }
 
     @Override
@@ -68,7 +90,14 @@ public class Homepage extends AppCompatActivity implements BottomNavigationView.
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
-
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        finish();
+        overridePendingTransition(0, 0);
+        startActivity(getIntent());
+        overridePendingTransition(0, 0);
+    }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
