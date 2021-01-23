@@ -276,7 +276,21 @@
                         android:layout_marginLeft="280dp"
                         android:layout_marginTop="5dp"
                         android:background="@drawable/round_btn_blue"
+                        android:onClick="navigateToProfile"
                         android:text="FOLLOW"
+                        android:textColor="#FFFFFF"
+                        android:textSize="10sp" />
+
+                    <Button
+                        android:id="@+id/btn_unfollowOrganizer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="290dp"
+                        android:layout_marginLeft="280dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/round_btn_orange"
+                        android:onClick="navigateToProfile"
+                        android:text="UNFOLLOW"
                         android:textColor="#FFFFFF"
                         android:textSize="10sp" />
                 </androidx.cardview.widget.CardView>
