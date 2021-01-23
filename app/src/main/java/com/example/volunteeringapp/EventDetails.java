@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -33,7 +34,7 @@ public class EventDetails extends AppCompatActivity {
     DBHelper DB;
     TextView eventTitle, eventDateStart, eventDateEnd, eventDescription, eventLocation, startTime, endTime, organizerName,
         organizerDate;
-    Button btnVolunteer, btnCancelVolunteer;
+    Button btnVolunteer, btnCancelVolunteer, btnEditEvent;
     List<Event> eventList;
     List<User> userList;
     String participants, userId;
@@ -59,6 +60,7 @@ public class EventDetails extends AppCompatActivity {
         organizerDate = (TextView) findViewById(R.id.tv_eventOrganizerJoined);
         btnVolunteer = (Button) findViewById(R.id.btn_volunteer);
         btnCancelVolunteer = (Button) findViewById(R.id.btn_unvolunteer);
+        btnEditEvent = (Button) findViewById(R.id.btn_editEvent);
         eventCover = (ImageView) findViewById(R.id.iv_EventCover);
 
         //get Event by ID
@@ -108,14 +110,26 @@ public class EventDetails extends AppCompatActivity {
     }
 
     private void setButtonVisibility(String userId) {
-        if(participantList.contains(userId)){
-            btnCancelVolunteer.setVisibility(View.VISIBLE);
+
+        if ((event.getOrganizerId()).equals(userId)) {
             btnVolunteer.setVisibility(View.INVISIBLE);
-        }
-        else {
-            btnVolunteer.setVisibility(View.VISIBLE);
             btnCancelVolunteer.setVisibility(View.INVISIBLE);
+
+        } else {
+            if(participantList.contains(userId)){
+                btnCancelVolunteer.setVisibility(View.VISIBLE);
+                btnVolunteer.setVisibility(View.INVISIBLE);
+            }
+            else {
+                btnVolunteer.setVisibility(View.VISIBLE);
+                btnCancelVolunteer.setVisibility(View.INVISIBLE);
+            }
         }
+    }
+    public void onClickEditEvent (View view) {
+        Intent editEvent = new Intent (EventDetails.this, EditEventActivity.class);
+        editEvent.putExtra("event_id", Integer.toString(event.getId()));
+        startActivityForResult(editEvent, 1);
     }
 
     public void onClickVolunteer(View view){

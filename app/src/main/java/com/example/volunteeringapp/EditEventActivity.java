@@ -211,34 +211,52 @@ public class EditEventActivity extends AppCompatActivity {
         btn_createEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Toast.makeText(CreateEventActivity.this, ET_StartTime.getText().toString() + " + " + ET_EndTime.getText().toString(), Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(EditEventActivity.this);
+                alertDialogBuilder.setTitle("Confirm Event Creation");
+                alertDialogBuilder.setMessage("Are you sure you want to update this event?");
+                alertDialogBuilder.setPositiveButton("yes",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface arg0, int arg1) {
+                                String event_title = ET_EventTitle.getText().toString();
+                                String description = ET_Description.getText().toString();
+                                String capacity = ET_Capacity.getText().toString();
+                                String location = ET_Location.getText().toString();
+                                String start_date = ET_StartDate.getText().toString();
+                                String start_time = ET_StartTime.getText().toString();
+                                String end_time = ET_EndTime.getText().toString();
 
-                String event_title = ET_EventTitle.getText().toString();
-                String description = ET_Description.getText().toString();
-                String capacity = ET_Capacity.getText().toString();
-                String location = ET_Location.getText().toString();
-                String start_date = ET_StartDate.getText().toString();
-                String start_time = ET_StartTime.getText().toString();
-                String end_time = ET_EndTime.getText().toString();
+                                SessionManagement sessionManagement = new SessionManagement(EditEventActivity.this);
+                                int organizer_id = sessionManagement.getSession();
 
-                SessionManagement sessionManagement = new SessionManagement(EditEventActivity.this);
-                Integer organizer_id = sessionManagement.getSession();
+                                Bitmap b_cover_photo = ((BitmapDrawable)cover_photo.getDrawable()).getBitmap();
+                                // String rewards?
 
-                Bitmap b_cover_photo = ((BitmapDrawable)cover_photo.getDrawable()).getBitmap();
-                // String rewards?
+                                if( event_title.equals("")||description.equals("")||capacity.equals("")||location.equals("")||start_date.equals("")||start_time.equals("")||end_time.equals("") )
+                                    Toast.makeText(EditEventActivity.this, "Please enter all the fields", Toast.LENGTH_SHORT).show();
+                                else {
+                                    Boolean editEvent = DB.editEvent(event_title, description, capacity, location, start_date, start_time, end_time, organizer_id, b_cover_photo, lat, lat2, Integer.valueOf(event_id));
+                                    if (editEvent == true) {
+                                        Toast.makeText(EditEventActivity.this, "Event updated successfully.", Toast.LENGTH_SHORT).show();
+//                                        Intent intent = new Intent(getApplicationContext(), ManageEventsActivity.class);
+//                                        startActivity(intent);
+                                        finish();
 
-                if(event_title.equals("")||description.equals(""))
-                    Toast.makeText(EditEventActivity.this, "Please enter all the fields", Toast.LENGTH_SHORT).show();
-                else {
-                    Boolean createEvent = DB.createEvent(event_title, description, capacity, location, start_date, start_time, end_time, organizer_id, b_cover_photo, lat, lat2);
-                    if (createEvent == true) {
-                        Toast.makeText(EditEventActivity.this, "Registered successfully.", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getApplicationContext(), ManageEventsActivity.class);
-                        startActivity(intent);
-                    } else {
-                        Toast.makeText(EditEventActivity.this, "Event creation failed.", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(EditEventActivity.this, "Event update failed.", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            }
+                        });
+
+                alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+//                        finish();
                     }
-                }
+                });
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
             }
         });
 
@@ -389,6 +407,37 @@ public class EditEventActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+
+    public void deleteEvent(View view) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(EditEventActivity.this);
+        alertDialogBuilder.setTitle("Confirm Event Deletion");
+        alertDialogBuilder.setMessage("Are you sure you want to delete this event?");
+        alertDialogBuilder.setPositiveButton("yes",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        String event_id = getIntent().getStringExtra("event_id");
+
+                        Boolean deleteEvent = DB.deleteEvent(event_id);
+                            if (deleteEvent == true) {
+                                Toast.makeText(EditEventActivity.this, "Event deleted.", Toast.LENGTH_SHORT).show();
+                                finish();
+                            } else {
+                                Toast.makeText(EditEventActivity.this, "Event failed to be deleted.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                });
+
+        alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+//                        finish();
+            }
+        });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+
     }
 
     public boolean rewards(View view){

@@ -108,7 +108,7 @@ public class MapsFragment extends Fragment {
                 e.printStackTrace();
             }
         } else {
-            Toast.makeText(getContext(), "Please write location name...", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getContext(), "Please write location name...", Toast.LENGTH_SHORT).show();
         }
 
     };

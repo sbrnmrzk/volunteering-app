@@ -53,6 +53,7 @@ public class EventDetailsAdapter extends RecyclerView.Adapter<EventDetailsAdapte
 //        ByteArrayInputStream inputStream = new ByteArrayInputStream(event.getCoverPhoto());
 //        Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
 //        holder.eventImg.setImageBitmap(bitmap);
+
         // ^ this code will work on homepage, but not on manage events, i think it has something to do with the way i call the fragment from manage events, will fix it soon then enable this code.
 
         holder.setEventData(event);
