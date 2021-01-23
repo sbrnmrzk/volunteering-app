@@ -296,13 +296,18 @@ public class EventDetails extends AppCompatActivity {
         MenuItem bookmark = menu.findItem(R.id.btn_bookmark);
         MenuItem unbookmark = menu.findItem(R.id.btn_unbookmark);
 
-        if(checkIfBookmarked()){
+        if((event.getOrganizerId()).equals(userId)){
             bookmark.setVisible(false);
-            unbookmark.setVisible(true);
-        }
-        else{
-            bookmark.setVisible(true);
             unbookmark.setVisible(false);
+        }
+        else {
+            if (checkIfBookmarked()) {
+                bookmark.setVisible(false);
+                unbookmark.setVisible(true);
+            } else {
+                bookmark.setVisible(true);
+                unbookmark.setVisible(false);
+            }
         }
 
         return true;
