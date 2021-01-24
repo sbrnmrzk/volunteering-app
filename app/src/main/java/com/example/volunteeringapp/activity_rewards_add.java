@@ -1,6 +1,7 @@
 package com.example.volunteeringapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentActivity;
 
 import android.content.Intent;
@@ -16,6 +17,12 @@ public class activity_rewards_add extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rewards_add);
+
+        Toolbar createEvent_toolbar = (Toolbar) findViewById(R.id.addrewardToolbar);
+        setSupportActionBar(createEvent_toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         //Bundle bundle = getIntent().getExtras();
 
@@ -36,5 +43,11 @@ public class activity_rewards_add extends AppCompatActivity {
                 startActivity(cancelreward);
             }
         });
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }
