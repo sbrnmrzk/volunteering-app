@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,16 +21,39 @@ import org.w3c.dom.Text;
 public class DisplayRewardsActivity extends AppCompatActivity implements View.OnClickListener {
 
     TextView claimNow1, claimNow2;
-    ImageView badge1, badge2, badge3;
+    ImageView badge1, badge2, badge3, badge4;
     Button addrewardbtn;
-
+    DBHelper DB;
+    Integer userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rewards_page);
 
-        //ImageView badge1 = findViewById(R.id.IV_VerifiedBadge);
+        badge1 = (ImageView) findViewById(R.id.IV_VerifiedBadge);
+        badge2 = (ImageView) findViewById(R.id.IV_GiverBadge);
+        badge3 = (ImageView) findViewById(R.id.IV_BloodDBadge);
+        badge1.setVisibility(View.INVISIBLE);
+        badge2.setVisibility(View.INVISIBLE);
+        badge3.setVisibility(View.INVISIBLE);
+
+        SessionManagement sessionManagement = new SessionManagement(DisplayRewardsActivity.this);
+        userId = sessionManagement.getSession();
+        DB = new DBHelper(this);
+
+        Cursor res = DB.getEventHistory(userId, "JOINED");
+        Integer totalEvents = res.getCount();
+
+        if (totalEvents > 0) {
+            badge1.setVisibility(View.VISIBLE);
+        }
+        if (totalEvents > 1) {
+            badge2.setVisibility(View.VISIBLE);
+        }
+        if (totalEvents > 2) {
+            badge3.setVisibility(View.VISIBLE);
+        }
 
         //Bundle bundle = getIntent().getExtras();
         TextView claimNow1 = (TextView) findViewById(R.id.TV_R1ClaimBtn);

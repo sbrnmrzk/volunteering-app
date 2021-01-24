@@ -18,7 +18,7 @@
             android:layout_height="58dp"
             android:gravity="center|left"
             android:onClick="viewProfile"
-            android:text="View your profile"
+            android:text="My profile"
             android:textAllCaps="false"
             android:fontFamily="@font/open_sans"
             android:textSize="16sp"
@@ -52,8 +52,7 @@
             android:layout_width="410dp"
             android:layout_height="58dp"
             android:gravity="center|left"
-            android:onClick="viewRewards"
-            android:text="Your rewards"
+            android:text="My Rewards"
             android:textAllCaps="false"
             android:fontFamily="@font/open_sans"
             android:textSize="16sp"
@@ -64,22 +63,22 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.543" />
 
-        <Button
-            android:id="@+id/getSessionButton"
-            android:layout_width="410dp"
-            android:layout_height="58dp"
-            android:gravity="center|left"
-            android:onClick="getSessionButton"
-            android:text="Check Session"
-            android:textAllCaps="false"
-            android:fontFamily="@font/open_sans"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.738" />
+<!--        <Button-->
+<!--            android:id="@+id/getSessionButton"-->
+<!--            android:layout_width="410dp"-->
+<!--            android:layout_height="58dp"-->
+<!--            android:gravity="center|left"-->
+<!--            android:onClick="getSessionButton"-->
+<!--            android:text="Check Session"-->
+<!--            android:textAllCaps="false"-->
+<!--            android:fontFamily="@font/open_sans"-->
+<!--            android:textSize="16sp"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintHorizontal_bias="0.0"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:layout_constraintVertical_bias="0.738" />-->
 
         <Button
             android:id="@+id/btn_editProfile"
