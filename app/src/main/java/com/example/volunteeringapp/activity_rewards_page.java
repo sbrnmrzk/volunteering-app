@@ -5,7 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +20,7 @@ public class activity_rewards_page extends AppCompatActivity implements View.OnC
 
     TextView claimNow1, claimNow2;
     ImageView badge1, badge2, badge3;
+    Button addrewardbtn;
 
 
     @Override
@@ -26,11 +30,20 @@ public class activity_rewards_page extends AppCompatActivity implements View.OnC
 
         //ImageView badge1 = findViewById(R.id.IV_VerifiedBadge);
 
-        Bundle bundle = getIntent().getExtras();
-        TextView claimNow1 = (TextView)findViewById(R.id.TV_R1ClaimBtn);
-        TextView claimNow2 = (TextView)findViewById(R.id.TV_R2ClaimBtn);
+        //Bundle bundle = getIntent().getExtras();
+        TextView claimNow1 = (TextView) findViewById(R.id.TV_R1ClaimBtn);
+        TextView claimNow2 = (TextView) findViewById(R.id.TV_R2ClaimBtn);
         claimNow1.setOnClickListener(this);
         claimNow2.setOnClickListener(this);
+
+        addrewardbtn = findViewById(R.id.BTN_addReward);
+        addrewardbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent addreward = new Intent(activity_rewards_page.this, activity_rewards_add.class);
+                startActivity(addreward);
+            }
+        });
     }
 
     //when user click "claim now" the textview change to "claimed"
@@ -49,6 +62,5 @@ public class activity_rewards_page extends AppCompatActivity implements View.OnC
             claimNow2.setText("Claimed!");
             claimNow2.setTextColor(Color.GRAY);
         }*/
-
 }
 }
