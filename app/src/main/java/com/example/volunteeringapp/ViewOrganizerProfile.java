@@ -75,16 +75,13 @@ public class ViewOrganizerProfile extends AppCompatActivity {
                 }
 
                 if(!CheckPicture){
-//                    Toast.makeText(ViewOrganizerProfile.this, "Picture is not available!", Toast.LENGTH_SHORT).show();
                     if (GetUserByID != null && GetUserByID.getCount() > 0) {
                         GetUserByID.moveToFirst();
-                        cover_photo.setVisibility(View.GONE);
+                        cover_photo.setImageResource(R.drawable.defaulticon);
                     }
                 } else {
-//                    Toast.makeText(ViewOrganizerProfile.this, "Picture is available!", Toast.LENGTH_SHORT).show();
                     if (GetUserByID != null && GetUserByID.getCount() > 0) {
                         GetUserByID.moveToFirst();
-//                        Toast.makeText(ViewOrganizerProfile.this, "Picture is available!", Toast.LENGTH_SHORT).show();
                         byte[] blob = GetUserByID.getBlob(GetUserByID.getColumnIndex("profilePicture"));
                         ByteArrayInputStream inputStream = new ByteArrayInputStream(blob);
                         Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
@@ -98,7 +95,6 @@ public class ViewOrganizerProfile extends AppCompatActivity {
                     System.out.println("Number of rating count: " + RatingStar);
                     ratingBar.setRating(RatingStar);
                 } else {
-//                    ratingCount.setText("(0)");
                     Float RatingStar = 0.0f;
                     ratingBar.setRating(RatingStar);
                 }
@@ -181,7 +177,6 @@ public class ViewOrganizerProfile extends AppCompatActivity {
         btn_contact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Toast.makeText(ViewOrganizerProfile.this, "Contacted!", Toast.LENGTH_SHORT).show();
 
                 String organizer = getIntent().getStringExtra("organizer_id");
                 Cursor GetEmail = DB.getUserById(organizer);

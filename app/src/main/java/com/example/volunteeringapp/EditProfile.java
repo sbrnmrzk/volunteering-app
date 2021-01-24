@@ -48,7 +48,6 @@ public class EditProfile extends AppCompatActivity {
         TextView password = (TextView) findViewById(R.id.EP_password);
         Button btn_uploadPhoto = (Button) findViewById(R.id.btn_uploadPhoto2);
         cover_photo = (ImageView) findViewById(R.id.IV_CoverPhoto2);
-//        cover_photo.setVisibility(View.GONE);
 
         SessionManagement sessionManagement = new SessionManagement(EditProfile.this);
         String current_user = Integer.toString(sessionManagement.getSession());
@@ -70,19 +69,16 @@ public class EditProfile extends AppCompatActivity {
                 Boolean CheckPicture = DB.checkProfilePicture(current_user);
 
                 if(!CheckPicture){
-//                    Toast.makeText(EditProfile.this, "Picture is not available!", Toast.LENGTH_SHORT).show();
                     if (GetUserByID != null && GetUserByID.getCount() > 0) {
                         GetUserByID.moveToFirst();
                         name.setText(GetUserByID.getString(1));
                         email.setText(GetUserByID.getString(2));
                         password.setText(GetUserByID.getString(3));
-                        cover_photo.setVisibility(View.GONE);
+                        cover_photo.setImageResource(R.drawable.defaulticon);
                     }
                 } else {
-//                    Toast.makeText(EditProfile.this, "Picture is available!", Toast.LENGTH_SHORT).show();
                     if (GetUserByID != null && GetUserByID.getCount() > 0) {
                         GetUserByID.moveToFirst();
-//                        Toast.makeText(EditProfile.this, "Picture is available!", Toast.LENGTH_SHORT).show();
                         byte[] blob = GetUserByID.getBlob(GetUserByID.getColumnIndex("profilePicture"));
                         ByteArrayInputStream inputStream = new ByteArrayInputStream(blob);
                         Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
@@ -93,65 +89,13 @@ public class EditProfile extends AppCompatActivity {
                         cover_photo.setImageBitmap(bitmap);
                     }
                 }
-
-//                if (GetUserByID != null && GetUserByID.getCount() > 0) {
-//                    GetUserByID.moveToFirst();
-//                    Toast.makeText(EditProfile.this, "Picture is available!", Toast.LENGTH_SHORT).show();
-//                    byte[] blob = GetUserByID.getBlob(GetUserByID.getColumnIndex("profilePicture"));
-//                    ByteArrayInputStream inputStream = new ByteArrayInputStream(blob);
-//                    Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-//
-//                    name.setText(GetUserByID.getString(1));
-//                    email.setText(GetUserByID.getString(2));
-//                    password.setText(GetUserByID.getString(3));
-//                    cover_photo.setImageBitmap(bitmap);
-//                }
-
-//                if (!CheckPicture){
-//                    if (GetUserByID != null && GetUserByID.getCount() > 0) {
-//                        GetUserByID.moveToFirst();
-//                        Toast.makeText(EditProfile.this, "Picture is available!", Toast.LENGTH_SHORT).show();
-//                        byte[] blob = GetUserByID.getBlob(GetUserByID.getColumnIndex("profilePicture"));
-//                        ByteArrayInputStream inputStream = new ByteArrayInputStream(blob);
-//                        Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-//
-//                        name.setText(GetUserByID.getString(1));
-//                        email.setText(GetUserByID.getString(2));
-//                        password.setText(GetUserByID.getString(3));
-//                        cover_photo.setImageBitmap(bitmap);
-//                    }
-//                } else {
-//                    Toast.makeText(EditProfile.this, "No picture available!", Toast.LENGTH_SHORT).show();
-//                    name.setText(GetUserByID.getString(1));
-//                    email.setText(GetUserByID.getString(2));
-//                    password.setText(GetUserByID.getString(3));
-//                    cover_photo.setVisibility(View.GONE);
-//                }
-//                if (GetUserByID != null && GetUserByID.getCount() > 0) {
-//                    GetUserByID.moveToFirst();
-
-//                    Integer bitmapPhoto = GetUserByID.getInt(4);
-//                    Toast.makeText(EditProfile.this, Integer.toString(bitmapPhoto), Toast.LENGTH_SHORT).show();
-//                    if (bitmapPhoto == null) {
-//
-//                        name.setText(GetUserByID.getString(1));
-//                        email.setText(GetUserByID.getString(2));
-//                        password.setText(GetUserByID.getString(3));
-//                        cover_photo.setVisibility(View.GONE);
-//
-//                    } else {
-//                        byte[] blob = GetUserByID.getBlob(GetUserByID.getColumnIndex("profilePicture"));
-//                        ByteArrayInputStream inputStream = new ByteArrayInputStream(blob);
-//                        Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-//
-//                        name.setText(GetUserByID.getString(1));
-//                        email.setText(GetUserByID.getString(2));
-//                        password.setText(GetUserByID.getString(3));
-//                        cover_photo.setImageBitmap(bitmap);
-//                    }
-//                }
             }
         });
+    }
+
+    public boolean discard(View view){
+        onBackPressed();
+        return true;
     }
 
     public void saveChanges(View view){
@@ -169,9 +113,9 @@ public class EditProfile extends AppCompatActivity {
 
         Boolean update = DB.updateProfile(userID, nama, emel, kunci, b_cover_photo);
         if(!update){
-            Toast.makeText(EditProfile.this, "Kanpai!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(EditProfile.this, "Successfully saved!", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(EditProfile.this, "Fail!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(EditProfile.this, "Fail to saved!", Toast.LENGTH_SHORT).show();
 
         }
     }

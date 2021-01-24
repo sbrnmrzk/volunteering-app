@@ -33,17 +33,20 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.28" />
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/IV_CoverPhoto2"
-            android:layout_width="148dp"
-            android:layout_height="96dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             android:layout_marginTop="5dp"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.125"
+            app:layout_constraintVertical_bias="0.108"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Image.PILL"
             app:srcCompat="@android:drawable/ic_menu_camera" />
 
         <androidx.appcompat.widget.Toolbar
@@ -168,12 +171,12 @@
             app:layout_constraintVertical_bias="0.863" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/discard"
             android:layout_width="375dp"
             android:layout_height="41dp"
             android:layout_marginBottom="40dp"
             android:background="@drawable/round_btn_white"
-            android:onClick="navigateToSignup"
+            android:onClick="discard"
             android:text="D I S C A R D"
             android:textAllCaps="false"
             android:textColor="#005280"
