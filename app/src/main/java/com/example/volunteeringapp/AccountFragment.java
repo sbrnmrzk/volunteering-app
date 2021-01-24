@@ -68,7 +68,6 @@ public class AccountFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), activity_rewards_page.class);
-                intent.putExtra("some", "somela");
                 startActivity(intent);
 
             }
