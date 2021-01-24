@@ -41,6 +41,8 @@
         <activity android:name=".EventDetails" />
         <activity android:name=".ViewOrganizerProfile" />
         <activity android:name=".ViewProfile" />
+        <activity android:name=".ViewUserProfile" />
+        <activity android:name=".EditProfile" />
         <activity android:name=".SubmitRating" />
         <activity android:name=".MainActivity">
             <intent-filter>
