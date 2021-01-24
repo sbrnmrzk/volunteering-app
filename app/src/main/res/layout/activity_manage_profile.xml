@@ -64,7 +64,7 @@
                 android:layout_height="102dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
-                tools:srcCompat="@tools:sample/avatars" />
+                tools:srcCompat="@drawable/avatar_girl" />
 
             <TextView
                 android:id="@+id/TV_nameTitle"
@@ -132,7 +132,8 @@
                 android:background="@drawable/round_btn_blue"
                 android:text="SAVE CHANGES"
                 android:enabled="false"
-                android:textColor="#FFFFFF" />
+                android:textColor="#FFFFFF"
+                android:onClick="MPBack"/>
 
             <Button
                 android:id="@+id/BTN_discardProfileChange"
