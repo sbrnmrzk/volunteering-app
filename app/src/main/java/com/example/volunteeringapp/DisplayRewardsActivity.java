@@ -20,7 +20,7 @@ import org.w3c.dom.Text;
 
 public class DisplayRewardsActivity extends AppCompatActivity implements View.OnClickListener {
 
-    TextView claimNow1, claimNow2;
+    TextView claimNow1, claimNow2, TV_NoBadge;
 
     ImageView badge1, badge2, badge3, badge4;
     Button addrewardbtn;
