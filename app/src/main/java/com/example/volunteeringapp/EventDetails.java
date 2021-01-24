@@ -23,6 +23,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.io.ByteArrayInputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -37,16 +39,19 @@ public class EventDetails extends AppCompatActivity {
     User organizer;
     DBHelper DB;
     TextView eventTitle, eventDateStart, eventDateEnd, eventDescription, eventLocation, startTime, endTime, organizerName,
-        organizerDate;
+        organizerDate, tv_rewardTitle, tv_rewardDesc;
     Button btnVolunteer, btnCancelVolunteer, btn_follow, btn_unfollow, btnEditEvent;
     MenuItem btn_bookmark, btn_unbookmark;
     List<Event> eventList;
+    List<Rewards> rewardList;
     List<User> userList;
     String participants, userId;
     List<String> participantList;
     ImageView eventCover;
     Menu menu;
+    Rewards reward;
     ImageView cover_photo;
+    ImageView iv_reward;
     final Fragment mapF = new MapsFragment();
     Fragment active = mapF;
     final FragmentManager fm = getSupportFragmentManager();
@@ -84,6 +89,9 @@ public class EventDetails extends AppCompatActivity {
         btn_follow = (Button) findViewById(R.id.btn_followOrganizer);
         btn_unfollow = (Button) findViewById(R.id.btn_unfollowOrganizer);
         cover_photo = (ImageView) findViewById(R.id.eventImg);
+        iv_reward = (ImageView) findViewById(R.id.iv_reward);
+        tv_rewardTitle = (TextView) findViewById(R.id.tv_rewardTitle);
+        tv_rewardDesc = (TextView) findViewById(R.id.tv_rewardDesc);
         //get Event by ID
         eventId = getIntent().getIntExtra("eventId", 0);
         System.out.println("Event id = " + eventId);
@@ -125,6 +133,29 @@ public class EventDetails extends AppCompatActivity {
         ByteArrayInputStream inputStream = new ByteArrayInputStream(event.getCoverPhoto());
         Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
         eventCover.setImageBitmap(bitmap);
+
+
+        if(reward!=null){
+            View v= findViewById(R.id.cl_reward_display);
+            v.setVisibility(View.VISIBLE);
+            TextView tv = (TextView) findViewById(R.id.tv_reward_display);
+            tv.setVisibility(View.VISIBLE);
+            tv_rewardTitle.setText(reward.getName());
+            tv_rewardDesc.setText(reward.getDescription());
+            if(reward.getCoverPhoto()==null){
+                iv_reward.setImageResource(R.drawable.rewards_orange);
+            } else {
+                ByteArrayInputStream rewardPhoto = new ByteArrayInputStream(reward.getCoverPhoto());
+                Bitmap rewardBitmap = BitmapFactory.decodeStream(rewardPhoto);
+                iv_reward.setImageBitmap(rewardBitmap);
+            }
+        }
+        else{
+            View v= findViewById(R.id.cl_reward_display);
+            v.setVisibility(View.GONE);
+            TextView tv = (TextView) findViewById(R.id.tv_reward_display);
+            tv.setVisibility(View.GONE);
+        }
 
         final Handler handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(new Runnable() {
@@ -412,6 +443,11 @@ public class EventDetails extends AppCompatActivity {
                     eventItem.setOrganizerId(res.getString(res.getColumnIndex("organizer")));
                     eventItem.setParticipants(res.getString(res.getColumnIndex("participants")));
                     eventItem.setCoverPhoto(res.getBlob(res.getColumnIndex("cover_photo")));
+                    if(res.getString(res.getColumnIndex("rewards"))!=null ){
+                        rewardList = new ArrayList<Rewards>();
+                        eventItem.setRewardId(res.getString(res.getColumnIndex("rewards")));
+                        reward = getReward(eventItem.getRewardId());
+                    }
                     eventList.add(eventItem);
                 }
             } else {
@@ -424,4 +460,32 @@ public class EventDetails extends AppCompatActivity {
             return null;
         }
     }
+
+    private Rewards getReward(String rewardId) {
+        try{
+            DB = new DBHelper(this);
+            Cursor res = DB.getRewardById(rewardId);
+            if(res != null && res.getCount()>0){
+                rewardList.clear();
+                while (res.moveToNext()){
+                    Rewards reward = new Rewards();
+                    reward.setId(res.getInt(res.getColumnIndex("ID")));
+                    reward.setName(res.getString(res.getColumnIndex("reward_title")));
+                    reward.setDescription(res.getString(res.getColumnIndex("reward_description")));
+                    reward.setCouponCode(res.getString(res.getColumnIndex("coupon_code")));
+                    reward.setCoverPhoto(res.getBlob(res.getColumnIndex("cover_photo")));
+                    rewardList.add(reward);
+                }
+            } else {
+                finish();
+            }
+            res.close();
+            return rewardList.get(0);
+        } catch (Exception e){
+            System.out.println("ERROR: " + e);
+            return null;
+        }
+    }
+
+
 }

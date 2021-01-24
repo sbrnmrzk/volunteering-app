@@ -338,64 +338,68 @@ public class CreateEventActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(data.getStringArrayExtra("requestCode") != null ){
-            requestCode = Integer.parseInt(data.getStringExtra("requestCode"));
-        }
-        if (resultCode == RESULT_OK) {
-            if (requestCode == 1) {
-                File f = new File(Environment.getExternalStorageDirectory().toString());
+        if(data!=null){
+            if(data.getStringArrayExtra("requestCode") != null ){
+                requestCode = Integer.parseInt(data.getStringExtra("requestCode"));
+            }
+            if (resultCode == RESULT_OK) {
+                if (requestCode == 1) {
+                    File f = new File(Environment.getExternalStorageDirectory().toString());
 //                for (File temp : f.listFiles()) {
 //                    if (temp.getName().equals("temp.jpg")) {
 //                        f = temp;
 //                        break;
 //                    }
 //                }
-                try {
-                    Bitmap bitmap;
-                    BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-                    bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(),
-                            bitmapOptions);
-                    cover_photo.setImageBitmap(bitmap);
-                    String path = android.os.Environment
-                            .getExternalStorageDirectory()
-                            + File.separator
-                            + "Phoenix" + File.separator + "default";
-                    f.delete();
-                    OutputStream outFile = null;
-                    File file = new File(path, String.valueOf(System.currentTimeMillis()) + ".jpg");
                     try {
-                        outFile = new FileOutputStream(file);
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 85, outFile);
-                        outFile.flush();
-                        outFile.close();
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                        Bitmap bitmap;
+                        BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+                        bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(),
+                                bitmapOptions);
+                        cover_photo.setImageBitmap(bitmap);
+                        String path = android.os.Environment
+                                .getExternalStorageDirectory()
+                                + File.separator
+                                + "Phoenix" + File.separator + "default";
+                        f.delete();
+                        OutputStream outFile = null;
+                        File file = new File(path, String.valueOf(System.currentTimeMillis()) + ".jpg");
+                        try {
+                            outFile = new FileOutputStream(file);
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, 85, outFile);
+                            outFile.flush();
+                            outFile.close();
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else if (requestCode == 2) {
-                Uri selectedImage = data.getData();
-                String[] filePath = { MediaStore.Images.Media.DATA };
-                Cursor c = getContentResolver().query(selectedImage,filePath, null, null, null);
-                c.moveToFirst();
-                int columnIndex = c.getColumnIndex(filePath[0]);
-                String picturePath = c.getString(columnIndex);
-                c.close();
-                Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
-                Log.w("path of image from gallery......******************.........", picturePath+"");
-                cover_photo.setImageBitmap(thumbnail);
-                cover_photo.setVisibility(View.VISIBLE);
+                } else if (requestCode == 2) {
+                    Uri selectedImage = data.getData();
+                    String[] filePath = { MediaStore.Images.Media.DATA };
+                    Cursor c = getContentResolver().query(selectedImage,filePath, null, null, null);
+                    c.moveToFirst();
+                    int columnIndex = c.getColumnIndex(filePath[0]);
+                    String picturePath = c.getString(columnIndex);
+                    c.close();
+                    Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
+                    Log.w("path of image from gallery......******************.........", picturePath+"");
+                    cover_photo.setImageBitmap(thumbnail);
+                    cover_photo.setVisibility(View.VISIBLE);
 
-            }
-            else if(requestCode == 3){
-                this.rewardId = data.getStringExtra("rewardId");
+                }
+                else if(requestCode == 3){
+                    this.rewardId = data.getStringExtra("rewardId");
+                }
             }
         }
+
+
     }
     @Override
     public boolean onSupportNavigateUp() {
