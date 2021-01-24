@@ -20,7 +20,8 @@ import org.w3c.dom.Text;
 
 public class DisplayRewardsActivity extends AppCompatActivity implements View.OnClickListener {
 
-    TextView claimNow1, claimNow2;
+    TextView claimNow1, claimNow2, TV_NoBadge;
+
     ImageView badge1, badge2, badge3, badge4;
     Button addrewardbtn;
     DBHelper DB;
@@ -34,9 +35,14 @@ public class DisplayRewardsActivity extends AppCompatActivity implements View.On
         badge1 = (ImageView) findViewById(R.id.IV_VerifiedBadge);
         badge2 = (ImageView) findViewById(R.id.IV_GiverBadge);
         badge3 = (ImageView) findViewById(R.id.IV_BloodDBadge);
+        TV_NoBadge = (TextView) findViewById(R.id.TV_NoBadge);
+
         badge1.setVisibility(View.INVISIBLE);
         badge2.setVisibility(View.INVISIBLE);
         badge3.setVisibility(View.INVISIBLE);
+        TV_NoBadge.setVisibility(View.INVISIBLE);
+
+
 
         SessionManagement sessionManagement = new SessionManagement(DisplayRewardsActivity.this);
         userId = sessionManagement.getSession();
@@ -45,14 +51,18 @@ public class DisplayRewardsActivity extends AppCompatActivity implements View.On
         Cursor res = DB.getEventHistory(userId, "JOINED");
         Integer totalEvents = res.getCount();
 
-        if (totalEvents > 0) {
-            badge1.setVisibility(View.VISIBLE);
-        }
-        if (totalEvents > 1) {
-            badge2.setVisibility(View.VISIBLE);
-        }
-        if (totalEvents > 2) {
-            badge3.setVisibility(View.VISIBLE);
+        if (totalEvents == 0) {
+            TV_NoBadge.setVisibility(View.VISIBLE);
+        } else {
+            if (totalEvents > 0) {
+                badge1.setVisibility(View.VISIBLE);
+            }
+            if (totalEvents > 1) {
+                badge2.setVisibility(View.VISIBLE);
+            }
+            if (totalEvents > 2) {
+                badge3.setVisibility(View.VISIBLE);
+            }
         }
 
         //Bundle bundle = getIntent().getExtras();
