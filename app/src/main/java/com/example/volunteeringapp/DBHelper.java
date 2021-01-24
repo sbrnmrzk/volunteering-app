@@ -33,6 +33,7 @@ public class DBHelper extends SQLiteOpenHelper {
         MyDB.execSQL("create Table rating(rating_user INTEGER NOT NULL, rater_user INTEGER NOT NULL, rating_value REAL NOT NULL, PRIMARY KEY (rating_user, rater_user) " +
                 ", FOREIGN KEY (rating_user) REFERENCES users (ID), FOREIGN KEY (rater_user) REFERENCES users (ID))");
         MyDB.execSQL("create Table event_history(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, user_id INTEGER , event_id INTEGER, history_type TEXT)");
+        MyDB.execSQL("create Table notifications(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, user_id INTEGER, notification TEXT, notification_date TEXT)");
     }
 
     @Override
@@ -62,6 +63,43 @@ public class DBHelper extends SQLiteOpenHelper {
             return false;
         else
             return true;
+    }
+
+    public Boolean addNotification (String userId, String notificaion){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("user_id", userId);
+        contentValues.put("notification", notificaion);
+
+        //get type == bookmark or type == joined
+        contentValues.put("notification_date", (new Date(System.currentTimeMillis())).toString());
+
+        long result = MyDB.insert("notifications", null, contentValues);
+        if (result==-1)
+            return false;
+        else
+            return true;
+    }
+
+    public Cursor getNotifications(Integer userId){
+        try{
+            Cursor cursor = MyDB.rawQuery("Select * from notifications where user_id = ?", new String[] {userId.toString()});
+            return cursor;
+        }catch (Exception e){
+            System.out.println("ERROR -> " + e);
+            return null;
+        }
+    }
+
+    public boolean removeAllNotifications(String userId){
+        try {
+            String strSQL = "DELETE FROM notifications WHERE user_id = '"+ userId + "'";
+            MyDB.execSQL(strSQL);
+            return true;
+        }
+        catch (Exception e){
+            System.out.println("ERROR!" + e);
+            return false;
+        }
     }
 
     public Boolean createEventHistory(String userId, Integer eventId, String type){
