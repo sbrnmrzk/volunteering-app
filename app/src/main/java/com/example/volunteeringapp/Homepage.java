@@ -168,21 +168,21 @@ public class Homepage extends AppCompatActivity implements BottomNavigationView.
         startActivity(intent);
     }
 
-    public void getSessionButton(View view){
-        //This method will remove session and redirect user to login page
-        SessionManagement sessionManagement = new SessionManagement(Homepage.this);
-
-        int userID = sessionManagement.getSession();
-
-        StringBuffer buffer = new StringBuffer();
-//                while(res.moveToNext()){
-                    buffer.append("ID: "+ userID +"\n");
-//                }
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(Homepage.this);
-                builder.setCancelable(true);
-                builder.setTitle("Current Session:");
-                builder.setMessage(buffer.toString());
-                builder.show();
-    }
+//    public void getSessionButton(View view){
+//        //This method will remove session and redirect user to login page
+//        SessionManagement sessionManagement = new SessionManagement(Homepage.this);
+//
+//        int userID = sessionManagement.getSession();
+//
+//        StringBuffer buffer = new StringBuffer();
+////                while(res.moveToNext()){
+//                    buffer.append("ID: "+ userID +"\n");
+////                }
+//
+//        AlertDialog.Builder builder = new AlertDialog.Builder(Homepage.this);
+//                builder.setCancelable(true);
+//                builder.setTitle("Current Session:");
+//                builder.setMessage(buffer.toString());
+//                builder.show();
+//    }
 }
