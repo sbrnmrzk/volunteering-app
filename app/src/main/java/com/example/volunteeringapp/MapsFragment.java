@@ -91,8 +91,20 @@ public class MapsFragment extends Fragment {
                 addressList = geocoder.getFromLocationName(address, 6);
                 if (addressList != null) {
                     for (int i = 0; i<addressList.size(); i++) {
+                        lat = null;
+                        lat2 = null;
                         Address userAddress = addressList.get(i);
                         LatLng latLng = new LatLng(userAddress.getLatitude(), userAddress.getLongitude());
+
+//                        if (Double.toString(latLng.longitude).isEmpty()) {
+//                            Toast.makeText(getContext(), "hai", Toast.LENGTH_SHORT).show();
+//
+//                        }
+//                            Toast.makeText(getContext(), Double.toString(latLng.longitude).isEmpty(), Toast.LENGTH_SHORT).show();
+
+                        lat = Double.toString(userAddress.getLatitude());
+                        lat2 = Double.toString(userAddress.getLongitude());
+
 
                         userMarkerOptions.position(latLng);
                         userMarkerOptions.title(address);

@@ -114,7 +114,6 @@ public class EditEventActivity extends AppCompatActivity {
         Cursor res = DB.getEventById(Integer.valueOf(event_id));
         if(res.getCount()==0){
             finish();
-            return;
         }
         StringBuffer buffer = new StringBuffer();
         while(res.moveToNext()){
@@ -323,9 +322,11 @@ public class EditEventActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                new DatePickerDialog(EditEventActivity.this, date, myCalendar
+                DatePickerDialog datepicker = new DatePickerDialog(EditEventActivity.this, date, myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                        myCalendar.get(Calendar.DAY_OF_MONTH));
+                datepicker.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+                datepicker.show();
             }
         });
 
@@ -462,7 +463,7 @@ public class EditEventActivity extends AppCompatActivity {
                             if (deleteEvent == true) {
                                 Toast.makeText(EditEventActivity.this, "Event deleted.", Toast.LENGTH_SHORT).show();
                                 finish();
-                                startActivity(getIntent());
+//                                startActivity(getIntent());
                             } else {
                                 Toast.makeText(EditEventActivity.this, "Event failed to be deleted.", Toast.LENGTH_SHORT).show();
                             }

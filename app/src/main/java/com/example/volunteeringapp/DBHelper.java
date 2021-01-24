@@ -75,8 +75,8 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put("reward_description", reward_description);
         contentValues.put("coupon_code", coupon_code);
 
-//        byte[] data = getBitmapAsByteArray(cover_photo);
-//        contentValues.put("cover_photo", data);
+        byte[] data = getBitmapAsByteArray(cover_photo);
+        contentValues.put("cover_photo", data);
 
         long result = MyDB.insert("rewards", null, contentValues);
         if (result==-1)
