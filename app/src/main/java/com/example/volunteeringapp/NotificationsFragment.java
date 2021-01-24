@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -40,6 +41,7 @@ public class NotificationsFragment extends Fragment{
     private NotificationAdapter notificationAdapter;
     private RecyclerView.LayoutManager layoutManager;
     ArrayList<NotificationItem> notificationList;
+    TextView emptyNotification;
     DBHelper DB;
 
     public NotificationsFragment() {
@@ -81,6 +83,11 @@ public class NotificationsFragment extends Fragment{
         setHasOptionsMenu(true);
         recyclerView =  view.findViewById(R.id.rv_notifications);
         this.getAllNotifications();
+
+        emptyNotification = (TextView) view.findViewById(R.id.tv_notificationempty);
+        if(notificationList.size()>0){
+            emptyNotification.setVisibility(View.INVISIBLE);
+        }
 
         ImageButton btn_deleteNotifs = (ImageButton) view.findViewById(R.id.btn_deleteNotifications);
         btn_deleteNotifs.setOnClickListener(new View.OnClickListener() {
