@@ -237,6 +237,20 @@ public class DBHelper extends SQLiteOpenHelper {
             return false;
     }
 
+    public Boolean updateUser(Integer ID, String name, String emailAddress, String password){
+        SQLiteDatabase MyDB = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("name", name);
+        contentValues.put("emailAddress", emailAddress);
+        contentValues.put("password", password);
+
+        long result = MyDB.update("users", contentValues, "ID = ?", new String[] {String.valueOf(ID)});
+        if (result==-1)
+            return true;
+        else
+            return false;
+    }
+
 //    public Boolean checkProfilePicture(String user_id){
 //        SQLiteDatabase MyDB = this.getReadableDatabase();
 //

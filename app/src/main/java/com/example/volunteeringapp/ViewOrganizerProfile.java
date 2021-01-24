@@ -148,16 +148,19 @@ public class ViewOrganizerProfile extends AppCompatActivity {
                 float numberOfRater = GetRaters.getCount();
                 float currentRating = ratingBar.getRating();
 
-                if (GetRating !=null && GetRating.getCount() > 0) {
-                    if (CheckRaters !=null && CheckRaters.getCount() > 0) {
-                        CheckRaters.moveToFirst();
-                        Integer checkRaters = CheckRaters.getInt(1);
-                        Toast.makeText(ViewOrganizerProfile.this, "This user has been rated!", Toast.LENGTH_SHORT).show();
+                if (user_id.equals(organizer_id)) {
+                    Toast.makeText(ViewOrganizerProfile.this, "Cannot rate yourself!", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (GetRating != null && GetRating.getCount() > 0) {
+                        if (CheckRaters != null && CheckRaters.getCount() > 0) {
+                            CheckRaters.moveToFirst();
+                            Integer checkRaters = CheckRaters.getInt(1);
+                            Toast.makeText(ViewOrganizerProfile.this, "This user has been rated!", Toast.LENGTH_SHORT).show();
 
-                    } else {
+                        } else {
                             GetRating.moveToFirst();
                             float currentAvgRating = GetRating.getFloat(5);
-                            if (numberOfRater == 0){
+                            if (numberOfRater == 0) {
                                 Toast.makeText(ViewOrganizerProfile.this, "No one ever rate this user!", Toast.LENGTH_SHORT).show();
                                 float numberOfRaterPass = 1.0f;
                                 float calculatedAvgRating = (currentAvgRating + currentRating) / numberOfRaterPass;
@@ -165,12 +168,13 @@ public class ViewOrganizerProfile extends AppCompatActivity {
                                 DB.updateAvgRating(calculatedAvgRating, organizer_id);
                             } else {
                                 Toast.makeText(ViewOrganizerProfile.this, "This user has been rated!", Toast.LENGTH_SHORT).show();
-                                float calculatedAvgRating = (currentAvgRating + currentRating) / (numberOfRater+1);
+                                float calculatedAvgRating = (currentAvgRating + currentRating) / (numberOfRater + 1);
                                 DB.giveRating(organizer_id, user_id, currentRating);
                                 DB.updateAvgRating(calculatedAvgRating, organizer_id);
                             }
                         }
                     }
+                }
             }
         });
 

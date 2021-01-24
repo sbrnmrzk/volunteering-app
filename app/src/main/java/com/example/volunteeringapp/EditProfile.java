@@ -32,6 +32,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.regex.Pattern;
 
 public class EditProfile extends AppCompatActivity {
 
@@ -98,11 +99,24 @@ public class EditProfile extends AppCompatActivity {
         return true;
     }
 
-    public void saveChanges(View view){
+    public static boolean isValid(String email)
+    {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
+                "[a-zA-Z0-9_+&*-]+)*@" +
+                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+                "A-Z]{2,7}$";
+
+        Pattern pat = Pattern.compile(emailRegex);
+        if (email == null)
+            return false;
+        return pat.matcher(email).matches();
+    }
+
+    public void saveChanges(View view) {
         TextView name = (TextView) findViewById(R.id.EP_name);
         TextView email = (TextView) findViewById(R.id.EP_emailAddress);
         TextView password = (TextView) findViewById(R.id.EP_password);
-        Bitmap b_cover_photo = ((BitmapDrawable)cover_photo.getDrawable()).getBitmap();
+        Bitmap b_cover_photo = ((BitmapDrawable) cover_photo.getDrawable()).getBitmap();
         String nama = name.getText().toString();
         String emel = email.getText().toString();
         String kunci = password.getText().toString();
@@ -111,12 +125,21 @@ public class EditProfile extends AppCompatActivity {
         String current_user = Integer.toString(sessionManagement.getSession());
         int userID = sessionManagement.getSession();
 
-        Boolean update = DB.updateProfile(userID, nama, emel, kunci, b_cover_photo);
-        if(!update){
-            Toast.makeText(EditProfile.this, "Successfully saved!", Toast.LENGTH_SHORT).show();
+        if (!isValid(emel)) {
+            Toast.makeText(EditProfile.this, "Please enter correct email syntax.", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(EditProfile.this, "Fail to saved!", Toast.LENGTH_SHORT).show();
+            if (nama.equals("") || emel.equals("") || kunci.equals(""))
+                Toast.makeText(EditProfile.this, "Please enter all the fields", Toast.LENGTH_SHORT).show();
+            else {
+                Boolean updateProfile = DB.updateProfile(userID, nama, emel, kunci, b_cover_photo);
+                Boolean updateUser = DB.updateUser(userID, nama, emel, kunci);
+                if (!updateProfile && !updateUser) {
+                    Toast.makeText(EditProfile.this, "Successfully saved!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(EditProfile.this, "Failed to save!", Toast.LENGTH_SHORT).show();
 
+                }
+            }
         }
     }
 
