@@ -26,7 +26,7 @@ import java.util.Arrays;
  * Use the {@link NotificationsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class NotificationsFragment extends Fragment implements View.OnClickListener{
+public class NotificationsFragment extends Fragment{
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -81,17 +81,6 @@ public class NotificationsFragment extends Fragment implements View.OnClickListe
         setHasOptionsMenu(true);
         recyclerView =  view.findViewById(R.id.rv_notifications);
         this.getAllNotifications();
-
-        Button btn_addtemp = (Button) view.findViewById(R.id.addNotifTemp);
-        btn_addtemp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SessionManagement sessionManagement = new SessionManagement(getContext());
-                Integer userId = sessionManagement.getSession();
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.detach(NotificationsFragment.this).attach(NotificationsFragment.this).commit();
-            }
-        });
 
         ImageButton btn_deleteNotifs = (ImageButton) view.findViewById(R.id.btn_deleteNotifications);
         btn_deleteNotifs.setOnClickListener(new View.OnClickListener() {
@@ -153,13 +142,5 @@ public class NotificationsFragment extends Fragment implements View.OnClickListe
         recyclerView.setAdapter(notificationAdapter);
     }
 
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.addNotifTemp:
-                SessionManagement sessionManagement = new SessionManagement(getContext());
-                Integer userId = sessionManagement.getSession();
-                break;
-        }
-    }
 
 }

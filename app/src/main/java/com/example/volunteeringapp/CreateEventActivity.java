@@ -179,7 +179,8 @@ public class CreateEventActivity extends AppCompatActivity {
                                 else {
                                     Boolean createEvent = DB.createEvent(event_title, description, capacity, location, start_date, start_time, end_time, organizer_id, b_cover_photo, lat, lat2);
                                     if (createEvent == true) {
-                                        Toast.makeText(CreateEventActivity.this, "Registered successfully.", Toast.LENGTH_SHORT).show();
+                                        addNotification(organizer_id);
+                                        Toast.makeText(CreateEventActivity.this, "Created event successfully.", Toast.LENGTH_SHORT).show();
 //                                        Intent intent = new Intent(getApplicationContext(), ManageEventsActivity.class);
 //                                        startActivity(intent);
                                         finish();
@@ -237,6 +238,33 @@ public class CreateEventActivity extends AppCompatActivity {
 
 
     }
+
+    private void addNotification(int organizer_id) {
+        Cursor getIdOfLastEvent = DB.getAllEvents();
+        getIdOfLastEvent.moveToLast();
+        String eventid = getIdOfLastEvent.getString(getIdOfLastEvent.getColumnIndex("ID"));
+        String eventName = getIdOfLastEvent.getString(getIdOfLastEvent.getColumnIndex("event_title"));
+        Cursor res = DB.getFollowing(organizer_id);
+        if (res != null && res.getCount() > 0) {
+            while (res.moveToNext()) {
+                String followerID = (res.getString(res.getColumnIndex("follower_id")));
+                DB.addNotificationForEvent(followerID, getCurrentUserName(organizer_id) + " has posted a new event: " + eventName, eventid);
+            }
+        }
+    }
+
+    private String getCurrentUserName(Integer user_id) {
+        Cursor res = DB.getUserById(user_id.toString());
+        String name = "";
+        if(res != null && res.getCount()>0){
+            while (res.moveToNext()){
+                name = res.getString(res.getColumnIndex("name"));
+            }
+        }
+        return name;
+    }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
