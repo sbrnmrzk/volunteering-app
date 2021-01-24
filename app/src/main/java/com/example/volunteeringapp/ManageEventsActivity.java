@@ -1,27 +1,20 @@
 package com.example.volunteeringapp;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ManageEventsActivity extends AppCompatActivity {
-    final Fragment eventsF = new fragment_manage_events();
+    final Fragment eventsF = new ManageEventsFragment();
 
     DBHelper DB;
     Button btn_test, btn_test2;

@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,6 +83,13 @@ public class HomeFragment extends Fragment {
         recyclerView =  view.findViewById(R.id.rv_events);
         this.getAllEvents();
 
+        TextView unavailable = (TextView) view.findViewById(R.id.tv_eventsunavailable);
+        if(eventList.size()>0){
+            unavailable.setVisibility(View.INVISIBLE);
+        }
+        else {
+            unavailable.setVisibility(View.VISIBLE);
+        }
         return view;
     }
 

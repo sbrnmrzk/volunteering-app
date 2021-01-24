@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -37,6 +38,7 @@ public class HistoryFragment extends Fragment implements View.OnClickListener {
     ArrayList<Event> eventList;
     DBHelper DB;
     Integer userId;
+    View view;
     
     public HistoryFragment() {
         // Required empty public constructor
@@ -73,7 +75,7 @@ public class HistoryFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_history, container, false);
+        view = inflater.inflate(R.layout.fragment_history, container, false);
         setHasOptionsMenu(true);
         recyclerView =  (RecyclerView) view.findViewById(R.id.rv_history);
         bookmarkedbtn = (Button) view.findViewById(R.id.btn_eventsBookmarked);
@@ -121,6 +123,13 @@ public class HistoryFragment extends Fragment implements View.OnClickListener {
                 res.close();
             }
         }
+        TextView unavailable = (TextView) view.findViewById(R.id.tv_eventsunavailable2);
+        if(eventList.size()>0){
+            unavailable.setVisibility(View.INVISIBLE);
+        }
+        else {
+            unavailable.setVisibility(View.VISIBLE);
+        }
         layoutManager = new LinearLayoutManager(getContext());
         eventAdapter = new EventDetailsAdapter(eventList);
         recyclerView.setLayoutManager(layoutManager);
@@ -157,6 +166,13 @@ public class HistoryFragment extends Fragment implements View.OnClickListener {
                 }
                 res.close();
             }
+        }
+        TextView unavailable = (TextView) view.findViewById(R.id.tv_eventsunavailable2);
+        if(eventList.size()>0){
+            unavailable.setVisibility(View.INVISIBLE);
+        }
+        else {
+            unavailable.setVisibility(View.VISIBLE);
         }
         layoutManager = new LinearLayoutManager(getContext());
         eventAdapter = new EventDetailsAdapter(eventList);

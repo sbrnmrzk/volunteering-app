@@ -7,6 +7,16 @@
     android:layout_height="match_parent"
     tools:context=".HistoryFragment">
 
+    <TextView
+        android:id="@+id/tv_eventsunavailable2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="There are no events available"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_eventsJoined" />
+
     <Button
         android:id="@+id/btn_eventsJoined"
         android:layout_width="171dp"
@@ -15,7 +25,6 @@
         android:layout_marginEnd="5dp"
         android:layout_marginRight="5dp"
         android:background="@drawable/round_btn_white"
-        android:onClick="onJoinedClick"
         android:text="JOINED"
         android:textColor="#FF3D00"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,7 +40,6 @@
         android:layout_marginLeft="5dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/round_btn_white"
-        android:onClick="onBookmarkedClick"
         android:text="BOOKMARKED"
         android:textColor="#FF3D00"
         app:layout_constraintEnd_toEndOf="parent"
