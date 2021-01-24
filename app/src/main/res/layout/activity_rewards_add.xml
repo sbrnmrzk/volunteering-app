@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F8F8F8"
-    tools:context=".activity_rewards_add">
+    tools:context=".CreateRewardsActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/addrewardToolbar"
@@ -104,14 +104,15 @@
         android:id="@+id/ET_RewardDescription"
         android:layout_width="355dp"
         android:layout_height="40dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="Description"
         android:inputType="textPersonName"
         android:textColor="#939393"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.482"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TV_NewRewardBasicInfo" />
+        app:layout_constraintTop_toBottomOf="@+id/ET_RewardName" />
 
     <EditText
         android:id="@+id/ET_RewardCodeNumber"
@@ -140,7 +141,7 @@
         app:layout_constraintTop_toBottomOf="@+id/TV_NewRewardCover" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/iv_rewardsphoto"
         android:layout_width="347dp"
         android:layout_height="157dp"
         android:layout_marginTop="8dp"
@@ -160,7 +161,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.486"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintTop_toBottomOf="@+id/iv_rewardsphoto" />
 
     <Button
         android:id="@+id/BTN_NewRewardCancel"

@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
-public class activity_rewards_page extends AppCompatActivity implements View.OnClickListener {
+public class DisplayRewardsActivity extends AppCompatActivity implements View.OnClickListener {
 
     TextView claimNow1, claimNow2;
     ImageView badge1, badge2, badge3;

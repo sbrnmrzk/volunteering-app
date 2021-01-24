@@ -34,6 +34,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 ", FOREIGN KEY (rating_user) REFERENCES users (ID), FOREIGN KEY (rater_user) REFERENCES users (ID))");
         MyDB.execSQL("create Table event_history(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, user_id INTEGER , event_id INTEGER, history_type TEXT)");
         MyDB.execSQL("create Table notifications(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, user_id INTEGER, notification TEXT, follower_id INTEGER, event_id INTEGER, notification_date TEXT)");
+        MyDB.execSQL("create Table rewards(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, reward_title TEXT, reward_description TEXT, coupon_code TEXT, cover_photo BLOB)");
     }
 
     @Override
@@ -42,7 +43,7 @@ public class DBHelper extends SQLiteOpenHelper {
         MyDB.execSQL("drop Table if exists events");
     }
 
-    public Boolean createEvent(String event_title, String description, String capacity, String location, String start_date, String start_time, String end_time, int organizer_id, Bitmap cover_photo, String lat, String lat2){
+    public Boolean createEvent(String event_title, String description, String capacity, String location, String start_date, String start_time, String end_time, int organizer_id, Bitmap cover_photo, String lat, String lat2, String rewardId){
         ContentValues contentValues = new ContentValues();
         contentValues.put("event_title", event_title);
         contentValues.put("description", description);
@@ -54,6 +55,9 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put("organizer", organizer_id);
         contentValues.put("location_lat", lat);
         contentValues.put("location_long", lat2);
+        if(rewardId!=null){
+            contentValues.put("rewards", rewardId);
+        }
 
         byte[] data = getBitmapAsByteArray(cover_photo);
         contentValues.put("cover_photo", data);
@@ -64,6 +68,43 @@ public class DBHelper extends SQLiteOpenHelper {
         else
             return true;
     }
+
+    public Boolean createReward(String reward_title, String reward_description, String coupon_code, Bitmap cover_photo){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("reward_title", reward_title);
+        contentValues.put("reward_description", reward_description);
+        contentValues.put("coupon_code", coupon_code);
+
+//        byte[] data = getBitmapAsByteArray(cover_photo);
+//        contentValues.put("cover_photo", data);
+
+        long result = MyDB.insert("rewards", null, contentValues);
+        if (result==-1)
+            return false;
+        else
+            return true;
+    }
+
+    public Cursor getRewardById(Integer rewardId){
+        try{
+            Cursor cursor = MyDB.rawQuery("Select * from rewards where id = ?", new String[] {rewardId.toString()});
+            return cursor;
+        }catch (Exception e){
+            System.out.println("ERROR -> " + e);
+            return null;
+        }
+    }
+
+    public Cursor getAllRewards(){
+        try{
+            Cursor cursor = MyDB.rawQuery("Select * from rewards", null);
+            return cursor;
+        }catch (Exception e){
+            System.out.println("ERROR -> " + e);
+            return null;
+        }
+    }
+
 
     public Boolean addNotificationForFollowerAndRating (String userId, String notificaion, Integer followerID ){
         ContentValues contentValues = new ContentValues();
