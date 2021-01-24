@@ -87,6 +87,9 @@ public class HomeFragment extends Fragment {
         if(eventList.size()>0){
             unavailable.setVisibility(View.INVISIBLE);
         }
+        else {
+            unavailable.setVisibility(View.VISIBLE);
+        }
         return view;
     }
 
