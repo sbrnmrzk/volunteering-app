@@ -219,7 +219,7 @@
                 android:background="?android:attr/listDivider" />
 
             <TextView
-                android:id="@+id/textView12"
+                android:id="@+id/tv_reward_display"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Rewards"
@@ -227,6 +227,7 @@
                 android:textStyle="bold" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_reward_display"
                 android:layout_width="match_parent"
                 android:layout_height="126dp">
 
@@ -243,6 +244,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
+
                     <ImageView
                         android:id="@+id/iv_reward"
                         android:layout_width="95dp"

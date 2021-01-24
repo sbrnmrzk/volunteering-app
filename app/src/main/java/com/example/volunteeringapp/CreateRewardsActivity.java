@@ -58,6 +58,7 @@ public class CreateRewardsActivity extends AppCompatActivity {
         cover_photo = (ImageView) findViewById(R.id.iv_rewardsphoto);
         DB = new DBHelper(this);
         cover_photo.setVisibility(View.GONE);
+        cover_photo.setImageResource(R.drawable.rewards_orange);
         //Bundle bundle = getIntent().getExtras();
 
         saverewardbtn = findViewById(R.id.BTN_NewRewardSave);
