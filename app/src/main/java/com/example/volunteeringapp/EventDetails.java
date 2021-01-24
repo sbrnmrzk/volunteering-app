@@ -94,13 +94,14 @@ public class EventDetails extends AppCompatActivity {
 
         //GET EVENT BY ID
         event = getEvent(eventId);
-
+        if (event == null) {
+            return;
+        }
         //GET ORGANIZER DETAILS BY ORGANIZER ID
         organizer = getOrganizerDetailsById(event.getOrganizerId());
 
         //INITIALIZE FRAGMENT
         fm.beginTransaction().add(R.id.frameFragment, mapF, "1").commit();
-
 
         SessionManagement sessionManagement = new SessionManagement(EventDetails.this);
         userId = Integer.toString(sessionManagement.getSession());
@@ -246,7 +247,7 @@ public class EventDetails extends AppCompatActivity {
         alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                finish();
+//                finish();
             }
         });
         AlertDialog alertDialog = alertDialogBuilder.create();
@@ -413,6 +414,8 @@ public class EventDetails extends AppCompatActivity {
                     eventItem.setCoverPhoto(res.getBlob(res.getColumnIndex("cover_photo")));
                     eventList.add(eventItem);
                 }
+            } else {
+                finish();
             }
             res.close();
             return eventList.get(0);

@@ -77,6 +77,7 @@ public class CreateEventActivity extends AppCompatActivity {
         btn_createEvent = (Button) findViewById(R.id.btn_createEvent);
         cover_photo = (ImageView) findViewById(R.id.IV_CoverPhoto);
         DB = new DBHelper(this);
+        cover_photo.setImageResource(R.drawable.main_bg);
         cover_photo.setVisibility(View.GONE);
 
         Toolbar createEvent_toolbar = (Toolbar) findViewById(R.id.createEvent_toolbar);
@@ -222,6 +223,7 @@ public class CreateEventActivity extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear,
                                   int dayOfMonth) {
+
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH, monthOfYear);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
@@ -240,9 +242,12 @@ public class CreateEventActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                new DatePickerDialog(CreateEventActivity.this, date, myCalendar
+                DatePickerDialog datepicker = new DatePickerDialog(CreateEventActivity.this, date, myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                        myCalendar.get(Calendar.DAY_OF_MONTH));
+                datepicker.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+                datepicker.show();
+
             }
         });
 
