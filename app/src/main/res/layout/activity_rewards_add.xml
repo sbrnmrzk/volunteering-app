@@ -31,7 +31,7 @@
     </androidx.appcompat.widget.Toolbar>
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/TV_NewReward"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-black"
@@ -46,7 +46,7 @@
         app:layout_constraintVertical_bias="0.105" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/TV_NewRewardBasicInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Basic Info"
@@ -61,7 +61,7 @@
         app:layout_constraintVertical_bias="0.197" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/TV_NewRewardCouponCode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Coupon code"
@@ -76,7 +76,7 @@
         app:layout_constraintVertical_bias="0.439" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/TV_NewRewardCover"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Cover photo"
@@ -91,12 +91,12 @@
         app:layout_constraintVertical_bias="0.579" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/ET_RewardName"
         android:layout_width="355dp"
         android:layout_height="40dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Reward name"
+        android:hint="Reward name"
         android:textColor="#939393"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -106,12 +106,12 @@
         app:layout_constraintVertical_bias="0.266" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName2"
+        android:id="@+id/ET_RewardDescription"
         android:layout_width="355dp"
         android:layout_height="40dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Description"
+        android:hint="Description"
         android:textColor="#939393"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -121,26 +121,23 @@
         app:layout_constraintVertical_bias="0.336" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName3"
+        android:id="@+id/ET_RewardCodeNumber"
         android:layout_width="355dp"
         android:layout_height="40dp"
-        android:layout_marginBottom="276dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Enter a number"
+        android:hint="Enter coupon code"
         android:textColor="#939393"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.446"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/eventChild"
-        app:layout_constraintVertical_bias="0.829" />
+        app:layout_constraintTop_toTopOf="@+id/eventChild" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/BTN_NewRewardPhoto"
         android:layout_width="353dp"
         android:layout_height="43dp"
-        android:background="#FFFFFF"
         android:shadowColor="#939393"
         android:text="CHOOSE PHOTO"
         android:textColor="#939393"
@@ -149,13 +146,14 @@
         app:layout_constraintHorizontal_bias="0.431"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/eventChild"
-        app:layout_constraintVertical_bias="0.659" />
+        app:layout_constraintVertical_bias="0.659"
+        android:background="@drawable/round_btn_white"/>
 
     <Button
-        android:id="@+id/button4"
-        android:layout_width="362dp"
-        android:layout_height="51dp"
-        android:background="#005280"
+        android:id="@+id/BTN_NewRewardSave"
+        android:layout_width="356dp"
+        android:layout_height="44dp"
+        android:background="@drawable/round_btn_blue"
         android:text="SAVE CHANGES"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -163,21 +161,21 @@
         app:layout_constraintHorizontal_bias="0.489"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/eventChild"
-        app:layout_constraintVertical_bias="0.868" />
+        app:layout_constraintVertical_bias="0.825" />
 
     <Button
-        android:id="@+id/button5"
-        android:layout_width="362dp"
-        android:layout_height="49dp"
-        android:background="#FFFFFF"
-        android:text="DELETE"
+        android:id="@+id/BTN_NewRewardCancel"
+        android:layout_width="360dp"
+        android:layout_height="42dp"
+        android:background="@drawable/round_btn_white"
+        android:text="CANCEL"
         android:textColor="#939393"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.51"
+        app:layout_constraintHorizontal_bias="0.529"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/eventChild"
-        app:layout_constraintVertical_bias="0.961" />
+        app:layout_constraintVertical_bias="0.905" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -67,9 +67,8 @@ public class AccountFragment extends Fragment {
         btn_Rewards.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), activity_rewards_page.class);
-                intent.putExtra("some", "somela");
-                startActivity(intent);
+                Intent reward = new Intent(getActivity(), activity_rewards_page.class);
+                startActivity(reward);
 
             }
             
