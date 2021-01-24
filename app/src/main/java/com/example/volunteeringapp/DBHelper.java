@@ -85,7 +85,7 @@ public class DBHelper extends SQLiteOpenHelper {
             return true;
     }
 
-    public Cursor getRewardById(Integer rewardId){
+    public Cursor getRewardById(String rewardId){
         try{
             Cursor cursor = MyDB.rawQuery("Select * from rewards where id = ?", new String[] {rewardId.toString()});
             return cursor;
@@ -266,7 +266,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public Cursor getEventById(Integer id){
-        Cursor cursor = MyDB.rawQuery("Select ID, event_title,description, capacity, start_date, start_time, end_time, location, organizer, participants, location_lat, location_long, cover_photo from events where id = ?", new String[] {id.toString()});
+        Cursor cursor = MyDB.rawQuery("Select ID, event_title,description, capacity, start_date, start_time, end_time, location, organizer, participants, location_lat, location_long, cover_photo, rewards from events where id = ?", new String[] {id.toString()});
         return cursor;
     }
 
