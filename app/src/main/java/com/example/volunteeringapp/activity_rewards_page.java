@@ -1,6 +1,7 @@
 package com.example.volunteeringapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -36,26 +37,23 @@ public class activity_rewards_page extends AppCompatActivity implements View.OnC
         claimNow1.setOnClickListener(this);
         claimNow2.setOnClickListener(this);
 
-        addrewardbtn = findViewById(R.id.BTN_addReward);
-        addrewardbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent addreward = new Intent(activity_rewards_page.this, activity_rewards_add.class);
-                startActivity(addreward);
-            }
-        });
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.rewardsToolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
     //when user click "claim now" the textview change to "claimed"
 
-    public void onClick(View v){
+    public void onClick(View v) {
 
-        //if(v.equals(claimNow1)){
             TextView claimNow1 = (TextView)findViewById(R.id.TV_R1ClaimBtn);
 
             claimNow1.setText("Claimed!");
             claimNow1.setTextColor(Color.GRAY);
-        //}
+
         /**if (v.equals(claimNow2)){
             TextView claimNow2 = (TextView)findViewById(R.id.TV_R2ClaimBtn);
 
@@ -63,4 +61,10 @@ public class activity_rewards_page extends AppCompatActivity implements View.OnC
             claimNow2.setTextColor(Color.GRAY);
         }*/
 }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
 }
