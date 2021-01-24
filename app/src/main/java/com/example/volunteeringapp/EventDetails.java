@@ -141,14 +141,26 @@ public class EventDetails extends AppCompatActivity {
             btnEditEvent.setVisibility(View.VISIBLE);
         } else {
             btnEditEvent.setVisibility(View.INVISIBLE);
-            if(participantList.contains(userId)){
-                btnCancelVolunteer.setVisibility(View.VISIBLE);
-                btnVolunteer.setVisibility(View.INVISIBLE);
+            if(event.getCapacity()>participantList.size()){
+                btnVolunteer.setText("VOLUNTEER");
+                btnVolunteer.setAlpha(1f);
+                if(participantList.contains(userId)){
+                    btnCancelVolunteer.setVisibility(View.VISIBLE);
+                    btnVolunteer.setVisibility(View.INVISIBLE);
+                }
+                else {
+                    btnVolunteer.setVisibility(View.VISIBLE);
+                    btnCancelVolunteer.setVisibility(View.INVISIBLE);
+                }
             }
-            else {
-                btnVolunteer.setVisibility(View.VISIBLE);
+            else{
                 btnCancelVolunteer.setVisibility(View.INVISIBLE);
+                btnVolunteer.setVisibility(View.VISIBLE);
+                btnVolunteer.setClickable(false);
+                btnVolunteer.setAlpha(0.5f);
+                btnVolunteer.setText("CAPACITY FULL");
             }
+
         }
     }
     public void onClickEditEvent (View view) {
@@ -296,13 +308,18 @@ public class EventDetails extends AppCompatActivity {
         MenuItem bookmark = menu.findItem(R.id.btn_bookmark);
         MenuItem unbookmark = menu.findItem(R.id.btn_unbookmark);
 
-        if(checkIfBookmarked()){
+        if((event.getOrganizerId()).equals(userId)){
             bookmark.setVisible(false);
-            unbookmark.setVisible(true);
-        }
-        else{
-            bookmark.setVisible(true);
             unbookmark.setVisible(false);
+        }
+        else {
+            if (checkIfBookmarked()) {
+                bookmark.setVisible(false);
+                unbookmark.setVisible(true);
+            } else {
+                bookmark.setVisible(true);
+                unbookmark.setVisible(false);
+            }
         }
 
         return true;

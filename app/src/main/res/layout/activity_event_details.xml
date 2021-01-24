@@ -22,8 +22,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
             android:contentDescription="@string/app_name"
             android:src="@drawable/logo" />
     </androidx.appcompat.widget.Toolbar>
@@ -45,8 +43,12 @@
 
             <ImageView
                 android:id="@+id/iv_EventCover"
-                android:layout_width="390dp"
-                android:layout_height="220dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:adjustViewBounds="true"
+                android:maxHeight="250dp"
+                android:scaleType="centerCrop"
                 app:srcCompat="@drawable/volunteering" />
 
             <LinearLayout
