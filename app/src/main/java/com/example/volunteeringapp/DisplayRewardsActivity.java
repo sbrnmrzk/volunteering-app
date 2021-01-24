@@ -20,7 +20,8 @@ import org.w3c.dom.Text;
 
 public class DisplayRewardsActivity extends AppCompatActivity implements View.OnClickListener {
 
-    TextView claimNow1, claimNow2, TV_NoBadge;
+    TextView claimNow1, claimNow2;
+
     ImageView badge1, badge2, badge3, badge4;
     Button addrewardbtn;
     DBHelper DB;
@@ -40,6 +41,7 @@ public class DisplayRewardsActivity extends AppCompatActivity implements View.On
         badge2.setVisibility(View.INVISIBLE);
         badge3.setVisibility(View.INVISIBLE);
         TV_NoBadge.setVisibility(View.INVISIBLE);
+
 
 
         SessionManagement sessionManagement = new SessionManagement(DisplayRewardsActivity.this);

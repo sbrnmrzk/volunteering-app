@@ -110,9 +110,12 @@ public class MapsFragment extends Fragment {
                         userMarkerOptions.title(address);
                         userMarkerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
 
-                        map.clear();
-                        map.addMarker(userMarkerOptions);
-                        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));
+                        if(map!=null){
+                            map.clear();
+                            map.addMarker(userMarkerOptions);
+                            map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));
+                        }
+
                     }
                 }
             }
