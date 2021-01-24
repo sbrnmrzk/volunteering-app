@@ -22,8 +22,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
             android:contentDescription="@string/app_name"
             android:src="@drawable/logo" />
     </androidx.appcompat.widget.Toolbar>
@@ -45,8 +43,12 @@
 
             <ImageView
                 android:id="@+id/iv_EventCover"
-                android:layout_width="390dp"
-                android:layout_height="220dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:adjustViewBounds="true"
+                android:maxHeight="250dp"
+                android:scaleType="centerCrop"
                 app:srcCompat="@drawable/volunteering" />
 
             <LinearLayout
@@ -189,10 +191,19 @@
                 android:layout_height="wrap_content"
                 android:text="TextView" />
 
-            <com.google.android.gms.maps.MapView
-                android:id="@+id/mapView"
-                android:layout_width="match_parent"
-                android:layout_height="131dp" />
+            <FrameLayout
+                android:id="@+id/frameFragment"
+                android:layout_width="348dp"
+                android:layout_height="159dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginRight="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.636"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ET_Location"></FrameLayout>
 
             <View
                 android:id="@+id/divider3"
@@ -229,13 +240,17 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <ImageView
+                    <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/eventImg"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
                         android:layout_margin="5dp"
                         android:layout_marginTop="5dp"
+                        android:adjustViewBounds="true"
                         android:contentDescription="Event Picture 01"
+                        android:scaleType="fitXY"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearance.Image.PILL"
+
                         tools:srcCompat="@tools:sample/avatars" />
 
                     <TextView
@@ -250,6 +265,7 @@
                         android:textSize="12sp"
                         android:textStyle="bold" />
 
+
                     <TextView
                         android:id="@+id/tv_eventOrganizerJoined"
                         android:layout_width="180dp"
@@ -259,7 +275,6 @@
                         android:layout_marginTop="20dp"
                         android:text="Joined"
                         android:textSize="12sp" />
-
 
                     <Button
                         android:id="@+id/btn_followOrganizer"

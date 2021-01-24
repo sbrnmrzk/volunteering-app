@@ -1,6 +1,9 @@
 package com.example.volunteeringapp;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,6 +12,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.ByteArrayInputStream;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,7 +29,8 @@ public class AccountFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    ImageView cover_photo;
+    DBHelper DB;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -63,16 +72,49 @@ public class AccountFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_account, container, false);
 
+        SessionManagement sessionManagement = new SessionManagement(getActivity());
+        String current_user = Integer.toString(sessionManagement.getSession());
+
+        DB = new DBHelper(getActivity());
+
+        Cursor GetUserByID = DB.getUserById(current_user);
+        Boolean CheckPicture = DB.checkProfilePicture(current_user);
+        TextView name = (TextView) view.findViewById(R.id.ET_name_homepage);
+        TextView date = (TextView) view.findViewById(R.id.ET_joined_homepage);
+        cover_photo = (ImageView) view.findViewById(R.id.IV_CoverPhoto4);
+        if (GetUserByID != null && GetUserByID.getCount() > 0) {
+            GetUserByID.moveToFirst();
+            name.setText(GetUserByID.getString(1));
+            date.setText("Joined " + GetUserByID.getString(6));
+        }
+
+        if(!CheckPicture){
+            if (GetUserByID != null && GetUserByID.getCount() > 0) {
+                GetUserByID.moveToFirst();
+                cover_photo.setImageResource(R.drawable.defaulticon);
+            }
+        } else {
+            if (GetUserByID != null && GetUserByID.getCount() > 0) {
+                GetUserByID.moveToFirst();
+                byte[] blob = GetUserByID.getBlob(GetUserByID.getColumnIndex("profilePicture"));
+                ByteArrayInputStream inputStream = new ByteArrayInputStream(blob);
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                cover_photo.setImageBitmap(bitmap);
+            }
+        }
+
         Button btn_Rewards = (Button) view.findViewById(R.id.btn_Rewards);
         btn_Rewards.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), activity_rewards_page.class);
-                intent.putExtra("some", "somela");
-                startActivity(intent);
+                Intent reward = new Intent(getActivity(), activity_rewards_page.class);
+                startActivity(reward);
 
             }
+            
         });
         return view;
     }
+
+
 }

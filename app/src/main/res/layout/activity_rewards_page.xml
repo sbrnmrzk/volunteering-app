@@ -282,7 +282,7 @@
             android:layout_marginRight="117dp"
             android:layout_marginBottom="47dp"
             android:fontFamily="sans-serif-light"
-            android:text="DAH MAKAN"
+            android:text="DAHMAKANRM10"
             android:textSize="10sp" />
 
         <TextView
@@ -415,7 +415,7 @@
             android:layout_marginRight="117dp"
             android:layout_marginBottom="47dp"
             android:fontFamily="sans-serif-light"
-            android:text="DAH MAKAN"
+            android:text="DAHMAKANRM5"
             android:textSize="10sp" />
 
         <TextView

@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8F8F8"
+    tools:context=".activity_rewards_add">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/eventChild"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:background="#F8F8F8"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/logo" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <TextView
+        android:id="@+id/TV_NewReward"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-black"
+        android:text="New Reward"
+        android:textColor="#000000"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.121"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.079" />
+
+    <TextView
+        android:id="@+id/TV_NewRewardBasicInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Basic Info"
+        android:textColor="#FC440F"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.08"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.156" />
+
+    <TextView
+        android:id="@+id/TV_NewRewardCouponCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Coupon code"
+        android:textColor="#FC440F"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.091"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.329" />
+
+    <TextView
+        android:id="@+id/TV_NewRewardCover"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cover photo"
+        android:textColor="#FC440F"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.087"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.449" />
+
+    <EditText
+        android:id="@+id/ET_RewardName"
+        android:layout_width="355dp"
+        android:layout_height="40dp"
+        android:ems="10"
+        android:hint="Reward name"
+        android:inputType="textPersonName"
+        android:textColor="#939393"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.578"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.207" />
+
+    <EditText
+        android:id="@+id/ET_RewardDescription"
+        android:layout_width="355dp"
+        android:layout_height="40dp"
+        android:ems="10"
+        android:hint="Description"
+        android:inputType="textPersonName"
+        android:textColor="#939393"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.605"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/eventChild"
+        app:layout_constraintVertical_bias="0.255" />
+
+    <EditText
+        android:id="@+id/ET_RewardCodeNumber"
+        android:layout_width="355dp"
+        android:layout_height="40dp"
+        android:ems="10"
+        android:hint="Enter coupon code"
+        android:inputType="textPersonName"
+        android:textColor="#939393"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.605"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/eventChild"
+        app:layout_constraintVertical_bias="0.381" />
+
+    <Button
+        android:id="@+id/BTN_NewRewardPhoto"
+        android:layout_width="353dp"
+        android:layout_height="43dp"
+        android:background="@drawable/round_btn_white"
+        android:shadowColor="#939393"
+        android:text="CHOOSE PHOTO"
+        android:textColor="#939393"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/eventChild"
+        app:layout_constraintVertical_bias="0.514" />
+
+    <ImageView
+        android:layout_width="346dp"
+        android:layout_height="135dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.489"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/eventChild"
+        app:layout_constraintVertical_bias="0.664" />
+
+    <Button
+        android:id="@+id/BTN_NewRewardSave"
+        android:layout_width="356dp"
+        android:layout_height="44dp"
+        android:background="@drawable/round_btn_blue"
+        android:text="SAVE CHANGES"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.486"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/eventChild"
+        app:layout_constraintVertical_bias="0.773" />
+
+    <Button
+        android:id="@+id/BTN_NewRewardCancel"
+        android:layout_width="360dp"
+        android:layout_height="42dp"
+        android:background="@drawable/round_btn_white"
+        android:text="CANCEL"
+        android:textColor="#939393"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.484"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/eventChild"
+        app:layout_constraintVertical_bias="0.842" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,18 +1,24 @@
 package com.example.volunteeringapp;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
+import java.io.ByteArrayInputStream;
 import java.util.Arrays;
 
 public class ViewOrganizerProfile extends AppCompatActivity {
@@ -22,16 +28,22 @@ public class ViewOrganizerProfile extends AppCompatActivity {
     Button btn_contact;
     Button btn_give_rating;
     DBHelper DB;
+    ImageView cover_photo;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_profile);
 
+        Toolbar myChildToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(myChildToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
         btn_follow = (Button) findViewById(R.id.btn_follow);
         btn_unfollow = (Button) findViewById(R.id.btn_unfollow);
         btn_contact = (Button) findViewById(R.id.btn_contact);
         btn_give_rating = (Button) findViewById(R.id.btn_give_rating);
+        cover_photo = (ImageView) findViewById(R.id.IV_CoverPhoto3);
 
         SessionManagement sessionManagement = new SessionManagement(ViewOrganizerProfile.this);
         String current_user = Integer.toString(sessionManagement.getSession());
@@ -51,15 +63,54 @@ public class ViewOrganizerProfile extends AppCompatActivity {
                 Cursor GetUserByID = DB.getUserById(organizer);
                 Cursor GetFollowing = DB.getFollowing(organizer_id);
                 Cursor GetFollowers = DB.getFollowers(organizer_id);
+                Cursor GetRating = DB.getAvgRating(organizer_id);
+                Cursor GetRaters = DB.getRaters(organizer_id);
+                Boolean CheckPicture = DB.checkProfilePicture(organizer);
 
                 TextView name = (TextView) findViewById(R.id.ET_name);
                 TextView date = (TextView) findViewById(R.id.ET_joined);
                 TextView follow = (TextView) findViewById(R.id.btn_follow);
                 TextView following = (TextView) findViewById(R.id.ET_following_numbers);
                 TextView followers = (TextView) findViewById(R.id.ET_followers_numbers);
+                TextView ratingCount = (TextView) findViewById(R.id.ratingCount);
+                RatingBar ratingBar = (RatingBar) findViewById(R.id.ratingBar);
 
                 if (user_id.equals(organizer_id)){
                     follow.setVisibility(View.GONE);
+                }
+
+                if(!CheckPicture){
+                    if (GetUserByID != null && GetUserByID.getCount() > 0) {
+                        GetUserByID.moveToFirst();
+                        cover_photo.setImageResource(R.drawable.defaulticon);
+                    }
+                } else {
+                    if (GetUserByID != null && GetUserByID.getCount() > 0) {
+                        GetUserByID.moveToFirst();
+                        byte[] blob = GetUserByID.getBlob(GetUserByID.getColumnIndex("profilePicture"));
+                        ByteArrayInputStream inputStream = new ByteArrayInputStream(blob);
+                        Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                        cover_photo.setImageBitmap(bitmap);
+                    }
+                }
+
+                if (GetRating !=null && GetRating.getCount() > 0) {
+                    GetRating.moveToFirst();
+                    Float RatingStar = GetRating.getFloat(5);
+                    System.out.println("Number of rating count: " + RatingStar);
+                    ratingBar.setRating(RatingStar);
+                } else {
+                    Float RatingStar = 0.0f;
+                    ratingBar.setRating(RatingStar);
+                }
+
+                if (GetRaters !=null && GetRaters.getCount() > 0) {
+                    GetRaters.moveToFirst();
+                    String RatingCount = String.valueOf(GetRaters.getCount());
+                    System.out.println("Number of rating count: " + GetRaters.getCount());
+                    ratingCount.setText("(" + RatingCount + ")");
+                } else {
+                    ratingCount.setText("(0)");
                 }
 
                 if (GetUserByID != null && GetUserByID.getCount() > 0) {
@@ -75,12 +126,8 @@ public class ViewOrganizerProfile extends AppCompatActivity {
                     String followingCount = String.valueOf(GetFollowing.getCount());
                     followers.setText(followingCount);
                     String check = String.valueOf(GetFollowing.getInt(1));
-//                    if (current_user.equals(check)){
-//                        follow.setText("F O L L O W E D");
-//                        follow.setBackgroundResource(R.drawable.round_btn_orange);
-//                    }
                 } else {
-                    Toast.makeText(ViewOrganizerProfile.this, "No data available for followers!", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(ViewOrganizerProfile.this, "No data available for followers!", Toast.LENGTH_SHORT).show();
                 }
 
                  if (GetFollowers !=null && GetFollowers.getCount() > 0) {
@@ -90,14 +137,8 @@ public class ViewOrganizerProfile extends AppCompatActivity {
                     String followersCount = String.valueOf(GetFollowers.getCount());
                     following.setText(followersCount);
                  } else {
-                    Toast.makeText(ViewOrganizerProfile.this, "No data available for following!", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(ViewOrganizerProfile.this, "No data available for following!", Toast.LENGTH_SHORT).show();
                 }
-
-
-//                while(GetFollowers.moveToNext() && GetFollowing.moveToNext()){
-//                    following.setText(GetFollowing.getInt(0));
-//                    followers.setText(GetFollowers.getInt(1));
-//                }
             }
         });
 
@@ -105,45 +146,63 @@ public class ViewOrganizerProfile extends AppCompatActivity {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
 
-                Cursor GetRating = DB.getAvgRating(userID);
-                Cursor GetRaters = DB.getRaters(userID);
-
-                //DISPLAY CURRENT RATING
-
-//                float currentAvgRating = GetRating.getFloat(5);
-                float currentAvgRating = 1;
-//                if (GetRating.getFloat(5) == 0.0f){
-//                    Toast.makeText(ViewProfile.this, "No rating received before.", Toast.LENGTH_SHORT).show();
-//                }
-//                Toast.makeText(ViewProfile.this, "Rating: " + String.valueOf(currentAvgRating), Toast.LENGTH_SHORT).show();
-
-                while(GetRating.moveToNext()){
-                    ratingBar.setRating(GetRating.getFloat(5));
-                }
-
-                //UPDATE CURRENT RATING
+                Cursor GetRating = DB.getAvgRating(organizer_id);
+                Cursor GetRaters = DB.getRaters(organizer_id);
+                Cursor CheckRaters = DB.checkRaters(organizer_id, user_id);
+//
                 float numberOfRater = GetRaters.getCount();
                 float currentRating = ratingBar.getRating();
-//                float currentRating = 1;
-                float calculatedAvgRating = (currentAvgRating + currentRating)/numberOfRater;
-//                float calculatedAvgRating = 2;
 
-                if (user_id.equals(organizer_id)){
+                if (user_id.equals(organizer_id)) {
                     Toast.makeText(ViewOrganizerProfile.this, "Cannot rate yourself!", Toast.LENGTH_SHORT).show();
                 } else {
-                    boolean GiveRating = DB.giveRating(user_id, organizer_id, currentRating);
-                    if(!GiveRating){
-                        Toast.makeText(ViewOrganizerProfile.this, "Rating added successfully!", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(ViewOrganizerProfile.this, "Only allow to rate once only!", Toast.LENGTH_SHORT).show();
+                    if (GetRating != null && GetRating.getCount() > 0) {
+                        if (CheckRaters != null && CheckRaters.getCount() > 0) {
+                            CheckRaters.moveToFirst();
+                            Integer checkRaters = CheckRaters.getInt(1);
+                            Toast.makeText(ViewOrganizerProfile.this, "This user has been rated!", Toast.LENGTH_SHORT).show();
+
+                        } else {
+                            GetRating.moveToFirst();
+                            float currentAvgRating = GetRating.getFloat(5);
+                            if (numberOfRater == 0) {
+                                Toast.makeText(ViewOrganizerProfile.this, "No one ever rate this user!", Toast.LENGTH_SHORT).show();
+                                float numberOfRaterPass = 1.0f;
+                                float calculatedAvgRating = (currentAvgRating + currentRating) / numberOfRaterPass;
+                                DB.giveRating(organizer_id, user_id, currentRating);
+                                DB.updateAvgRating(calculatedAvgRating, organizer_id);
+                                DB.addNotificationForFollowerAndRating(organizer_id.toString(), getCurrentUserName(user_id) + " has rated you with " + currentRating + " stars!", user_id);
+                            } else {
+                                Toast.makeText(ViewOrganizerProfile.this, "This user has been rated!", Toast.LENGTH_SHORT).show();
+                                float calculatedAvgRating = (currentAvgRating + currentRating) / (numberOfRater + 1);
+                                DB.giveRating(organizer_id, user_id, currentRating);
+                                DB.updateAvgRating(calculatedAvgRating, organizer_id);
+                            }
+                        }
                     }
-                    DB.updateAvgRating(calculatedAvgRating, user_id);
-                    Toast.makeText(ViewOrganizerProfile.this, "Rating: " + String.valueOf(calculatedAvgRating), Toast.LENGTH_SHORT).show();
-
                 }
+            }
+        });
 
-                while(GetRating.moveToNext()){
-                    ratingBar.setRating(GetRating.getFloat(2));
+        btn_contact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String organizer = getIntent().getStringExtra("organizer_id");
+                Cursor GetEmail = DB.getUserById(organizer);
+                if (GetEmail !=null && GetEmail.getCount() > 0) {
+                GetEmail.moveToFirst();
+                String email = GetEmail.getString(2);
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.putExtra(Intent.EXTRA_EMAIL, new String[] {email});
+                intent.setType("message/rfc822");
+                    if (intent.resolveActivity(getPackageManager()) != null){
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(ViewOrganizerProfile.this, "Unable to contact!", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(ViewOrganizerProfile.this, "No email available.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -183,10 +242,10 @@ public class ViewOrganizerProfile extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
                         DB.followUser(organizer_id, user_id);
+                        DB.addNotificationForFollowerAndRating(organizer_id.toString(), getCurrentUserName(user_id) + " has followed you!", user_id);
                         Toast.makeText(ViewOrganizerProfile.this, "Followed!", Toast.LENGTH_SHORT).show();
                         finish();
                         startActivity(getIntent());
-//                        setButtonVisibility(organizer_id);
                     }
                 });
 
@@ -198,6 +257,17 @@ public class ViewOrganizerProfile extends AppCompatActivity {
         });
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
+    }
+
+    private String getCurrentUserName(Integer user_id) {
+        Cursor res = DB.getUserById(user_id.toString());
+        String name = "";
+        if(res != null && res.getCount()>0){
+            while (res.moveToNext()){
+                name = res.getString(res.getColumnIndex("name"));
+            }
+        }
+        return name;
     }
 
     public void onClickUnfollow(View view){
@@ -231,5 +301,11 @@ public class ViewOrganizerProfile extends AppCompatActivity {
         });
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

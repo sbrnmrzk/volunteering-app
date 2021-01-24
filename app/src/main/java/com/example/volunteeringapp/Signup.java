@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Signup extends AppCompatActivity {
 
@@ -40,7 +42,9 @@ public class Signup extends AppCompatActivity {
                 String repass = repeatPassword.getText().toString();
 
                 Cursor res = DB.getData(user, pass);
-
+                if (!isValid(user))
+                    Toast.makeText(Signup.this, "Please enter correct email syntax.", Toast.LENGTH_SHORT).show();
+                else
                 if(user.equals("")||pass.equals("")||repass.equals(""))
                     Toast.makeText(Signup.this, "Please enter all the fields", Toast.LENGTH_SHORT).show();
                 else{
@@ -84,6 +88,18 @@ public class Signup extends AppCompatActivity {
         });
     }
 
+    public static boolean isValid(String email)
+    {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
+                "[a-zA-Z0-9_+&*-]+)*@" +
+                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+                "A-Z]{2,7}$";
+
+        Pattern pat = Pattern.compile(emailRegex);
+        if (email == null)
+            return false;
+        return pat.matcher(email).matches();
+    }
 //    public boolean navigateToHome(View view){
 //        Intent home = new Intent (this, Homepage.class);
 //        startActivityForResult(home, 1);

@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -30,7 +31,6 @@ public class Homepage extends AppCompatActivity implements BottomNavigationView.
     Fragment active = homeF;
     List<Event> eventList;
     DBHelper DB;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,10 +80,7 @@ public class Homepage extends AppCompatActivity implements BottomNavigationView.
     @Override
     protected void onRestart() {
         super.onRestart();
-        finish();
-        overridePendingTransition(0, 0);
-        startActivity(getIntent());
-        overridePendingTransition(0, 0);
+        fm.beginTransaction().detach(active).attach(active).commitAllowingStateLoss();
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -151,6 +148,11 @@ public class Homepage extends AppCompatActivity implements BottomNavigationView.
     public void viewProfile(View view) {
         Intent view_profile = new Intent (this, ViewProfile.class);
         startActivity(view_profile);
+    }
+
+    public void editProfile(View view) {
+        Intent edit_profile = new Intent (this, EditProfile.class);
+        startActivity(edit_profile);
     }
 
     public void logout(View view){

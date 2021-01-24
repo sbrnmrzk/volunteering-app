@@ -33,6 +33,7 @@ public class DBHelper extends SQLiteOpenHelper {
         MyDB.execSQL("create Table rating(rating_user INTEGER NOT NULL, rater_user INTEGER NOT NULL, rating_value REAL NOT NULL, PRIMARY KEY (rating_user, rater_user) " +
                 ", FOREIGN KEY (rating_user) REFERENCES users (ID), FOREIGN KEY (rater_user) REFERENCES users (ID))");
         MyDB.execSQL("create Table event_history(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, user_id INTEGER , event_id INTEGER, history_type TEXT)");
+        MyDB.execSQL("create Table notifications(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, user_id INTEGER, notification TEXT, follower_id INTEGER, event_id INTEGER, notification_date TEXT)");
     }
 
     @Override
@@ -62,6 +63,58 @@ public class DBHelper extends SQLiteOpenHelper {
             return false;
         else
             return true;
+    }
+
+    public Boolean addNotificationForFollowerAndRating (String userId, String notificaion, Integer followerID ){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("user_id", userId);
+        contentValues.put("notification", notificaion);
+        contentValues.put("follower_id", followerID);
+        //get type == bookmark or type == joined
+        contentValues.put("notification_date", (new Date(System.currentTimeMillis())).toString());
+
+        long result = MyDB.insert("notifications", null, contentValues);
+        if (result==-1)
+            return false;
+        else
+            return true;
+    }
+
+    public Boolean addNotificationForEvent (String userId, String notificaion, String eventId ){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("user_id", userId);
+        contentValues.put("notification", notificaion);
+        contentValues.put("event_id", eventId);
+        //get type == bookmark or type == joined
+        contentValues.put("notification_date", (new Date(System.currentTimeMillis())).toString());
+
+        long result = MyDB.insert("notifications", null, contentValues);
+        if (result==-1)
+            return false;
+        else
+            return true;
+    }
+
+    public Cursor getNotifications(Integer userId){
+        try{
+            Cursor cursor = MyDB.rawQuery("Select * from notifications where user_id = ?", new String[] {userId.toString()});
+            return cursor;
+        }catch (Exception e){
+            System.out.println("ERROR -> " + e);
+            return null;
+        }
+    }
+
+    public boolean removeAllNotifications(String userId){
+        try {
+            String strSQL = "DELETE FROM notifications WHERE user_id = '"+ userId + "'";
+            MyDB.execSQL(strSQL);
+            return true;
+        }
+        catch (Exception e){
+            System.out.println("ERROR!" + e);
+            return false;
+        }
     }
 
     public Boolean createEventHistory(String userId, Integer eventId, String type){
@@ -162,6 +215,10 @@ public class DBHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
+    public Cursor getParticipantList(String event_id){
+        Cursor cursor = MyDB.rawQuery("Select participants from events where ID = ?", new String[] {event_id});
+        return cursor;
+    }
     public Cursor getAllEvents(){
         Cursor cursor = MyDB.rawQuery("Select ID, event_title,description, capacity, start_date, start_time, end_time, location, organizer, participants, cover_photo from events", null);
         return cursor;
@@ -182,7 +239,6 @@ public class DBHelper extends SQLiteOpenHelper {
             System.out.println("ERROR!" + e);
             return false;
         }
-
     }
 
     public Boolean insertData(String name, String emailAddress, String password){
@@ -208,12 +264,66 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put("name", name);
         contentValues.put("emailAddress", emailAddress);
         contentValues.put("password", password);
+        contentValues.put("avgRating", 0);
         contentValues.put("joined_date", (new Date(System.currentTimeMillis())).toString());
         long result = MyDB.insert("profiles", null, contentValues);
         if (result==-1)
             return false;
         else
             return true;
+    }
+
+    public Boolean updateProfile(Integer ID, String name, String emailAddress, String password, Bitmap profilePicture){
+        SQLiteDatabase MyDB = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("name", name);
+        contentValues.put("emailAddress", emailAddress);
+        contentValues.put("password", password);
+
+        byte[] data = getBitmapAsByteArray(profilePicture);
+        contentValues.put("profilePicture", data);
+
+        long result = MyDB.update("profiles", contentValues, "ID = ?", new String[] {String.valueOf(ID)});
+        if (result==-1)
+            return true;
+        else
+            return false;
+    }
+
+    public Boolean updateUser(Integer ID, String name, String emailAddress, String password){
+        SQLiteDatabase MyDB = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("name", name);
+        contentValues.put("emailAddress", emailAddress);
+        contentValues.put("password", password);
+
+        long result = MyDB.update("users", contentValues, "ID = ?", new String[] {String.valueOf(ID)});
+        if (result==-1)
+            return true;
+        else
+            return false;
+    }
+
+//    public Boolean checkProfilePicture(String user_id){
+//        SQLiteDatabase MyDB = this.getReadableDatabase();
+//
+//        Cursor cursor = MyDB.rawQuery("Select * from profiles where ID = ? and profilePicture = NULL", new String[] {user_id});
+//        System.out.println(cursor.getCount());
+//
+//        if (cursor.getCount() > 0)
+//            return true;
+//        else
+//            return false;
+//    }
+
+    public boolean checkProfilePicture(String user_id){
+        SQLiteDatabase MyDB = this.getReadableDatabase();
+        Cursor cursor = MyDB.rawQuery("SELECT profilePicture IS NOT NULL FROM profiles WHERE ID = ?", new String[] {user_id});
+        boolean result = cursor.moveToFirst();
+        if (result) result = (cursor.getInt(0) == 1) ;
+//        cursor.close();
+//        MyDB.close();
+        return result;
     }
 
     public Boolean checkEmailAddress(String emailAddress){
@@ -303,6 +413,20 @@ public class DBHelper extends SQLiteOpenHelper {
             return false;
     }
 
+    public void deleteRating(Integer user_id, Integer follower_id){
+        SQLiteDatabase MyDB = this.getWritableDatabase();
+//        MyDB.execSQL("DELETE FROM rating WHERE rating_user='"+ user_id +"'");
+        MyDB.execSQL("DELETE FROM rating");
+    }
+
+    public void nullifyAvgRating(Integer user_id, Integer follower_id){
+        SQLiteDatabase MyDB = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.putNull("avgRating");
+        MyDB.update("profiles", cv,  null, null);
+    }
+
+
     public Cursor getAvgRating(Integer ID){
         SQLiteDatabase MyDB = this.getReadableDatabase();
 
@@ -313,7 +437,14 @@ public class DBHelper extends SQLiteOpenHelper {
     public Cursor getRaters(Integer rater_user){
         SQLiteDatabase MyDB = this.getReadableDatabase();
 
-        Cursor cursor = MyDB.rawQuery("Select * from rating where rater_user = ?", new String[] {String.valueOf(rater_user)});
+        Cursor cursor = MyDB.rawQuery("Select * from rating where rating_user = ?", new String[] {String.valueOf(rater_user)});
+        return cursor;
+    }
+
+    public Cursor checkRaters(Integer rating_user, Integer rater_user){
+        SQLiteDatabase MyDB = this.getReadableDatabase();
+
+        Cursor cursor = MyDB.rawQuery("Select * from rating where rating_user = ? and rater_user = ?", new String[] {String.valueOf(rating_user), String.valueOf(rater_user)});
         return cursor;
     }
 

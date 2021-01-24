@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,6 +13,8 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -42,6 +46,10 @@ public class EventDetails extends AppCompatActivity {
     List<String> participantList;
     ImageView eventCover;
     Menu menu;
+    ImageView cover_photo;
+    final Fragment mapF = new MapsFragment();
+    Fragment active = mapF;
+    final FragmentManager fm = getSupportFragmentManager();
 
     @Override
     protected void onRestart() {
@@ -75,7 +83,7 @@ public class EventDetails extends AppCompatActivity {
         eventCover = (ImageView) findViewById(R.id.iv_EventCover);
         btn_follow = (Button) findViewById(R.id.btn_followOrganizer);
         btn_unfollow = (Button) findViewById(R.id.btn_unfollowOrganizer);
-
+        cover_photo = (ImageView) findViewById(R.id.eventImg);
         //get Event by ID
         eventId = getIntent().getIntExtra("eventId", 0);
         System.out.println("Event id = " + eventId);
@@ -89,6 +97,10 @@ public class EventDetails extends AppCompatActivity {
 
         //GET ORGANIZER DETAILS BY ORGANIZER ID
         organizer = getOrganizerDetailsById(event.getOrganizerId());
+
+        //INITIALIZE FRAGMENT
+        fm.beginTransaction().add(R.id.frameFragment, mapF, "1").commit();
+
 
         SessionManagement sessionManagement = new SessionManagement(EventDetails.this);
         userId = Integer.toString(sessionManagement.getSession());
@@ -113,6 +125,16 @@ public class EventDetails extends AppCompatActivity {
         Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
         eventCover.setImageBitmap(bitmap);
 
+        final Handler handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                MapsFragment fragment = (MapsFragment) getSupportFragmentManager().findFragmentById(R.id.frameFragment);
+                String address = (event.getLocation()).toString();
+                fragment.locationSearch(address);
+            }
+        }, 500);
+
         try {
             Date joinedDate = new SimpleDateFormat("yyyy-MM-dd").parse(organizer.getJoinedDate());
             SimpleDateFormat formatter = new SimpleDateFormat("MMM yyyy");
@@ -124,7 +146,23 @@ public class EventDetails extends AppCompatActivity {
 
     private void setButtonVisibility(String userId) {
         Cursor GetFollowers = DB.checkFollowing(Integer.valueOf(userId), Integer.valueOf(event.getOrganizerId()));
+        Cursor GetUserByID = DB.getUserById(event.getOrganizerId());
+        Boolean CheckPicture = DB.checkProfilePicture(event.getOrganizerId());
 
+        if(!CheckPicture){
+            if (GetUserByID != null && GetUserByID.getCount() > 0) {
+                GetUserByID.moveToFirst();
+                cover_photo.setImageResource(R.drawable.defaulticon);
+            }
+        } else {
+            if (GetUserByID != null && GetUserByID.getCount() > 0) {
+                GetUserByID.moveToFirst();
+                byte[] blob = GetUserByID.getBlob(GetUserByID.getColumnIndex("profilePicture"));
+                ByteArrayInputStream inputStream = new ByteArrayInputStream(blob);
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                cover_photo.setImageBitmap(bitmap);
+            }
+        }
 
         if (GetFollowers !=null && GetFollowers.getCount() > 0) {
             btn_follow.setVisibility(View.INVISIBLE);
@@ -141,14 +179,31 @@ public class EventDetails extends AppCompatActivity {
             btnEditEvent.setVisibility(View.VISIBLE);
         } else {
             btnEditEvent.setVisibility(View.INVISIBLE);
-            if(participantList.contains(userId)){
-                btnCancelVolunteer.setVisibility(View.VISIBLE);
-                btnVolunteer.setVisibility(View.INVISIBLE);
+            if(event.getCapacity()>participantList.size()){
+                btnVolunteer.setText("VOLUNTEER");
+                btnVolunteer.setAlpha(1f);
+                if(participantList.contains(userId)){
+                    btnCancelVolunteer.setVisibility(View.VISIBLE);
+                    btnVolunteer.setVisibility(View.INVISIBLE);
+                }
+                else {
+                    btnVolunteer.setVisibility(View.VISIBLE);
+                    btnCancelVolunteer.setVisibility(View.INVISIBLE);
+                }
             }
-            else {
-                btnVolunteer.setVisibility(View.VISIBLE);
+            else{
                 btnCancelVolunteer.setVisibility(View.INVISIBLE);
+                btnVolunteer.setVisibility(View.VISIBLE);
+                btnVolunteer.setClickable(false);
+                btnVolunteer.setAlpha(0.5f);
+                btnVolunteer.setText("CAPACITY FULL");
             }
+
+        }
+
+        if (userId.equals(event.getOrganizerId())){
+            btn_follow.setVisibility(View.GONE);
+            btn_unfollow.setVisibility(View.GONE);
         }
     }
     public void onClickEditEvent (View view) {
@@ -296,13 +351,18 @@ public class EventDetails extends AppCompatActivity {
         MenuItem bookmark = menu.findItem(R.id.btn_bookmark);
         MenuItem unbookmark = menu.findItem(R.id.btn_unbookmark);
 
-        if(checkIfBookmarked()){
+        if((event.getOrganizerId()).equals(userId)){
             bookmark.setVisible(false);
-            unbookmark.setVisible(true);
-        }
-        else{
-            bookmark.setVisible(true);
             unbookmark.setVisible(false);
+        }
+        else {
+            if (checkIfBookmarked()) {
+                bookmark.setVisible(false);
+                unbookmark.setVisible(true);
+            } else {
+                bookmark.setVisible(true);
+                unbookmark.setVisible(false);
+            }
         }
 
         return true;

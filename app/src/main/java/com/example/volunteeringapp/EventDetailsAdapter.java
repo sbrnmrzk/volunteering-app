@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +17,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.ByteArrayInputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 public class EventDetailsAdapter extends RecyclerView.Adapter<EventDetailsAdapter.EventViewHolder> {
     ArrayList<Event> eventList;
@@ -26,6 +30,7 @@ public class EventDetailsAdapter extends RecyclerView.Adapter<EventDetailsAdapte
     DBHelper dbHelper;
     SQLiteDatabase db;
     Calendar c;
+    String day;
 
     public EventDetailsAdapter(ArrayList<Event> eventList) {
         this.eventList = eventList;
@@ -46,8 +51,18 @@ public class EventDetailsAdapter extends RecyclerView.Adapter<EventDetailsAdapte
     @Override
     public void onBindViewHolder(@NonNull EventViewHolder holder, int position) {
         Event event = eventList.get(position);
+
+        Date date_proper= null;
+        try {
+            date_proper = new SimpleDateFormat("dd MMM yyyy").parse(event.getDate().toString());
+            day = (String) DateFormat.format("EEEE",   date_proper); // 20
+        } catch (ParseException e) {
+            day = "";
+            e.printStackTrace();
+        }
+
         holder.eventTitle.setText(event.getEventTitle());
-        holder.eventDate.setText(event.getDate() + ", " +  event.getStartTime());
+        holder.eventDate.setText(day + ", " + event.getDate() + ", " +  event.getStartTime());
         holder.eventLocation.setText(event.getLocation());
 
         ByteArrayInputStream inputStream = new ByteArrayInputStream(event.getCoverPhoto());
