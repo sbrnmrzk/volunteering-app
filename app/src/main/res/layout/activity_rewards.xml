@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8F8F8">
+
+    <TextView
+        android:id="@+id/TV_RewardsPage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rewards"
+        android:textColor="#000000"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.059"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.079" />
+
+    <View
+        android:id="@+id/view5"
+        android:layout_width="130dp"
+        android:layout_height="0.5dp"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/TV_Badges"
+        android:background="#c0c0c0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/TV_Badges"
+        app:layout_constraintHorizontal_bias="0.658"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.187" />
+
+    <TextView
+        android:id="@+id/TV_Badges"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="BADGES"
+        android:textColor="#5C5C5C"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.175" />
+
+    <View
+        android:layout_width="130dp"
+        android:layout_height="0.5dp"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/TV_Badges"
+        android:background="#c0c0c0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.889"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.187" />
+
+
+    <View
+        android:layout_width="120dp"
+        android:layout_height="0.5dp"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/TV_Rewards"
+        android:background="#c0c0c0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.295"
+        app:layout_constraintStart_toEndOf="@+id/TV_Rewards"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.383" />
+
+    <TextView
+        android:id="@+id/TV_Rewards"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="REWARDS"
+        android:textColor="#5C5C5C"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.379" />
+
+    <View
+        android:layout_width="120dp"
+        android:layout_height="0.5dp"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/TV_Rewards"
+        android:background="#c0c0c0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/TV_Rewards"
+        app:layout_constraintHorizontal_bias="0.613"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.383" />
+
+    <RelativeLayout
+        android:id="@+id/RL_Rewards1"
+        android:layout_width="355dp"
+        android:layout_height="107dp"
+
+
+        android:background="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.446"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/IV_Shopee1"
+            android:layout_width="136dp"
+            android:layout_height="86dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="9dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="210dp"
+            android:layout_marginRight="210dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/imageshadow"
+            app:srcCompat="@drawable/shopee" />
+
+        <TextView
+            android:id="@+id/TV_Shopee1Off"
+            android:layout_width="101dp"
+            android:layout_height="22dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="11dp"
+            android:layout_marginRight="98dp"
+            android:layout_marginBottom="73dp"
+            android:text="RM50 OFF"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/TV_S1Minspend"
+            android:layout_width="78dp"
+            android:layout_height="12dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="34dp"
+            android:layout_marginEnd="121dp"
+            android:layout_marginRight="121dp"
+            android:layout_marginBottom="61dp"
+            android:text="Min. Spend RM200"
+            android:textSize="8sp" />
+
+        <TextView
+            android:id="@+id/TV_Claim1"
+            android:layout_width="wrap_content"
+            android:layout_height="14dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="85dp"
+            android:layout_marginEnd="7dp"
+            android:layout_marginRight="7dp"
+            android:layout_marginBottom="7dp"
+            android:text="Claim now >"
+            android:textColor="#005280"
+            android:textSize="10sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/TV_S1TC"
+            android:layout_width="wrap_content"
+            android:layout_height="8dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="86dp"
+            android:layout_marginEnd="171dp"
+            android:layout_marginRight="171dp"
+            android:layout_marginBottom="12dp"
+            android:fontFamily="sans-serif-thin"
+            android:text="@string/t_c_apply"
+            android:textSize="6sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/TV_S1Expiry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="126dp"
+            android:layout_marginRight="126dp"
+            android:layout_marginBottom="41dp"
+            android:text="Valid Till 30-01-2021"
+            android:textSize="8sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/RL_Rewards2"
+        android:layout_width="355dp"
+        android:layout_height="107dp"
+
+
+        android:background="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.446"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.693" >
+
+
+        <ImageView
+            android:id="@+id/IV_Dahmakan"
+            android:layout_width="136dp"
+            android:layout_height="86dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="9dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="210dp"
+            android:layout_marginRight="210dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/imageroundcorner"
+            app:srcCompat="@drawable/dahmakan" />
+
+        <TextView
+            android:id="@+id/TV_DM1Off"
+            android:layout_width="101dp"
+            android:layout_height="22dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="11dp"
+            android:layout_marginRight="98dp"
+            android:layout_marginBottom="73dp"
+            android:text="RM10 OFF"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/TV_DM1minSpend"
+            android:layout_width="78dp"
+            android:layout_height="12dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="34dp"
+            android:layout_marginEnd="121dp"
+            android:layout_marginRight="121dp"
+            android:layout_marginBottom="61dp"
+            android:text="Min. Spend RM30"
+            android:textSize="8sp" />
+
+        <TextView
+            android:id="@+id/TV_DM1Expiry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="126dp"
+            android:layout_marginRight="126dp"
+            android:layout_marginBottom="41dp"
+            android:text="Valid Till 30-01-2021"
+            android:textSize="8sp" />
+
+        <TextView
+            android:id="@+id/TV_DM1TC"
+            android:layout_width="wrap_content"
+            android:layout_height="8dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="86dp"
+            android:layout_marginEnd="171dp"
+            android:layout_marginRight="171dp"
+            android:layout_marginBottom="12dp"
+            android:fontFamily="sans-serif-thin"
+            android:text="@string/t_c_apply"
+            android:textSize="6sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/TV_Claim2"
+            android:layout_width="wrap_content"
+            android:layout_height="14dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="85dp"
+            android:layout_marginEnd="7dp"
+            android:layout_marginRight="7dp"
+            android:layout_marginBottom="7dp"
+            android:text="Claim now >"
+            android:textColor="#005280"
+            android:textSize="10sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/IV_VBadge"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.048"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TV_Badges"
+        app:srcCompat="@drawable/verifiedbadge" />
+
+    <ImageView
+        android:id="@+id/IV_GiverBadge"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/IV_VBadge"
+        app:layout_constraintTop_toBottomOf="@+id/TV_Badges"
+        app:srcCompat="@drawable/thegiverbadge" />
+
+    <ImageView
+        android:id="@+id/IV_GreenBadge"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/IV_GiverBadge"
+        app:layout_constraintTop_toBottomOf="@+id/TV_Badges"
+        app:srcCompat="@drawable/gogreen" />
+
+    <ImageView
+        android:id="@+id/IV_BloodBadge"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/IV_GreenBadge"
+        app:layout_constraintTop_toBottomOf="@+id/TV_Badges"
+        app:srcCompat="@drawable/blooddonate_badge" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        app:itemIconTint="@drawable/navbar_color"
+        app:itemTextColor="@drawable/navbar_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/bottom_navigation_menu" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
