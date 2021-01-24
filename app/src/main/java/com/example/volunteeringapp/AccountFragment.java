@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.ByteArrayInputStream;
 
@@ -107,7 +106,7 @@ public class AccountFragment extends Fragment {
         btn_Rewards.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent reward = new Intent(getActivity(), activity_rewards_page.class);
+                Intent reward = new Intent(getActivity(), DisplayRewardsActivity.class);
                 startActivity(reward);
 
             }

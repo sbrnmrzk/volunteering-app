@@ -18,7 +18,6 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -32,7 +31,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -42,7 +40,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -58,6 +55,7 @@ public class CreateEventActivity extends AppCompatActivity {
     final FragmentManager fm = getSupportFragmentManager();
     String lat;
     String lat2;
+    String rewardId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -189,7 +187,7 @@ public class CreateEventActivity extends AppCompatActivity {
                                 if( event_title.equals("")||description.equals("")||capacity.equals("")||location.equals("")||start_date.equals("")||start_time.equals("")||end_time.equals("") )
                                     Toast.makeText(CreateEventActivity.this, "Please enter all the fields", Toast.LENGTH_SHORT).show();
                                 else {
-                                    Boolean createEvent = DB.createEvent(event_title, description, capacity, location, start_date, start_time, end_time, organizer_id, b_cover_photo, lat, lat2);
+                                    Boolean createEvent = DB.createEvent(event_title, description, capacity, location, start_date, start_time, end_time, organizer_id, b_cover_photo, lat, lat2, rewardId);
                                     if (createEvent == true) {
                                         addNotification(organizer_id);
                                         Toast.makeText(CreateEventActivity.this, "Created event successfully.", Toast.LENGTH_SHORT).show();
@@ -335,6 +333,9 @@ public class CreateEventActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if(data.getStringArrayExtra("requestCode") != null ){
+            requestCode = Integer.parseInt(data.getStringExtra("requestCode"));
+        }
         if (resultCode == RESULT_OK) {
             if (requestCode == 1) {
                 File f = new File(Environment.getExternalStorageDirectory().toString());
@@ -386,6 +387,9 @@ public class CreateEventActivity extends AppCompatActivity {
                 cover_photo.setVisibility(View.VISIBLE);
 
             }
+            else if(requestCode == 3){
+                this.rewardId = data.getStringExtra("rewardId");
+            }
         }
     }
     @Override
@@ -396,8 +400,8 @@ public class CreateEventActivity extends AppCompatActivity {
 
     public boolean rewards(View view){
         //Toast.makeText(CreateEventActivity.this, "Rewards are not available yet.", Toast.LENGTH_SHORT).show();
-        Intent rewardadd = new Intent (CreateEventActivity.this, activity_rewards_add.class);
-        startActivity(rewardadd);
+        Intent rewardadd = new Intent (CreateEventActivity.this, CreateRewardsActivity.class);
+        startActivityForResult(rewardadd, 3);
         return true;
     }
 }
