@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import java.io.ByteArrayInputStream;
 import java.util.Arrays;
@@ -33,6 +34,10 @@ public class ViewOrganizerProfile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_profile);
 
+        Toolbar myChildToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(myChildToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
         btn_follow = (Button) findViewById(R.id.btn_follow);
         btn_unfollow = (Button) findViewById(R.id.btn_unfollow);
@@ -148,16 +153,19 @@ public class ViewOrganizerProfile extends AppCompatActivity {
                 float numberOfRater = GetRaters.getCount();
                 float currentRating = ratingBar.getRating();
 
-                if (GetRating !=null && GetRating.getCount() > 0) {
-                    if (CheckRaters !=null && CheckRaters.getCount() > 0) {
-                        CheckRaters.moveToFirst();
-                        Integer checkRaters = CheckRaters.getInt(1);
-                        Toast.makeText(ViewOrganizerProfile.this, "This user has been rated!", Toast.LENGTH_SHORT).show();
+                if (user_id.equals(organizer_id)) {
+                    Toast.makeText(ViewOrganizerProfile.this, "Cannot rate yourself!", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (GetRating != null && GetRating.getCount() > 0) {
+                        if (CheckRaters != null && CheckRaters.getCount() > 0) {
+                            CheckRaters.moveToFirst();
+                            Integer checkRaters = CheckRaters.getInt(1);
+                            Toast.makeText(ViewOrganizerProfile.this, "This user has been rated!", Toast.LENGTH_SHORT).show();
 
-                    } else {
+                        } else {
                             GetRating.moveToFirst();
                             float currentAvgRating = GetRating.getFloat(5);
-                            if (numberOfRater == 0){
+                            if (numberOfRater == 0) {
                                 Toast.makeText(ViewOrganizerProfile.this, "No one ever rate this user!", Toast.LENGTH_SHORT).show();
                                 float numberOfRaterPass = 1.0f;
                                 float calculatedAvgRating = (currentAvgRating + currentRating) / numberOfRaterPass;
@@ -166,12 +174,13 @@ public class ViewOrganizerProfile extends AppCompatActivity {
                                 DB.addNotificationForFollowerAndRating(organizer_id.toString(), getCurrentUserName(user_id) + " has rated you with " + currentRating + " stars!", user_id);
                             } else {
                                 Toast.makeText(ViewOrganizerProfile.this, "This user has been rated!", Toast.LENGTH_SHORT).show();
-                                float calculatedAvgRating = (currentAvgRating + currentRating) / (numberOfRater+1);
+                                float calculatedAvgRating = (currentAvgRating + currentRating) / (numberOfRater + 1);
                                 DB.giveRating(organizer_id, user_id, currentRating);
                                 DB.updateAvgRating(calculatedAvgRating, organizer_id);
                             }
                         }
                     }
+                }
             }
         });
 
@@ -292,5 +301,11 @@ public class ViewOrganizerProfile extends AppCompatActivity {
         });
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }
