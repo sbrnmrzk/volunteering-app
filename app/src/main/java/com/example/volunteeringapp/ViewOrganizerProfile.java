@@ -172,11 +172,15 @@ public class ViewOrganizerProfile extends AppCompatActivity {
                                 DB.giveRating(organizer_id, user_id, currentRating);
                                 DB.updateAvgRating(calculatedAvgRating, organizer_id);
                                 DB.addNotificationForFollowerAndRating(organizer_id.toString(), getCurrentUserName(user_id) + " has rated you with " + currentRating + " stars!", user_id);
+                                finish();
+                                startActivity(getIntent());
                             } else {
                                 Toast.makeText(ViewOrganizerProfile.this, "This user has been rated!", Toast.LENGTH_SHORT).show();
                                 float calculatedAvgRating = (currentAvgRating + currentRating) / (numberOfRater + 1);
                                 DB.giveRating(organizer_id, user_id, currentRating);
                                 DB.updateAvgRating(calculatedAvgRating, organizer_id);
+                                finish();
+                                startActivity(getIntent());
                             }
                         }
                     }
