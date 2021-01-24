@@ -298,7 +298,7 @@ public class EventDetails extends AppCompatActivity {
         alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                finish();
+//                finish();
             }
         });
         AlertDialog alertDialog = alertDialogBuilder.create();

@@ -62,7 +62,7 @@ public class DisplayRewardsActivity extends AppCompatActivity implements View.On
                 badge3.setVisibility(View.VISIBLE);
             }
         }
-        
+
         //Bundle bundle = getIntent().getExtras();
         TextView claimNow1 = (TextView) findViewById(R.id.TV_R1ClaimBtn);
         TextView claimNow2 = (TextView) findViewById(R.id.TV_R2ClaimBtn);
