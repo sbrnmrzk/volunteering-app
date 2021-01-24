@@ -1,11 +1,15 @@
 package com.example.volunteeringapp;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,6 +17,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.ByteArrayInputStream;
 import java.util.Arrays;
 
 public class ViewOrganizerProfile extends AppCompatActivity {
@@ -22,6 +27,7 @@ public class ViewOrganizerProfile extends AppCompatActivity {
     Button btn_contact;
     Button btn_give_rating;
     DBHelper DB;
+    ImageView cover_photo;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +38,7 @@ public class ViewOrganizerProfile extends AppCompatActivity {
         btn_unfollow = (Button) findViewById(R.id.btn_unfollow);
         btn_contact = (Button) findViewById(R.id.btn_contact);
         btn_give_rating = (Button) findViewById(R.id.btn_give_rating);
+        cover_photo = (ImageView) findViewById(R.id.IV_CoverPhoto3);
 
         SessionManagement sessionManagement = new SessionManagement(ViewOrganizerProfile.this);
         String current_user = Integer.toString(sessionManagement.getSession());
@@ -53,6 +60,7 @@ public class ViewOrganizerProfile extends AppCompatActivity {
                 Cursor GetFollowers = DB.getFollowers(organizer_id);
                 Cursor GetRating = DB.getAvgRating(organizer_id);
                 Cursor GetRaters = DB.getRaters(organizer_id);
+                Boolean CheckPicture = DB.checkProfilePicture(organizer);
 
                 TextView name = (TextView) findViewById(R.id.ET_name);
                 TextView date = (TextView) findViewById(R.id.ET_joined);
@@ -64,6 +72,24 @@ public class ViewOrganizerProfile extends AppCompatActivity {
 
                 if (user_id.equals(organizer_id)){
                     follow.setVisibility(View.GONE);
+                }
+
+                if(!CheckPicture){
+//                    Toast.makeText(ViewOrganizerProfile.this, "Picture is not available!", Toast.LENGTH_SHORT).show();
+                    if (GetUserByID != null && GetUserByID.getCount() > 0) {
+                        GetUserByID.moveToFirst();
+                        cover_photo.setVisibility(View.GONE);
+                    }
+                } else {
+//                    Toast.makeText(ViewOrganizerProfile.this, "Picture is available!", Toast.LENGTH_SHORT).show();
+                    if (GetUserByID != null && GetUserByID.getCount() > 0) {
+                        GetUserByID.moveToFirst();
+//                        Toast.makeText(ViewOrganizerProfile.this, "Picture is available!", Toast.LENGTH_SHORT).show();
+                        byte[] blob = GetUserByID.getBlob(GetUserByID.getColumnIndex("profilePicture"));
+                        ByteArrayInputStream inputStream = new ByteArrayInputStream(blob);
+                        Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                        cover_photo.setImageBitmap(bitmap);
+                    }
                 }
 
                 if (GetRating !=null && GetRating.getCount() > 0) {
@@ -130,7 +156,9 @@ public class ViewOrganizerProfile extends AppCompatActivity {
                     if (CheckRaters !=null && CheckRaters.getCount() > 0) {
                         CheckRaters.moveToFirst();
                         Integer checkRaters = CheckRaters.getInt(1);
-                        } else {
+                        Toast.makeText(ViewOrganizerProfile.this, "This user has been rated!", Toast.LENGTH_SHORT).show();
+
+                    } else {
                             GetRating.moveToFirst();
                             float currentAvgRating = GetRating.getFloat(5);
                             if (numberOfRater == 0){
@@ -147,6 +175,30 @@ public class ViewOrganizerProfile extends AppCompatActivity {
                             }
                         }
                     }
+            }
+        });
+
+        btn_contact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                Toast.makeText(ViewOrganizerProfile.this, "Contacted!", Toast.LENGTH_SHORT).show();
+
+                String organizer = getIntent().getStringExtra("organizer_id");
+                Cursor GetEmail = DB.getUserById(organizer);
+                if (GetEmail !=null && GetEmail.getCount() > 0) {
+                GetEmail.moveToFirst();
+                String email = GetEmail.getString(2);
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.putExtra(Intent.EXTRA_EMAIL, new String[] {email});
+                intent.setType("message/rfc822");
+                    if (intent.resolveActivity(getPackageManager()) != null){
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(ViewOrganizerProfile.this, "Unable to contact!", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(ViewOrganizerProfile.this, "No email available.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

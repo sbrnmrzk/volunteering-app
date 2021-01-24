@@ -2,9 +2,12 @@ package com.example.volunteeringapp;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,12 +16,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import org.w3c.dom.Text;
 
+import java.io.ByteArrayInputStream;
+
 public class ViewProfile extends AppCompatActivity {
 
     RatingBar ratingBar;
     Button btn_follow, btn_unfollow;
     Button btn_contact;
     Button btn_give_rating;
+    ImageView cover_photo;
     DBHelper DB;
 
     @Override
@@ -31,6 +37,7 @@ public class ViewProfile extends AppCompatActivity {
         btn_unfollow = (Button) findViewById(R.id.btn_unfollow);
         btn_contact = (Button) findViewById(R.id.btn_contact);
         btn_give_rating = (Button) findViewById(R.id.btn_give_rating);
+        cover_photo = (ImageView) findViewById(R.id.IV_CoverPhoto3);
 
         SessionManagement sessionManagement = new SessionManagement(ViewProfile.this);
         String current_user = Integer.toString(sessionManagement.getSession());
@@ -47,6 +54,7 @@ public class ViewProfile extends AppCompatActivity {
                 Cursor GetUserByID = DB.getUserById(current_user);
                 Cursor GetFollowing = DB.getFollowing(userID);
                 Cursor GetFollowers = DB.getFollowers(userID);
+                Boolean CheckPicture = DB.checkProfilePicture(current_user);
 
                 TextView name = (TextView) findViewById(R.id.ET_name);
                 TextView date = (TextView) findViewById(R.id.ET_joined);
@@ -54,10 +62,30 @@ public class ViewProfile extends AppCompatActivity {
                 TextView unfollow = (TextView) findViewById(R.id.btn_unfollow);
                 TextView following = (TextView) findViewById(R.id.ET_following_numbers);
                 TextView followers = (TextView) findViewById(R.id.ET_followers_numbers);
+                Button btnContact = (Button) findViewById(R.id.btn_contact);
 
                 if (user_id.equals(follower_id)){
                     follow.setVisibility(View.GONE);
                     unfollow.setVisibility(View.GONE);
+                    btnContact.setVisibility(View.GONE);
+                }
+
+                if(!CheckPicture){
+//                    Toast.makeText(ViewProfile.this, "Picture is not available!", Toast.LENGTH_SHORT).show();
+                    if (GetUserByID != null && GetUserByID.getCount() > 0) {
+                        GetUserByID.moveToFirst();
+                        cover_photo.setVisibility(View.GONE);
+                    }
+                } else {
+//                    Toast.makeText(ViewProfile.this, "Picture is available!", Toast.LENGTH_SHORT).show();
+                    if (GetUserByID != null && GetUserByID.getCount() > 0) {
+                        GetUserByID.moveToFirst();
+//                        Toast.makeText(ViewProfile.this, "Picture is available!", Toast.LENGTH_SHORT).show();
+                        byte[] blob = GetUserByID.getBlob(GetUserByID.getColumnIndex("profilePicture"));
+                        ByteArrayInputStream inputStream = new ByteArrayInputStream(blob);
+                        Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                        cover_photo.setImageBitmap(bitmap);
+                    }
                 }
 
                 if (GetUserByID != null && GetUserByID.getCount() > 0) {
