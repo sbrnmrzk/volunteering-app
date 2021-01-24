@@ -86,7 +86,7 @@
             android:layout_width="410dp"
             android:layout_height="58dp"
             android:gravity="center|left"
-            android:onClick="viewEvent"
+            android:onClick="editProfile"
             android:text="Edit profile"
             android:textAllCaps="false"
             android:fontFamily="@font/open_sans"

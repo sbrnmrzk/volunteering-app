@@ -42,7 +42,7 @@
         app:menu="@menu/bottom_navigation_menu" />
 
     <FrameLayout
-        android:id="@+id/frameFragment"
+        android:id="@+id/FL_MP"
         android:layout_width="395dp"
         android:layout_height="594dp"
         android:layout_marginBottom="3dp"
@@ -59,66 +59,87 @@
             android:orientation="vertical">
 
             <ImageButton
-                android:id="@+id/imageButton"
-                android:layout_width="135dp"
-                android:layout_height="129dp"
+                android:id="@+id/IB_profile"
+                android:layout_width="110dp"
+                android:layout_height="102dp"
                 android:layout_gravity="center"
+                android:layout_marginTop="20dp"
                 tools:srcCompat="@tools:sample/avatars" />
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/TV_nameTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Name" />
+                android:layout_marginTop="20dp"
+                android:text="NAME"
+                android:textColor="#000000"
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/editTextTextPersonName"
+                android:id="@+id/ET_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:text="Siti Saleha" />
+                android:text="Siti Saleha"
+                android:hint="Enter your name"
+                android:textColor="#757575" />
 
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/TV_emailTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Email" />
+                android:layout_marginTop="20dp"
+                android:text="EMAIL"
+                android:textColor="#000000"
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/editTextTextPersonName2"
+                android:id="@+id/ET_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textPersonName"
-                android:text="sitisaleha@gmail.com" />
+                android:inputType="textEmailAddress"
+                android:text="sitisaleha@gmail.com"
+                android:hint="Enter your email"
+                android:textColor="#7E7E7E" />
 
             <TextView
-                android:id="@+id/textView8"
+                android:id="@+id/TV_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Password" />
+                android:layout_marginTop="20dp"
+                android:text="PASSWORD"
+                android:textColor="#000000"
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
             <Button
-                android:id="@+id/button3"
+                android:id="@+id/BTN_changePassword"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#FFFDFD"
+                android:layout_height="38dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/round_btn_white"
                 android:text="Change Password" />
 
             <Button
-                android:id="@+id/button4"
+                android:id="@+id/BTN_saveProfile"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#005280"
+                android:layout_height="38dp"
+                android:layout_marginTop="40dp"
+                android:background="@drawable/round_btn_blue"
                 android:text="SAVE CHANGES"
+                android:enabled="false"
                 android:textColor="#FFFFFF" />
 
             <Button
-                android:id="@+id/button5"
+                android:id="@+id/BTN_discardProfileChange"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#FFFFFF"
+                android:layout_height="38dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/round_btn_white"
                 android:text="DISCARD" />
         </LinearLayout>
     </FrameLayout>

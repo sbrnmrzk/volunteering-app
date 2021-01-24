@@ -68,11 +68,21 @@ public class AccountFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), activity_rewards_page.class);
-                intent.putExtra("some", "somela");
+                startActivity(intent);
+
+            }
+        });
+
+        Button btn_editProfile = (Button) view.findViewById(R.id.btn_editProfile);
+        btn_editProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ManageProfile.class);
                 startActivity(intent);
 
             }
         });
         return view;
+
     }
 }
