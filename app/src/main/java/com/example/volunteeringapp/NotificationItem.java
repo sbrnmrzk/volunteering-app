@@ -6,6 +6,8 @@ public class NotificationItem {
     private Integer userId;
     private String notificationDetails;
     private String notificationTime;
+    private Integer eventId;
+    private Integer profileId;
 
     public Integer getId() {
         return id;
@@ -37,5 +39,21 @@ public class NotificationItem {
 
     public void setNotificationTime(String notificationTime) {
         this.notificationTime = notificationTime;
+    }
+
+    public Integer getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(Integer eventId) {
+        this.eventId = eventId;
+    }
+
+    public Integer getProfileId() {
+        return profileId;
+    }
+
+    public void setProfileId(Integer profileId) {
+        this.profileId = profileId;
     }
 }

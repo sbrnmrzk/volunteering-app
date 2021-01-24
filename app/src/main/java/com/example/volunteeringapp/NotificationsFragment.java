@@ -88,7 +88,6 @@ public class NotificationsFragment extends Fragment implements View.OnClickListe
             public void onClick(View v) {
                 SessionManagement sessionManagement = new SessionManagement(getContext());
                 Integer userId = sessionManagement.getSession();
-                DB.addNotification(userId.toString(), "Notification testing!");
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.detach(NotificationsFragment.this).attach(NotificationsFragment.this).commit();
             }
@@ -142,6 +141,8 @@ public class NotificationsFragment extends Fragment implements View.OnClickListe
                 notificationItem.setId(res.getInt(res.getColumnIndex("ID")));
                 notificationItem.setNotificationDetails(res.getString(res.getColumnIndex("notification")));
                 notificationItem.setNotificationTime(res.getString(res.getColumnIndex("notification_date")));
+                notificationItem.setEventId(res.getInt(res.getColumnIndex("event_id")));
+                notificationItem.setProfileId(res.getInt(res.getColumnIndex("follower_id")));
                 notificationList.add(notificationItem);
             }
         }
@@ -157,7 +158,6 @@ public class NotificationsFragment extends Fragment implements View.OnClickListe
             case R.id.addNotifTemp:
                 SessionManagement sessionManagement = new SessionManagement(getContext());
                 Integer userId = sessionManagement.getSession();
-                DB.addNotification(userId.toString(), "Notification testing!");
                 break;
         }
     }

@@ -45,24 +45,50 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         return this.notifications.size();
     }
 
+
+    //HOLDER CLASS
     public class NotificationViewHolder extends RecyclerView.ViewHolder {
         TextView notificationDetails, notificationTime;
         NotificationItem notificationItem;
+        Event eventData;
+        User profileData;
         public NotificationViewHolder(View itemView) {
             super(itemView);
             notificationDetails = (TextView) itemView.findViewById(R.id.tv_notification);
             notificationTime = (TextView) itemView.findViewById(R.id.tv_notificationTime);
 
-            //idk how to implement on click redirect to notification? might have to change db implementation
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    Intent intent = new Intent(itemView.getContext(), EventDetails.class);
-//                    System.out.println(eventData.getId());
-//                    intent.putExtra("eventId", eventData.getId());
-//                    itemView.getContext().startActivity(intent);
-//                }
-//            });
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(notificationItem.getEventId() != null && notificationItem.getEventId()>0){
+                        Intent intent = new Intent(itemView.getContext(), EventDetails.class);
+                        intent.putExtra("eventId", notificationItem.getEventId());
+                        itemView.getContext().startActivity(intent);
+                    }
+                    if(notificationItem.getProfileId()!=null && notificationItem.getProfileId()>0){
+                        Intent profileDetails = new Intent(itemView.getContext(), ViewOrganizerProfile.class);
+                        profileDetails.putExtra("organizer_id", notificationItem.getProfileId().toString());
+                        itemView.getContext().startActivity(profileDetails);
+                    }
+                }
+            });
+        }
+
+        public void setProfileData(User user){
+            profileData = user;
+        }
+
+        public User getProfileData(){
+            return profileData;
+        }
+
+
+        public void setEventData(Event event){
+            eventData = event;
+        }
+
+        public Event getEventData(){
+            return eventData;
         }
 
         public void setNotificationData(NotificationItem notif) {
