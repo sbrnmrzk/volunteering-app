@@ -42,6 +42,7 @@ public class EventDetails extends AppCompatActivity {
     List<String> participantList;
     ImageView eventCover;
     Menu menu;
+    ImageView cover_photo;
 
     @Override
     protected void onRestart() {
@@ -75,7 +76,7 @@ public class EventDetails extends AppCompatActivity {
         eventCover = (ImageView) findViewById(R.id.iv_EventCover);
         btn_follow = (Button) findViewById(R.id.btn_followOrganizer);
         btn_unfollow = (Button) findViewById(R.id.btn_unfollowOrganizer);
-
+        cover_photo = (ImageView) findViewById(R.id.eventImg);
         //get Event by ID
         eventId = getIntent().getIntExtra("eventId", 0);
         System.out.println("Event id = " + eventId);
@@ -124,7 +125,23 @@ public class EventDetails extends AppCompatActivity {
 
     private void setButtonVisibility(String userId) {
         Cursor GetFollowers = DB.checkFollowing(Integer.valueOf(userId), Integer.valueOf(event.getOrganizerId()));
+        Cursor GetUserByID = DB.getUserById(event.getOrganizerId());
+        Boolean CheckPicture = DB.checkProfilePicture(event.getOrganizerId());
 
+        if(!CheckPicture){
+            if (GetUserByID != null && GetUserByID.getCount() > 0) {
+                GetUserByID.moveToFirst();
+                cover_photo.setImageResource(R.drawable.defaulticon);
+            }
+        } else {
+            if (GetUserByID != null && GetUserByID.getCount() > 0) {
+                GetUserByID.moveToFirst();
+                byte[] blob = GetUserByID.getBlob(GetUserByID.getColumnIndex("profilePicture"));
+                ByteArrayInputStream inputStream = new ByteArrayInputStream(blob);
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                cover_photo.setImageBitmap(bitmap);
+            }
+        }
 
         if (GetFollowers !=null && GetFollowers.getCount() > 0) {
             btn_follow.setVisibility(View.INVISIBLE);

@@ -231,13 +231,17 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <ImageView
+                    <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/eventImg"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
                         android:layout_margin="5dp"
                         android:layout_marginTop="5dp"
+                        android:adjustViewBounds="true"
                         android:contentDescription="Event Picture 01"
+                        android:scaleType="fitXY"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearance.Image.PILL"
+
                         tools:srcCompat="@tools:sample/avatars" />
 
                     <TextView
@@ -252,6 +256,7 @@
                         android:textSize="12sp"
                         android:textStyle="bold" />
 
+
                     <TextView
                         android:id="@+id/tv_eventOrganizerJoined"
                         android:layout_width="180dp"
@@ -261,7 +266,6 @@
                         android:layout_marginTop="20dp"
                         android:text="Joined"
                         android:textSize="12sp" />
-
 
                     <Button
                         android:id="@+id/btn_followOrganizer"

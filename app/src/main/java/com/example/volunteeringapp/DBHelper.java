@@ -220,6 +220,45 @@ public class DBHelper extends SQLiteOpenHelper {
             return true;
     }
 
+    public Boolean updateProfile(Integer ID, String name, String emailAddress, String password, Bitmap profilePicture){
+        SQLiteDatabase MyDB = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("name", name);
+        contentValues.put("emailAddress", emailAddress);
+        contentValues.put("password", password);
+
+        byte[] data = getBitmapAsByteArray(profilePicture);
+        contentValues.put("profilePicture", data);
+
+        long result = MyDB.update("profiles", contentValues, "ID = ?", new String[] {String.valueOf(ID)});
+        if (result==-1)
+            return true;
+        else
+            return false;
+    }
+
+//    public Boolean checkProfilePicture(String user_id){
+//        SQLiteDatabase MyDB = this.getReadableDatabase();
+//
+//        Cursor cursor = MyDB.rawQuery("Select * from profiles where ID = ? and profilePicture = NULL", new String[] {user_id});
+//        System.out.println(cursor.getCount());
+//
+//        if (cursor.getCount() > 0)
+//            return true;
+//        else
+//            return false;
+//    }
+
+    public boolean checkProfilePicture(String user_id){
+        SQLiteDatabase MyDB = this.getReadableDatabase();
+        Cursor cursor = MyDB.rawQuery("SELECT profilePicture IS NOT NULL FROM profiles WHERE ID = ?", new String[] {user_id});
+        boolean result = cursor.moveToFirst();
+        if (result) result = (cursor.getInt(0) == 1) ;
+//        cursor.close();
+//        MyDB.close();
+        return result;
+    }
+
     public Boolean checkEmailAddress(String emailAddress){
         SQLiteDatabase MyDB = this.getWritableDatabase();
         Cursor cursor = MyDB.rawQuery("Select * from users where emailAddress = ?", new String[] {emailAddress});
