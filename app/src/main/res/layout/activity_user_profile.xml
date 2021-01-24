@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ViewProfile">
+    android:background="#F8F8F8">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -149,7 +149,7 @@
             android:id="@+id/ET_badges_numbersUP"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="121"
+            android:text="1"
             android:textColor="#000000"
             android:textColorHint="#000000"
             android:textSize="20sp"
