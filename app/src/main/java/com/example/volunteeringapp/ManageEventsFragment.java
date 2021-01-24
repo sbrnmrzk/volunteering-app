@@ -10,17 +10,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link fragment_manage_events#newInstance} factory method to
+ * Use the {@link ManageEventsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class fragment_manage_events extends Fragment {
+public class ManageEventsFragment extends Fragment {
 
     DBHelper DB;
     private RecyclerView recyclerView;
@@ -37,7 +36,7 @@ public class fragment_manage_events extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public fragment_manage_events() {
+    public ManageEventsFragment() {
         // Required empty public constructor
     }
 
@@ -50,8 +49,8 @@ public class fragment_manage_events extends Fragment {
      * @return A new instance of fragment fragment_manage_events.
      */
     // TODO: Rename and change types and number of parameters
-    public static fragment_manage_events newInstance(String param1, String param2) {
-        fragment_manage_events fragment = new fragment_manage_events();
+    public static ManageEventsFragment newInstance(String param1, String param2) {
+        ManageEventsFragment fragment = new ManageEventsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -99,6 +98,14 @@ public class fragment_manage_events extends Fragment {
             }
         }
         res.close();
+
+        TextView unavailable = (TextView) view.findViewById(R.id.tv_manageEventsEmpty);
+        if(eventList.size()>0){
+            unavailable.setVisibility(View.INVISIBLE);
+        }
+        else {
+            unavailable.setVisibility(View.VISIBLE);
+        }
         layoutManager = new LinearLayoutManager(getContext());
         eventAdapter = new EventDetailsAdapter(eventList);
         recyclerView.setLayoutManager(layoutManager);
