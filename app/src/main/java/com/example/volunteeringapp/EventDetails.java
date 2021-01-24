@@ -37,15 +37,17 @@ public class EventDetails extends AppCompatActivity {
     User organizer;
     DBHelper DB;
     TextView eventTitle, eventDateStart, eventDateEnd, eventDescription, eventLocation, startTime, endTime, organizerName,
-        organizerDate;
+        organizerDate, tv_rewardTitle, tv_rewardDesc;
     Button btnVolunteer, btnCancelVolunteer, btn_follow, btn_unfollow, btnEditEvent;
     MenuItem btn_bookmark, btn_unbookmark;
     List<Event> eventList;
+    List<Rewards> rewardList;
     List<User> userList;
     String participants, userId;
     List<String> participantList;
     ImageView eventCover;
     Menu menu;
+    Rewards reward;
     ImageView cover_photo;
     final Fragment mapF = new MapsFragment();
     Fragment active = mapF;
@@ -84,10 +86,13 @@ public class EventDetails extends AppCompatActivity {
         btn_follow = (Button) findViewById(R.id.btn_followOrganizer);
         btn_unfollow = (Button) findViewById(R.id.btn_unfollowOrganizer);
         cover_photo = (ImageView) findViewById(R.id.eventImg);
+        tv_rewardTitle = (TextView) findViewById(R.id.tv_rewardTitle);
+        tv_rewardDesc = (TextView) findViewById(R.id.tv_rewardDesc);
         //get Event by ID
         eventId = getIntent().getIntExtra("eventId", 0);
         System.out.println("Event id = " + eventId);
         eventList = new ArrayList<Event>();
+        rewardList = new ArrayList<Rewards>();
         userList = new ArrayList<User>();
         userList.clear();
         eventList.clear();
@@ -121,6 +126,8 @@ public class EventDetails extends AppCompatActivity {
         endTime.setText(event.getEndTime());
         eventLocation.setText(event.getLocation());
         organizerName.setText(organizer.getName());
+        tv_rewardTitle.setText(reward.getName());
+        tv_rewardDesc.setText(reward.getName());
 
         ByteArrayInputStream inputStream = new ByteArrayInputStream(event.getCoverPhoto());
         Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
@@ -412,6 +419,9 @@ public class EventDetails extends AppCompatActivity {
                     eventItem.setOrganizerId(res.getString(res.getColumnIndex("organizer")));
                     eventItem.setParticipants(res.getString(res.getColumnIndex("participants")));
                     eventItem.setCoverPhoto(res.getBlob(res.getColumnIndex("cover_photo")));
+                    eventItem.setRewardId(res.getString(res.getColumnIndex("rewards")));
+                    reward = getReward(eventItem.getRewardId());
+
                     eventList.add(eventItem);
                 }
             } else {
@@ -424,4 +434,32 @@ public class EventDetails extends AppCompatActivity {
             return null;
         }
     }
+
+    private Rewards getReward(String rewardId) {
+        try{
+            DB = new DBHelper(this);
+            Cursor res = DB.getRewardById(rewardId);
+            if(res != null && res.getCount()>0){
+                rewardList.clear();
+                while (res.moveToNext()){
+                    Rewards reward = new Rewards();
+                    reward.setId(res.getInt(res.getColumnIndex("ID")));
+                    reward.setName(res.getString(res.getColumnIndex("reward_title")));
+                    reward.setDescription(res.getString(res.getColumnIndex("reward_description")));
+                    reward.setCouponCode(res.getString(res.getColumnIndex("coupon_code")));
+                    reward.setCoverPhoto(res.getBlob(res.getColumnIndex("cover_photo")));
+                    rewardList.add(reward);
+                }
+            } else {
+                finish();
+            }
+            res.close();
+            return rewardList.get(0);
+        } catch (Exception e){
+            System.out.println("ERROR: " + e);
+            return null;
+        }
+    }
+
+
 }

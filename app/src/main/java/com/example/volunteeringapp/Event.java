@@ -15,6 +15,7 @@ public class Event {
     String startTime;
     String endTime;
     String organizerId;
+    String rewardId;
     byte[] coverPhoto;
     private String participants;
 
@@ -104,5 +105,13 @@ public class Event {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getRewardId() {
+        return rewardId;
+    }
+
+    public void setRewardId(String rewardId) {
+        this.rewardId = rewardId;
     }
 }
