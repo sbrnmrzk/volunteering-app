@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,6 +13,8 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,6 +47,9 @@ public class EventDetails extends AppCompatActivity {
     ImageView eventCover;
     Menu menu;
     ImageView cover_photo;
+    final Fragment mapF = new MapsFragment();
+    Fragment active = mapF;
+    final FragmentManager fm = getSupportFragmentManager();
 
     @Override
     protected void onRestart() {
@@ -91,6 +98,10 @@ public class EventDetails extends AppCompatActivity {
         //GET ORGANIZER DETAILS BY ORGANIZER ID
         organizer = getOrganizerDetailsById(event.getOrganizerId());
 
+        //INITIALIZE FRAGMENT
+        fm.beginTransaction().add(R.id.frameFragment, mapF, "1").commit();
+
+
         SessionManagement sessionManagement = new SessionManagement(EventDetails.this);
         userId = Integer.toString(sessionManagement.getSession());
         participants = event.getParticipants();
@@ -113,6 +124,16 @@ public class EventDetails extends AppCompatActivity {
         ByteArrayInputStream inputStream = new ByteArrayInputStream(event.getCoverPhoto());
         Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
         eventCover.setImageBitmap(bitmap);
+
+        final Handler handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                MapsFragment fragment = (MapsFragment) getSupportFragmentManager().findFragmentById(R.id.frameFragment);
+                String address = (event.getLocation()).toString();
+                fragment.locationSearch(address);
+            }
+        }, 500);
 
         try {
             Date joinedDate = new SimpleDateFormat("yyyy-MM-dd").parse(organizer.getJoinedDate());

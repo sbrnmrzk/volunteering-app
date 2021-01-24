@@ -113,7 +113,7 @@ public class EditEventActivity extends AppCompatActivity {
 
         Cursor res = DB.getEventById(Integer.valueOf(event_id));
         if(res.getCount()==0){
-            Toast.makeText(EditEventActivity.this, "No Entry Exists", Toast.LENGTH_SHORT).show();
+            finish();
             return;
         }
         StringBuffer buffer = new StringBuffer();
@@ -146,7 +146,7 @@ public class EditEventActivity extends AppCompatActivity {
 
 
                 }
-            }, 1000);
+            }, 500);
         }
 
 
