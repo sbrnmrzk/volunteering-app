@@ -18,6 +18,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -31,6 +32,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -47,7 +49,7 @@ import java.util.Locale;
 public class CreateEventActivity extends AppCompatActivity {
 
     EditText ET_EventTitle, ET_Description, ET_Location, ET_Capacity, ET_StartDate, ET_StartTime, ET_EndTime;
-    Button btn_createEvent, btn_uploadPhoto;
+    Button btn_createEvent, btn_uploadPhoto, btn_Rewards;
     DBHelper DB;
     TimePickerDialog picker_start, picker_end;
     ImageView cover_photo;
@@ -91,6 +93,16 @@ public class CreateEventActivity extends AppCompatActivity {
                 selectImage();
             }
         });
+
+        /*btn_Rewards = findViewById(R.id.btn_Rewards);
+        btn_Rewards.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent rewardadd = new Intent (CreateEventActivity.this, activity_rewards_add.class);
+                startActivity(rewardadd);
+            }
+        });*/
+
 
         ET_Location.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -383,7 +395,9 @@ public class CreateEventActivity extends AppCompatActivity {
     }
 
     public boolean rewards(View view){
-        Toast.makeText(CreateEventActivity.this, "Rewards are not available yet.", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(CreateEventActivity.this, "Rewards are not available yet.", Toast.LENGTH_SHORT).show();
+        Intent rewardadd = new Intent (CreateEventActivity.this, activity_rewards_add.class);
+        startActivity(rewardadd);
         return true;
     }
 }
