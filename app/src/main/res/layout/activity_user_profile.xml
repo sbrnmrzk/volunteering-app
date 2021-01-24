@@ -40,7 +40,7 @@
             tools:layout_editor_absoluteY="32dp" />
 
         <TextView
-            android:id="@+id/ET_name"
+            android:id="@+id/ET_nameUP"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Siti Saleha"
@@ -54,7 +54,7 @@
             app:layout_constraintVertical_bias="0.279" />
 
         <TextView
-            android:id="@+id/ratingCount"
+            android:id="@+id/ratingCountUP"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="(0)"
@@ -68,7 +68,7 @@
             app:layout_constraintVertical_bias="0.382" />
 
         <TextView
-            android:id="@+id/ET_joined"
+            android:id="@+id/ET_joinedUP"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Joined November 2020"
@@ -80,7 +80,7 @@
             app:layout_constraintVertical_bias="0.324" />
 
         <RatingBar
-            android:id="@+id/ratingBar"
+            android:id="@+id/ratingBarUP"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:numStars="5"
@@ -93,7 +93,7 @@
             app:layout_constraintVertical_bias="0.379" />
 
         <TextView
-            android:id="@+id/ET_following_numbers"
+            android:id="@+id/ET_following_numbersUP"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0"
@@ -108,7 +108,7 @@
             app:layout_constraintVertical_bias="0.485" />
 
         <TextView
-            android:id="@+id/ET_following"
+            android:id="@+id/ET_followingUP"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="FOLLOWING"
@@ -123,7 +123,7 @@
             app:layout_constraintVertical_bias="0.527" />
 
         <TextView
-            android:id="@+id/ET_followers_numbers"
+            android:id="@+id/ET_followers_numbersUP"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0"
@@ -138,7 +138,7 @@
             app:layout_constraintVertical_bias="0.485" />
 
         <TextView
-            android:id="@+id/ET_followers"
+            android:id="@+id/ET_followersUP"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="FOLLOWERS"
@@ -153,10 +153,10 @@
             app:layout_constraintVertical_bias="0.527" />
 
         <TextView
-            android:id="@+id/ET_badges_numbers"
+            android:id="@+id/ET_badges_numbersUP"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="12"
+            android:text="121"
             android:textColor="#000000"
             android:textColorHint="#000000"
             android:textSize="20sp"
@@ -168,7 +168,7 @@
             app:layout_constraintVertical_bias="0.485" />
 
         <TextView
-            android:id="@+id/ET_badges"
+            android:id="@+id/ET_badgesUP"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="BADGES"
@@ -182,58 +182,8 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.527" />
 
-        <Button
-            android:id="@+id/btn_follow"
-            android:layout_width="375dp"
-            android:layout_height="41dp"
-            android:background="@drawable/round_btn_blue"
-            android:onClick="onClickFollow"
-            android:text="F O L L O W"
-            android:textColor="#FFFFFF"
-            android:textColorHint="#FFFFFF"
-            android:textSize="13sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.472"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.628" />
-
-        <Button
-            android:id="@+id/btn_unfollow"
-            android:layout_width="375dp"
-            android:layout_height="41dp"
-            android:background="@drawable/round_btn_orange"
-            android:onClick="onClickUnfollow"
-            android:text="U N F O L L O W"
-            android:textColor="#FFFFFF"
-            android:textColorHint="#FFFFFF"
-            android:textSize="13sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.472"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.628" />
-
-        <Button
-            android:id="@+id/btn_contact"
-            android:layout_width="375dp"
-            android:layout_height="41dp"
-            android:background="@drawable/round_btn_blue"
-            android:text="C O N T A C T"
-            android:textColor="#FFFFFF"
-            android:textColorHint="#FFFFFF"
-            android:textSize="13sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.527"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.698" />
-
         <TextView
-            android:id="@+id/ET_badges_title2"
+            android:id="@+id/ET_badges_title2UP"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="BADGES"
@@ -245,10 +195,10 @@
             app:layout_constraintHorizontal_bias="0.491"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.802" />
+            app:layout_constraintVertical_bias="0.616" />
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/IV_CoverPhoto3"
+            android:id="@+id/IV_CoverPhoto3UP"
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_marginTop="5dp"
