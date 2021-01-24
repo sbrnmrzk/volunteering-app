@@ -33,6 +33,7 @@ public class DBHelper extends SQLiteOpenHelper {
         MyDB.execSQL("create Table rating(rating_user INTEGER NOT NULL, rater_user INTEGER NOT NULL, rating_value REAL NOT NULL, PRIMARY KEY (rating_user, rater_user) " +
                 ", FOREIGN KEY (rating_user) REFERENCES users (ID), FOREIGN KEY (rater_user) REFERENCES users (ID))");
         MyDB.execSQL("create Table event_history(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, user_id INTEGER , event_id INTEGER, history_type TEXT)");
+        MyDB.execSQL("create Table notifications(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, user_id INTEGER, notification TEXT, follower_id INTEGER, event_id INTEGER, notification_date TEXT)");
     }
 
     @Override
@@ -62,6 +63,58 @@ public class DBHelper extends SQLiteOpenHelper {
             return false;
         else
             return true;
+    }
+
+    public Boolean addNotificationForFollowerAndRating (String userId, String notificaion, Integer followerID ){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("user_id", userId);
+        contentValues.put("notification", notificaion);
+        contentValues.put("follower_id", followerID);
+        //get type == bookmark or type == joined
+        contentValues.put("notification_date", (new Date(System.currentTimeMillis())).toString());
+
+        long result = MyDB.insert("notifications", null, contentValues);
+        if (result==-1)
+            return false;
+        else
+            return true;
+    }
+
+    public Boolean addNotificationForEvent (String userId, String notificaion, String eventId ){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("user_id", userId);
+        contentValues.put("notification", notificaion);
+        contentValues.put("event_id", eventId);
+        //get type == bookmark or type == joined
+        contentValues.put("notification_date", (new Date(System.currentTimeMillis())).toString());
+
+        long result = MyDB.insert("notifications", null, contentValues);
+        if (result==-1)
+            return false;
+        else
+            return true;
+    }
+
+    public Cursor getNotifications(Integer userId){
+        try{
+            Cursor cursor = MyDB.rawQuery("Select * from notifications where user_id = ?", new String[] {userId.toString()});
+            return cursor;
+        }catch (Exception e){
+            System.out.println("ERROR -> " + e);
+            return null;
+        }
+    }
+
+    public boolean removeAllNotifications(String userId){
+        try {
+            String strSQL = "DELETE FROM notifications WHERE user_id = '"+ userId + "'";
+            MyDB.execSQL(strSQL);
+            return true;
+        }
+        catch (Exception e){
+            System.out.println("ERROR!" + e);
+            return false;
+        }
     }
 
     public Boolean createEventHistory(String userId, Integer eventId, String type){
@@ -231,6 +284,20 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put("profilePicture", data);
 
         long result = MyDB.update("profiles", contentValues, "ID = ?", new String[] {String.valueOf(ID)});
+        if (result==-1)
+            return true;
+        else
+            return false;
+    }
+
+    public Boolean updateUser(Integer ID, String name, String emailAddress, String password){
+        SQLiteDatabase MyDB = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("name", name);
+        contentValues.put("emailAddress", emailAddress);
+        contentValues.put("password", password);
+
+        long result = MyDB.update("users", contentValues, "ID = ?", new String[] {String.valueOf(ID)});
         if (result==-1)
             return true;
         else

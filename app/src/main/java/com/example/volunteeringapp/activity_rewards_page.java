@@ -18,6 +18,7 @@ public class activity_rewards_page extends AppCompatActivity implements View.OnC
     TextView claimNow1, claimNow2;
     ImageView badge1, badge2, badge3;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,18 +37,18 @@ public class activity_rewards_page extends AppCompatActivity implements View.OnC
 
     public void onClick(View v){
 
-        if(v==claimNow1) {
-            //TextView claimNow1 = (TextView)findViewById(R.id.TV_R1ClaimBtn);
+        //if(v.equals(claimNow1)){
+            TextView claimNow1 = (TextView)findViewById(R.id.TV_R1ClaimBtn);
 
             claimNow1.setText("Claimed!");
             claimNow1.setTextColor(Color.GRAY);
-        }
-
-        if (v==claimNow2) {
-            //TextView claimNow2 = (TextView)findViewById(R.id.TV_R2ClaimBtn);
+        //}
+        /**if (v.equals(claimNow2)){
+            TextView claimNow2 = (TextView)findViewById(R.id.TV_R2ClaimBtn);
 
             claimNow2.setText("Claimed!");
             claimNow2.setTextColor(Color.GRAY);
-        }
-    }
+        }*/
+
+}
 }

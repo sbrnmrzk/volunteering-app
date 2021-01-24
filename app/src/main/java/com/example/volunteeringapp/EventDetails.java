@@ -200,6 +200,11 @@ public class EventDetails extends AppCompatActivity {
             }
 
         }
+
+        if (userId.equals(event.getOrganizerId())){
+            btn_follow.setVisibility(View.GONE);
+            btn_unfollow.setVisibility(View.GONE);
+        }
     }
     public void onClickEditEvent (View view) {
         Intent editEvent = new Intent (EventDetails.this, EditEventActivity.class);
