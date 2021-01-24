@@ -163,6 +163,7 @@ public class ViewOrganizerProfile extends AppCompatActivity {
                                 float calculatedAvgRating = (currentAvgRating + currentRating) / numberOfRaterPass;
                                 DB.giveRating(organizer_id, user_id, currentRating);
                                 DB.updateAvgRating(calculatedAvgRating, organizer_id);
+                                DB.addNotificationForFollowerAndRating(organizer_id.toString(), getCurrentUserName(user_id) + " has rated you with " + currentRating + " stars!", user_id);
                             } else {
                                 Toast.makeText(ViewOrganizerProfile.this, "This user has been rated!", Toast.LENGTH_SHORT).show();
                                 float calculatedAvgRating = (currentAvgRating + currentRating) / (numberOfRater+1);
@@ -232,10 +233,10 @@ public class ViewOrganizerProfile extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
                         DB.followUser(organizer_id, user_id);
+                        DB.addNotificationForFollowerAndRating(organizer_id.toString(), getCurrentUserName(user_id) + " has followed you!", user_id);
                         Toast.makeText(ViewOrganizerProfile.this, "Followed!", Toast.LENGTH_SHORT).show();
                         finish();
                         startActivity(getIntent());
-//                        setButtonVisibility(organizer_id);
                     }
                 });
 
@@ -247,6 +248,17 @@ public class ViewOrganizerProfile extends AppCompatActivity {
         });
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
+    }
+
+    private String getCurrentUserName(Integer user_id) {
+        Cursor res = DB.getUserById(user_id.toString());
+        String name = "";
+        if(res != null && res.getCount()>0){
+            while (res.moveToNext()){
+                name = res.getString(res.getColumnIndex("name"));
+            }
+        }
+        return name;
     }
 
     public void onClickUnfollow(View view){

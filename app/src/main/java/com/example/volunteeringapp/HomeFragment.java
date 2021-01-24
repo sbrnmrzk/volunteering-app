@@ -90,6 +90,7 @@ public class HomeFragment extends Fragment {
         inflater.inflate(R.menu.homepage_menu, menu);
         MenuItem searchItem = menu.findItem(R.id.search);
         SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setQueryHint("Search for events");
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -140,6 +141,5 @@ public class HomeFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(eventAdapter);
     }
-
 
 }
