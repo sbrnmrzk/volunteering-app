@@ -20,7 +20,9 @@ public class ViewProfile extends AppCompatActivity {
 
     RatingBar ratingBar;
     ImageView cover_photo;
+    ImageView badge1, badge2, badge3, badge4;
     DBHelper DB;
+    TextView TV_NoBadge;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,14 @@ public class ViewProfile extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         ratingBar = (RatingBar) findViewById(R.id.ratingBarUP);
         cover_photo = (ImageView) findViewById(R.id.IV_CoverPhoto3UP);
+        badge1 = (ImageView) findViewById(R.id.IV_VerifiedBadge);
+        badge2 = (ImageView) findViewById(R.id.IV_GiverBadge);
+        badge3 = (ImageView) findViewById(R.id.IV_BloodDBadge);
+        TV_NoBadge = (TextView) findViewById(R.id.TV_NoBadge);
+        badge1.setVisibility(View.INVISIBLE);
+        badge2.setVisibility(View.INVISIBLE);
+        badge3.setVisibility(View.INVISIBLE);
+        TV_NoBadge.setVisibility(View.INVISIBLE);
 
         SessionManagement sessionManagement = new SessionManagement(ViewProfile.this);
         String current_user = Integer.toString(sessionManagement.getSession());
@@ -52,13 +62,32 @@ public class ViewProfile extends AppCompatActivity {
                 Boolean CheckPicture = DB.checkProfilePicture(current_user);
                 Cursor GetRating = DB.getAvgRating(userID);
                 Cursor GetRaters = DB.getRaters(userID);
+                Cursor res = DB.getEventHistory(userID, "JOINED");
+                Integer totalEvents = res.getCount();
 
                 TextView name = (TextView) findViewById(R.id.ET_nameUP);
                 TextView date = (TextView) findViewById(R.id.ET_joinedUP);
                 TextView following = (TextView) findViewById(R.id.ET_following_numbersUP);
                 TextView followers = (TextView) findViewById(R.id.ET_followers_numbersUP);
+                TextView badge = (TextView) findViewById(R.id.ET_badges_numbersUP);
                 TextView ratingCount = (TextView) findViewById(R.id.ratingCountUP);
                 RatingBar ratingBar = (RatingBar) findViewById(R.id.ratingBarUP);
+
+                badge.setText(Integer.toString(totalEvents));
+
+                if (totalEvents == 0) {
+                    TV_NoBadge.setVisibility(View.VISIBLE);
+                } else {
+                    if (totalEvents > 0) {
+                        badge1.setVisibility(View.VISIBLE);
+                    }
+                    if (totalEvents > 1) {
+                        badge2.setVisibility(View.VISIBLE);
+                    }
+                    if (totalEvents > 2) {
+                        badge3.setVisibility(View.VISIBLE);
+                    }
+                }
 
                 if(!CheckPicture){
                     if (GetUserByID != null && GetUserByID.getCount() > 0) {
@@ -83,26 +112,26 @@ public class ViewProfile extends AppCompatActivity {
 
                 if (GetFollowing !=null && GetFollowing.getCount() > 0) {
                     GetFollowing.moveToFirst();
-                    System.out.println("Number of following: " + GetFollowing.getCount());
+//                    System.out.println("Number of following: " + GetFollowing.getCount());
                     String followingCount = String.valueOf(GetFollowing.getCount());
                     followers.setText(followingCount);
                 } else {
-                    Toast.makeText(ViewProfile.this, "No data available for followers!", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(ViewProfile.this, "No data available for followers!", Toast.LENGTH_SHORT).show();
                 }
 
                 if (GetFollowers !=null && GetFollowers.getCount() > 0) {
                     GetFollowers.moveToFirst();
-                    System.out.println("Number of followers: " + GetFollowers.getCount());
+//                    System.out.println("Number of followers: " + GetFollowers.getCount());
                     String followersCount = String.valueOf(GetFollowers.getCount());
                     following.setText(followersCount);
                 } else {
-                    Toast.makeText(ViewProfile.this, "No data available for following!", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(ViewProfile.this, "No data available for following!", Toast.LENGTH_SHORT).show();
                 }
 
                 if (GetRating !=null && GetRating.getCount() > 0) {
                     GetRating.moveToFirst();
                     Float RatingStar = GetRating.getFloat(5);
-                    System.out.println("Number of rating count: " + RatingStar);
+//                    System.out.println("Number of rating count: " + RatingStar);
                     ratingBar.setRating(RatingStar);
                 } else {
                     Float RatingStar = 0.0f;
@@ -112,7 +141,7 @@ public class ViewProfile extends AppCompatActivity {
                 if (GetRaters !=null && GetRaters.getCount() > 0) {
                     GetRaters.moveToFirst();
                     String RatingCount = String.valueOf(GetRaters.getCount());
-                    System.out.println("Number of rating count: " + GetRaters.getCount());
+//                    System.out.println("Number of rating count: " + GetRaters.getCount());
                     ratingCount.setText("(" + RatingCount + ")");
                 } else {
                     ratingCount.setText("(0)");

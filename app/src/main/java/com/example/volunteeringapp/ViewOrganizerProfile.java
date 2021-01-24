@@ -29,6 +29,8 @@ public class ViewOrganizerProfile extends AppCompatActivity {
     Button btn_give_rating;
     DBHelper DB;
     ImageView cover_photo;
+    ImageView badge1, badge2, badge3, badge4;
+    TextView TV_NoBadge;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +46,14 @@ public class ViewOrganizerProfile extends AppCompatActivity {
         btn_contact = (Button) findViewById(R.id.btn_contact);
         btn_give_rating = (Button) findViewById(R.id.btn_give_rating);
         cover_photo = (ImageView) findViewById(R.id.IV_CoverPhoto3);
+        badge1 = (ImageView) findViewById(R.id.IV_VerifiedBadge);
+        badge2 = (ImageView) findViewById(R.id.IV_GiverBadge);
+        badge3 = (ImageView) findViewById(R.id.IV_BloodDBadge);
+        TV_NoBadge = (TextView) findViewById(R.id.TV_NoBadge);
+        badge1.setVisibility(View.INVISIBLE);
+        badge2.setVisibility(View.INVISIBLE);
+        badge3.setVisibility(View.INVISIBLE);
+        TV_NoBadge.setVisibility(View.INVISIBLE);
 
         SessionManagement sessionManagement = new SessionManagement(ViewOrganizerProfile.this);
         String current_user = Integer.toString(sessionManagement.getSession());
@@ -65,6 +75,7 @@ public class ViewOrganizerProfile extends AppCompatActivity {
                 Cursor GetFollowers = DB.getFollowers(organizer_id);
                 Cursor GetRating = DB.getAvgRating(organizer_id);
                 Cursor GetRaters = DB.getRaters(organizer_id);
+                Cursor res = DB.getEventHistory(organizer_id, "JOINED");
                 Boolean CheckPicture = DB.checkProfilePicture(organizer);
 
                 TextView name = (TextView) findViewById(R.id.ET_name);
@@ -73,10 +84,29 @@ public class ViewOrganizerProfile extends AppCompatActivity {
                 TextView following = (TextView) findViewById(R.id.ET_following_numbers);
                 TextView followers = (TextView) findViewById(R.id.ET_followers_numbers);
                 TextView ratingCount = (TextView) findViewById(R.id.ratingCount);
+                TextView badge = (TextView) findViewById(R.id.ET_badges_numbers);
                 RatingBar ratingBar = (RatingBar) findViewById(R.id.ratingBar);
 
                 if (user_id.equals(organizer_id)){
                     follow.setVisibility(View.GONE);
+                }
+
+                Integer totalEvents = res.getCount();
+
+                badge.setText(Integer.toString(totalEvents));
+
+                if (totalEvents == 0) {
+                    TV_NoBadge.setVisibility(View.VISIBLE);
+                } else {
+                    if (totalEvents > 0) {
+                        badge1.setVisibility(View.VISIBLE);
+                    }
+                    if (totalEvents > 1) {
+                        badge2.setVisibility(View.VISIBLE);
+                    }
+                    if (totalEvents > 2) {
+                        badge3.setVisibility(View.VISIBLE);
+                    }
                 }
 
                 if(!CheckPicture){
@@ -97,7 +127,7 @@ public class ViewOrganizerProfile extends AppCompatActivity {
                 if (GetRating !=null && GetRating.getCount() > 0) {
                     GetRating.moveToFirst();
                     Float RatingStar = GetRating.getFloat(5);
-                    System.out.println("Number of rating count: " + RatingStar);
+//                    System.out.println("Number of rating count: " + RatingStar);
                     ratingBar.setRating(RatingStar);
                 } else {
                     Float RatingStar = 0.0f;
@@ -107,7 +137,7 @@ public class ViewOrganizerProfile extends AppCompatActivity {
                 if (GetRaters !=null && GetRaters.getCount() > 0) {
                     GetRaters.moveToFirst();
                     String RatingCount = String.valueOf(GetRaters.getCount());
-                    System.out.println("Number of rating count: " + GetRaters.getCount());
+//                    System.out.println("Number of rating count: " + GetRaters.getCount());
                     ratingCount.setText("(" + RatingCount + ")");
                 } else {
                     ratingCount.setText("(0)");
@@ -122,7 +152,7 @@ public class ViewOrganizerProfile extends AppCompatActivity {
                 if (GetFollowing !=null && GetFollowing.getCount() > 0) {
                     GetFollowing.moveToFirst();
 //                    Toast.makeText(ViewOrganizerProfile.this, "Data available for following!", Toast.LENGTH_SHORT).show();
-                    System.out.println("Number of following: " + GetFollowing.getCount());
+//                    System.out.println("Number of following: " + GetFollowing.getCount());
                     String followingCount = String.valueOf(GetFollowing.getCount());
                     followers.setText(followingCount);
                     String check = String.valueOf(GetFollowing.getInt(1));
@@ -133,7 +163,7 @@ public class ViewOrganizerProfile extends AppCompatActivity {
                  if (GetFollowers !=null && GetFollowers.getCount() > 0) {
                     GetFollowers.moveToFirst();
 //                    Toast.makeText(ViewOrganizerProfile.this, "Data available for followers!", Toast.LENGTH_SHORT).show();
-                    System.out.println("Number of followers: " + GetFollowers.getCount());
+//                    System.out.println("Number of followers: " + GetFollowers.getCount());
                     String followersCount = String.valueOf(GetFollowers.getCount());
                     following.setText(followersCount);
                  } else {
@@ -160,13 +190,13 @@ public class ViewOrganizerProfile extends AppCompatActivity {
                         if (CheckRaters != null && CheckRaters.getCount() > 0) {
                             CheckRaters.moveToFirst();
                             Integer checkRaters = CheckRaters.getInt(1);
-                            Toast.makeText(ViewOrganizerProfile.this, "This user has been rated!", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(ViewOrganizerProfile.this, "This user has been rated!", Toast.LENGTH_SHORT).show();
 
                         } else {
                             GetRating.moveToFirst();
                             float currentAvgRating = GetRating.getFloat(5);
                             if (numberOfRater == 0) {
-                                Toast.makeText(ViewOrganizerProfile.this, "No one ever rate this user!", Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(ViewOrganizerProfile.this, "No one ever rate this user!", Toast.LENGTH_SHORT).show();
                                 float numberOfRaterPass = 1.0f;
                                 float calculatedAvgRating = (currentAvgRating + currentRating) / numberOfRaterPass;
                                 DB.giveRating(organizer_id, user_id, currentRating);
@@ -175,7 +205,7 @@ public class ViewOrganizerProfile extends AppCompatActivity {
                                 finish();
                                 startActivity(getIntent());
                             } else {
-                                Toast.makeText(ViewOrganizerProfile.this, "This user has been rated!", Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(ViewOrganizerProfile.this, "This user has been rated!", Toast.LENGTH_SHORT).show();
                                 float calculatedAvgRating = (currentAvgRating + currentRating) / (numberOfRater + 1);
                                 DB.giveRating(organizer_id, user_id, currentRating);
                                 DB.updateAvgRating(calculatedAvgRating, organizer_id);
