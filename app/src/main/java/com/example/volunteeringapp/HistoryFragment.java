@@ -120,7 +120,7 @@ public class HistoryFragment extends Fragment implements View.OnClickListener {
                         eventList.add(eventItem);
                     }
                 }
-                res.close();
+//                res.close();
             }
         }
         TextView unavailable = (TextView) view.findViewById(R.id.tv_eventsunavailable2);
