@@ -19,21 +19,6 @@ Komunity is a mobile application that consists of volunteer activities and some 
 12. The app shall allow volunteers to bookmark events and view them at a later time.
 13. The app shall allow volunteers to follow organizers.
 
-
-## Details
-Group assignment for Mobile Application Development (WIX3004)
-
-1. Make sure you register your SSH on github (https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/adding-a-new-ssh-key-to-your-github-account)
-2. Clone this repository using github desktop. (File -> Clone Repository -> Url -> enter URL: git@github.com:sbrnmrzk/volunteering-app.git
-3. Import this project into Android Studio
-
-## When making changes
-1. Create a branch, name it related to your changes
-2. Checkout to branch.
-3. Make your code changes
-4. Done with changes: git add, git commit, git push
-5. Create pull request, add me as a reviewer.
-
 ## Drafts can be seen here:
 https://www.figma.com/file/Lc05pH5sNop06I4L5ic3XV/MAD-proposal-Copy
 
